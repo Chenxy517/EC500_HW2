@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText fontSize;
 
     private Handler handler = new Handler(new Handler.Callback(){
-
         @Override
         public boolean handleMessage(Message msg) {
             if ( msg.what == 0x001 ) {
@@ -51,10 +50,7 @@ public class MainActivity extends AppCompatActivity {
             updateShow(location);
         }
 
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
 
-        }
 
         @Override
         public void onProviderEnabled(String provider) {
@@ -69,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            // 当GPS LocationProvider可用时，更新定位
             updateShow(lm.getLastKnownLocation(provider));
         }
 
