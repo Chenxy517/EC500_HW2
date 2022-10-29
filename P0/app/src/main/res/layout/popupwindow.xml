@@ -5,7 +5,7 @@
     android:background="@drawable/popupwindow_background">
 
     <TextView
-        android:id="@+id/lsvMore"
+        android:id="@+id/helpText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

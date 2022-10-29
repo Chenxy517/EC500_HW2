@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager lm;
     private TextView ms_msg;
     private String location_message;
-    private Button changeSize, help_btn;
+    private Button changeSize, help_btn, pause_btn;
     private EditText fontSize;
 
     private Handler handler = new Handler(new Handler.Callback(){
@@ -105,8 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
                 View popupView = MainActivity.this.getLayoutInflater().inflate(R.layout.popupwindow, null);
 
-                TextView lsvMore = (TextView) popupView.findViewById(R.id.lsvMore);
-//                lsvMore.setAdapter(new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, datas));
+                TextView helpText = (TextView) popupView.findViewById(R.id.helpText);
 
                 PopupWindow window = new PopupWindow(popupView, 400, 600);
                 window.setAnimationStyle(R.style.popup_window_anim);
@@ -115,6 +114,15 @@ public class MainActivity extends AppCompatActivity {
                 window.setOutsideTouchable(true);
                 window.update();
                 window.showAsDropDown(help_btn, 0, 20);
+            }
+        });
+
+        // pause display(TODO: function incomplete)
+        pause_btn = (Button) findViewById(R.id.pause);
+        pause_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
