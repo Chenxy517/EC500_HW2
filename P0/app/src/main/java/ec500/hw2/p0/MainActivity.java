@@ -3,6 +3,8 @@ package ec500.hw2.p0;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -11,6 +13,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.Handler;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager lm;
     private TextView ms_msg;
     private String location_message;
+    private Button changeSize, help_btn;
+    private EditText fontSize;
 
     private Handler handler = new Handler(new Handler.Callback(){
 
@@ -79,6 +89,40 @@ public class MainActivity extends AppCompatActivity {
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         locationUpdate();
+
+        // Change font size
+        changeSize = (Button) findViewById(R.id.changeSize);
+        fontSize = (EditText) findViewById(R.id.fontSize);
+        changeSize.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                // TODO Auto-generated method stub
+                setFontSize(ms_msg, Float.parseFloat(fontSize.getText().toString()));
+            }
+        });
+
+        // pop out help information
+        help_btn = (Button) findViewById(R.id.help);
+        help_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                View popupView = MainActivity.this.getLayoutInflater().inflate(R.layout.popupwindow, null);
+
+                TextView lsvMore = (TextView) popupView.findViewById(R.id.lsvMore);
+//                lsvMore.setAdapter(new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, datas));
+
+                PopupWindow window = new PopupWindow(popupView, 400, 600);
+                window.setAnimationStyle(R.style.popup_window_anim);
+                window.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#F8F8F8")));
+                window.setFocusable(true);
+                window.setOutsideTouchable(true);
+                window.update();
+                window.showAsDropDown(help_btn, 0, 20);
+            }
+        });
+
     }
 
     public void onResume() {
@@ -124,6 +168,30 @@ public class MainActivity extends AppCompatActivity {
 
 
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, mLocationListener);
+    }
+
+    public void setFontSize(View v, float fontSizeValue) {
+        if(v instanceof TextView)
+        {
+            ((TextView) v).setTextSize(fontSizeValue);
+        }
+        else if(v instanceof EditText)
+        {
+            ((EditText) v).setTextSize(fontSizeValue);
+        }
+        else if(v instanceof Button)
+        {
+            ((Button) v).setTextSize(fontSizeValue);
+        }
+        else
+        {
+            int vChildCount = ((ViewGroup) v).getChildCount();
+            for(int i=0; i<vChildCount; i++)
+            {
+                View v1 = ((ViewGroup) v).getChildAt(i);
+                setFontSize(v1, fontSizeValue);
+            }
+        }
     }
 
 }
