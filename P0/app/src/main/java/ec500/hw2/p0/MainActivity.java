@@ -15,7 +15,6 @@ import android.os.Message;
 import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
