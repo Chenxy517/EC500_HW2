@@ -28,13 +28,31 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager lm;
     private TextView ms_msg;
     private String location_message;
-    private Button changeSize, help_btn, pause_btn;
+    private Button changeSize, help_btn, pause_btn, unit_btn;
     private EditText fontSize;
+    private boolean is_meter_per_second = true;
+    private double cur_speed = 0.0;
+
 
     private Handler handler = new Handler(new Handler.Callback(){
         @Override
         public boolean handleMessage(Message msg) {
             if ( msg.what == 0x001 ) {
+                if (cur_speed < 10.0) {
+                    ms_msg.setTextColor(Color.BLACK);
+                }
+                else if (cur_speed < 20.0){
+                    ms_msg.setTextColor(Color.GREEN);
+                }
+                else if (cur_speed < 30.0){
+                    ms_msg.setTextColor(Color.BLUE);
+                }
+                else if (cur_speed < 50.0){
+                    ms_msg.setTextColor(Color.YELLOW);
+                }
+                else{
+                    ms_msg.setTextColor(Color.RED);
+                }
                 ms_msg.setText(location_message);
             }
 
@@ -90,7 +108,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 // TODO Auto-generated method stub
-                setFontSize(ms_msg, Float.parseFloat(fontSize.getText().toString()));
+                if(fontSize.getText().toString().matches("[0-9]+")) {
+                    setFontSize(ms_msg, Float.parseFloat(fontSize.getText().toString()));
+                }
             }
         });
 
@@ -123,7 +143,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        unit_btn = (Button) findViewById(R.id.unit);
+        unit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                is_meter_per_second = !is_meter_per_second;
+            }
+        });
+
     }
+
 
     public void onResume() {
         super.onResume();
@@ -135,13 +165,26 @@ public class MainActivity extends AppCompatActivity {
         lm.removeUpdates(mLocationListener);
     }
 
+
+
+    public String unit_transfer(double speed){
+        if (is_meter_per_second){
+            return "Speed: " + speed + "m/s \n";
+        }
+        else{
+            speed = 3.280839895 * speed;
+            return "Speed: " + speed + "ft/s \n";
+        }
+    }
+
     private void updateShow(Location location) {
         if (location != null) {
             StringBuilder sb = new StringBuilder();
+            cur_speed = location.getSpeed();
             sb.append("Location: \n");
             sb.append("Longitude: " + location.getLongitude() + "\n");
             sb.append("Latitude: " + location.getLatitude() + "\n");
-            sb.append("Speed: " + location.getSpeed() + "\n");
+            sb.append(unit_transfer(location.getSpeed()));
 
 
             location_message = sb.toString();
@@ -167,8 +210,10 @@ public class MainActivity extends AppCompatActivity {
         updateShow(location);
 
 
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, mLocationListener);
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 1, mLocationListener);
     }
+
+
 
     public void setFontSize(View v, float fontSizeValue) {
         if(v instanceof TextView)
