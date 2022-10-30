@@ -67,8 +67,6 @@ public class MainActivity extends AppCompatActivity {
             updateShow(location);
         }
 
-
-
         @Override
         public void onProviderEnabled(String provider) {
 
