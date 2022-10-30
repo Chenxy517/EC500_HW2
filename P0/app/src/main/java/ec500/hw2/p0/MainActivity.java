@@ -28,8 +28,10 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager lm;
     private TextView ms_msg;
     private String location_message;
-    private Button changeSize, help_btn, pause_btn;
+    private Button changeSize, help_btn, pause_btn, unit_btn;
     private EditText fontSize;
+    private boolean is_meter_per_second = true;
+
 
     private Handler handler = new Handler(new Handler.Callback(){
         @Override
@@ -125,6 +127,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        unit_btn = (Button) findViewById(R.id.unit);
+        unit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                is_meter_per_second = !is_meter_per_second;
+            }
+        });
+
     }
 
     public void onResume() {
@@ -137,13 +148,25 @@ public class MainActivity extends AppCompatActivity {
         lm.removeUpdates(mLocationListener);
     }
 
+
+
+    public String unit_transfer(double speed){
+        if (is_meter_per_second){
+            return "Speed: " + speed + "m/s \n";
+        }
+        else{
+            speed = 3.280839895 * speed;
+            return "Speed: " + speed + "ft/s \n";
+        }
+    }
+
     private void updateShow(Location location) {
         if (location != null) {
             StringBuilder sb = new StringBuilder();
             sb.append("Location: \n");
             sb.append("Longitude: " + location.getLongitude() + "\n");
             sb.append("Latitude: " + location.getLatitude() + "\n");
-            sb.append("Speed: " + location.getSpeed() + "\n");
+            sb.append(unit_transfer(location.getSpeed()));
 
 
             location_message = sb.toString();
