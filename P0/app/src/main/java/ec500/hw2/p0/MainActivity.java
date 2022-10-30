@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private Button changeSize, help_btn, pause_btn, unit_btn;
     private EditText fontSize;
     private boolean is_meter_per_second = true;
+    double speed;
 
 
     private Handler handler = new Handler(new Handler.Callback(){
@@ -94,7 +95,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 // TODO Auto-generated method stub
-                setFontSize(ms_msg, Float.parseFloat(fontSize.getText().toString()));
+                if(fontSize.getText().toString().matches("[0-9]+")) {
+                    setFontSize(ms_msg, Float.parseFloat(fontSize.getText().toString()));
+                }
             }
         });
 
@@ -137,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 
     public void onResume() {
         super.onResume();
@@ -192,8 +196,10 @@ public class MainActivity extends AppCompatActivity {
         updateShow(location);
 
 
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, mLocationListener);
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 1, mLocationListener);
     }
+
+
 
     public void setFontSize(View v, float fontSizeValue) {
         if(v instanceof TextView)
