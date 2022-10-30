@@ -31,13 +31,28 @@ public class MainActivity extends AppCompatActivity {
     private Button changeSize, help_btn, pause_btn, unit_btn;
     private EditText fontSize;
     private boolean is_meter_per_second = true;
-    double speed;
+    private double cur_speed = 0.0;
 
 
     private Handler handler = new Handler(new Handler.Callback(){
         @Override
         public boolean handleMessage(Message msg) {
             if ( msg.what == 0x001 ) {
+                if (cur_speed < 10.0) {
+                    ms_msg.setTextColor(Color.BLACK);
+                }
+                else if (cur_speed < 20.0){
+                    ms_msg.setTextColor(Color.GREEN);
+                }
+                else if (cur_speed < 30.0){
+                    ms_msg.setTextColor(Color.BLUE);
+                }
+                else if (cur_speed < 50.0){
+                    ms_msg.setTextColor(Color.YELLOW);
+                }
+                else{
+                    ms_msg.setTextColor(Color.RED);
+                }
                 ms_msg.setText(location_message);
             }
 
@@ -167,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateShow(Location location) {
         if (location != null) {
             StringBuilder sb = new StringBuilder();
+            cur_speed = location.getSpeed();
             sb.append("Location: \n");
             sb.append("Longitude: " + location.getLongitude() + "\n");
             sb.append("Latitude: " + location.getLatitude() + "\n");
