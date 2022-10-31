@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // pause display
+        // pause display (TODO: function incomplete)
         pause_btn = (Button) findViewById(R.id.pause);
         pause_btn.setOnClickListener(new View.OnClickListener() {
             @Override
