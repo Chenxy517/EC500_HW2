@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                     ms_msg.setTextColor(Color.BLUE);
                 }
                 else if (cur_speed < 50.0){
-                    ms_msg.setTextColor(Color.YELLOW);
+                    ms_msg.setTextColor(Color.CYAN);
                 }
                 else{
                     ms_msg.setTextColor(Color.RED);
@@ -178,19 +178,20 @@ public class MainActivity extends AppCompatActivity {
 
 
     public String unit_transfer(double speed){
+        speed = 3.6 * speed;
         if (is_meter_per_second){
-            return "Speed: " + speed + "m/s \n";
+            return "Speed: " + speed + "km/h \n";
         }
         else{
-            speed = 3.280839895 * speed;
-            return "Speed: " + speed + "ft/s \n";
+            speed = 0.621371192 * speed;
+            return "Speed: " + speed + "mile/h \n";
         }
     }
 
     private void updateShow(Location location) {
         if (location != null) {
             StringBuilder sb = new StringBuilder();
-            cur_speed = location.getSpeed();
+            cur_speed = 3.6 * location.getSpeed();
             sb.append("Location: \n");
             sb.append("Longitude: " + location.getLongitude() + "\n");
             sb.append("Latitude: " + location.getLatitude() + "\n");
