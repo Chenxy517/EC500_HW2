@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText fontSize;
     private boolean is_meter_per_second = true;
     private double cur_speed = 0.0;
+    private boolean pauseStatus = false;
 
 
     private Handler handler = new Handler(new Handler.Callback(){
@@ -134,12 +135,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // pause display(TODO: function incomplete)
+        // pause display
         pause_btn = (Button) findViewById(R.id.pause);
         pause_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(!pauseStatus){
+                    onPause();
+                    Toast.makeText(MainActivity.this, "Pause the location updates", Toast.LENGTH_SHORT).show();
+                    pauseStatus = true;
+                }
+                else{
+                    onResume();
+                    Toast.makeText(MainActivity.this, "Resume the location updates", Toast.LENGTH_SHORT).show();
+                    pauseStatus = false;
+                }
             }
         });
 
