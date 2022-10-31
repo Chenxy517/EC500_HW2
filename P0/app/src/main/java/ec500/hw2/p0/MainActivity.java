@@ -115,25 +115,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // pop out help information
-        help_btn = (Button) findViewById(R.id.help);
-        help_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                View popupView = MainActivity.this.getLayoutInflater().inflate(R.layout.popupwindow, null);
-
-                TextView helpText = (TextView) popupView.findViewById(R.id.popupWindow);
-
-                PopupWindow window = new PopupWindow(popupView, 400, 600);
-                window.setAnimationStyle(R.style.popup_window_anim);
-                window.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#F8F8F8")));
-                window.setFocusable(true);
-                window.setOutsideTouchable(true);
-                window.update();
-                window.showAsDropDown(help_btn, 0, 20);
-            }
-        });
+        // pop out and jump to help information page:
+        helpful_JUMP();
 
         // pause display (TODO: function incomplete)
         pause_btn = (Button) findViewById(R.id.pause);
@@ -162,6 +145,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void helpful_JUMP() {
+        help_btn = (Button) findViewById(R.id.help);
+        help_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent();
+                // Jump to Help Activity
+                intent.setClass(getApplicationContext(), HelpActivity.class);
+                startActivity(intent);
+
+//                View popupView = MainActivity.this.getLayoutInflater().inflate(R.layout.popupwindow, null);
+//
+//                // TODO: Make a popup preview window here by mouse pointer access only.
+//                TextView helpText = (TextView) popupView.findViewById(R.id.help);
+//
+//                PopupWindow window = new PopupWindow(popupView, 400, 600);
+
+            }
+        });
     }
 
 

@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.P0"
         tools:targetApi="32">
+
+<!--     As the main activity class that will be initiazted at first,
+         and appears in the APPLICATION. -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -22,6 +25,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+<!--    Define a new activity, shows the content of Helpful Information(Instruction). -->
+        <activity android:name=".HelpActivity" />
+
     </application>
 
 </manifest>

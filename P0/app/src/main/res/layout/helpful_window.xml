@@ -7,11 +7,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+<!--    android:text="@string/msg_instruction"-->
     <EditText
-        android:id="@+id/ms_instruction"
+        android:id="@+id/instruction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
+        android:ems="18"
         android:gravity="start|top"
         android:inputType="textMultiLine"
         android:minHeight="48dp"
@@ -23,7 +24,7 @@
         app:layout_constraintVertical_bias="0.211" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/Return"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="120dp"
