@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">P0</string>
+
+    <string name="helper_message">This is the instruction of My GPS APP: </string>
+
+    <string name="helperBar_title">MY GPS - Instruction</string>
+    <string name="helper_bottom1">NEXT</string>
+    <string name="helper_bottom2">RETURN</string>
+
+
 </resources>
