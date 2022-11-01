@@ -1,3 +1,36 @@
 <resources>
     <string name="app_name">P0</string>
+
+    <string name="helper_message">This is the instruction of My GPS APP: </string>
+
+    <string name="helperBar_title">MY GPS - Instruction</string>
+
+<!--    Text Alignment of Help Information - HTML embedded.-->
+    <string name="msg_instruction">
+        <![CDATA[
+        <body>
+            <h2><u>App Guidelines: </u></h2>
+            <p>
+                <font size="+2"><tt>- Change Font Size</tt></font>
+                    <font size="+1">: change the size of the font being used to display information.</font>
+                <br><br>
+                <font size="+2"><tt>- Pause</tt></font>
+                    <font size="+1">: pause to display and Updates of GPS and Speed.</font>
+                <br><br>
+                <font size="+2"><tt>- Unit Change</tt></font>
+                    <font size="+1">: change the units of the speed.</font>
+                <br><br>
+                <font size="+1"><tt>&#x2022; HELP</tt></font>
+                    : displays helpful information on how to use the app.
+                <br>
+                <font size="+1"><tt>&#x2022; RETURN</tt></font>
+                    : Click "RETURN" Button to go back to Main Page.
+            </p>
+        </body>
+        ]]>
+    </string>
+
+    <string name="helper_bottom1">NEXT</string>
+    <string name="helper_bottom2">RETURN</string>
+
 </resources>

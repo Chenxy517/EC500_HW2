@@ -10,7 +10,15 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/ms_msg"
+            android:id="@+id/loc_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/speed_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"

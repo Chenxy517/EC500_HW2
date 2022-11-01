@@ -26,12 +26,13 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 public class MainActivity extends AppCompatActivity {
 
     private LocationManager lm;
-    private TextView ms_msg;
-    private String location_message;
+    private TextView loc_msg, speed_msg;
+    private String loc_message, speed_message;
     private Button changeSize, help_btn, pause_btn, unit_btn;
     private EditText fontSize;
     private boolean is_meter_per_second = true;
     private double cur_speed = 0.0;
+    private boolean pauseStatus = false;
 
 
     private Handler handler = new Handler(new Handler.Callback(){
@@ -39,21 +40,22 @@ public class MainActivity extends AppCompatActivity {
         public boolean handleMessage(Message msg) {
             if ( msg.what == 0x001 ) {
                 if (cur_speed < 10.0) {
-                    ms_msg.setTextColor(Color.BLACK);
+                    speed_msg.setTextColor(Color.BLACK);
                 }
                 else if (cur_speed < 20.0){
-                    ms_msg.setTextColor(Color.GREEN);
+                    speed_msg.setTextColor(Color.GREEN);
                 }
                 else if (cur_speed < 30.0){
-                    ms_msg.setTextColor(Color.BLUE);
+                    speed_msg.setTextColor(Color.BLUE);
                 }
                 else if (cur_speed < 50.0){
-                    ms_msg.setTextColor(Color.YELLOW);
+                    speed_msg.setTextColor(Color.CYAN);
                 }
                 else{
-                    ms_msg.setTextColor(Color.RED);
+                    speed_msg.setTextColor(Color.RED);
                 }
-                ms_msg.setText(location_message);
+                speed_msg.setText(speed_message);
+                loc_msg.setText(loc_message);
             }
 
             return false;
@@ -66,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
             // update message when location changes
             updateShow(location);
         }
-
-
 
         @Override
         public void onProviderEnabled(String provider) {
@@ -96,7 +96,8 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ms_msg = (TextView) findViewById(R.id.ms_msg);
+        loc_msg = (TextView) findViewById(R.id.loc_msg);
+        speed_msg = (TextView) findViewById(R.id.speed_msg);
 
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -109,39 +110,31 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                // TODO Auto-generated method stub
                 if(fontSize.getText().toString().matches("[0-9]+")) {
-                    setFontSize(ms_msg, Float.parseFloat(fontSize.getText().toString()));
+                    setFontSize(loc_msg, Float.parseFloat(fontSize.getText().toString()));
+                    setFontSize(speed_msg, Float.parseFloat(fontSize.getText().toString()));
                 }
             }
         });
 
-        // pop out help information
-        help_btn = (Button) findViewById(R.id.help);
-        help_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        // pop out and jump to help information page:
+        helpful_JUMP();
 
-                View popupView = MainActivity.this.getLayoutInflater().inflate(R.layout.popupwindow, null);
-
-                TextView helpText = (TextView) popupView.findViewById(R.id.helpText);
-
-                PopupWindow window = new PopupWindow(popupView, 400, 600);
-                window.setAnimationStyle(R.style.popup_window_anim);
-                window.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#F8F8F8")));
-                window.setFocusable(true);
-                window.setOutsideTouchable(true);
-                window.update();
-                window.showAsDropDown(help_btn, 0, 20);
-            }
-        });
-
-        // pause display(TODO: function incomplete)
+        // pause display
         pause_btn = (Button) findViewById(R.id.pause);
         pause_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(!pauseStatus){
+                    onPause();
+                    Toast.makeText(MainActivity.this, "Pause the location updates", Toast.LENGTH_SHORT).show();
+                    pauseStatus = true;
+                }
+                else{
+                    onResume();
+                    Toast.makeText(MainActivity.this, "Resume the location updates", Toast.LENGTH_SHORT).show();
+                    pauseStatus = false;
+                }
             }
         });
 
@@ -154,6 +147,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void helpful_JUMP() {
+        help_btn = (Button) findViewById(R.id.help);
+        help_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent();
+                // Jump to Help Activity
+                intent.setClass(getApplicationContext(), HelpActivity.class);
+                startActivity(intent);
+
+//                View popupView = MainActivity.this.getLayoutInflater().inflate(R.layout.popupwindow, null);
+//
+//                // TODO: Make a popup preview window here by mouse pointer access only.
+//                TextView helpText = (TextView) popupView.findViewById(R.id.help);
+//
+//                PopupWindow window = new PopupWindow(popupView, 400, 600);
+
+            }
+        });
     }
 
 
@@ -170,27 +185,32 @@ public class MainActivity extends AppCompatActivity {
 
 
     public String unit_transfer(double speed){
+        speed = 3.6 * speed;
         if (is_meter_per_second){
-            return "Speed: " + speed + "m/s \n";
+            return "Speed: " + speed + "km/h \n";
         }
         else{
-            speed = 3.280839895 * speed;
-            return "Speed: " + speed + "ft/s \n";
+            speed = 0.621371192 * speed;
+            return "Speed: " + speed + "mile/h \n";
         }
     }
 
     private void updateShow(Location location) {
         if (location != null) {
-            StringBuilder sb = new StringBuilder();
-            cur_speed = location.getSpeed();
-            sb.append("Location: \n");
-            sb.append("Longitude: " + location.getLongitude() + "\n");
-            sb.append("Latitude: " + location.getLatitude() + "\n");
-            sb.append(unit_transfer(location.getSpeed()));
+            StringBuilder sb_loc = new StringBuilder();
+            StringBuilder sb_speed = new StringBuilder();
+            cur_speed = 3.6 * location.getSpeed();
+            sb_loc.append("Location: \n");
+            sb_loc.append("Longitude: " + location.getLongitude() + "\n");
+            sb_loc.append("Latitude: " + location.getLatitude() + "\n");
+            sb_speed.append(unit_transfer(location.getSpeed()));
 
-
-            location_message = sb.toString();
-        } else location_message = "";
+            loc_message = sb_loc.toString();
+            speed_message = sb_speed.toString();
+        } else {
+            loc_message = "";
+            speed_message = "";
+        }
 
         handler.sendEmptyMessage(0x001);
     }
@@ -233,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
         else
         {
             int vChildCount = ((ViewGroup) v).getChildCount();
-            for(int i=0; i<vChildCount; i++)
+            for(int i = 0; i < vChildCount; i++)
             {
                 View v1 = ((ViewGroup) v).getChildAt(i);
                 setFontSize(v1, fontSizeValue);
