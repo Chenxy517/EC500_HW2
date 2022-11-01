@@ -1,77 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginLeft="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginBottom="5dp">
+
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_centerHorizontal="true"
+        android:text="Location"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:id="@+id/titleLocation">
+    </TextView>
 
-        <TextView
-            android:id="@+id/loc_msg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/speed_msg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/loc_msg"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_below="@id/titleLocation"/>
 
-        <EditText
-            android:id="@+id/fontSize"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Input Font Size"/>
-
-        <Button
-            android:id="@+id/changeSize"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Change Font Size"/>
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/speed_msg"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_below="@id/loc_msg"
+        android:padding="5dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:maxLines="1"
+        android:maxLength="4"
+        android:ellipsize="end"/>
 
-        <Button
-            android:id="@+id/help"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="Help" />
 
-        <Button
-            android:id="@+id/pause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="Pause" />
+    <EditText
+        android:id="@+id/fontSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/speed_msg"
+        android:hint="Input Font Size" />
 
-        <Button
-            android:id="@+id/unit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="unit change" />
 
-    </LinearLayout>
-</LinearLayout>
+    <Button
+        android:id="@+id/changeSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fontSize"
+        android:layout_marginTop="0dp"
+        android:text="Change Font Size" />
+
+    <Button
+        android:id="@+id/help"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/changeSize"
+        android:padding="5dp"
+        android:text="Help" />
+
+    <Button
+        android:id="@+id/pause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/help"
+        android:padding="5dp"
+        android:text="Pause/Resume" />
+
+    <Button
+        android:id="@+id/unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pause"
+        android:padding="5dp"
+        android:text="unit change" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnTest"
+        android:text="Test"
+        android:layout_below="@id/unit">
+
+    </Button>
+
+</RelativeLayout>

@@ -28,11 +28,14 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager lm;
     private TextView loc_msg, speed_msg;
     private String loc_message, speed_message;
-    private Button changeSize, help_btn, pause_btn, unit_btn;
+    private Button changeSize, help_btn, pause_btn, unit_btn, test_btn;
     private EditText fontSize;
+    private boolean is_test = false;
     private boolean is_meter_per_second = true;
     private double cur_speed = 0.0;
     private boolean pauseStatus = false;
+    private double latitude = 0.0;
+    private double longitude = 0.0;
 
 
     private Handler handler = new Handler(new Handler.Callback(){
@@ -137,6 +140,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        test_btn = (Button) findViewById(R.id.btnTest);
+        test_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                is_test = !is_test;
+            }
+        });
+
         // pause display
         pause_btn = (Button) findViewById(R.id.pause);
         pause_btn.setOnClickListener(new View.OnClickListener() {
@@ -184,32 +196,46 @@ public class MainActivity extends AppCompatActivity {
     public String unit_transfer(double speed){
         speed = 3.6 * speed;
         if (is_meter_per_second){
-            return "Speed: " + speed + "km/h \n";
+            return "Speed: " + speed + "kph \n";
         }
         else{
             speed = 0.621371192 * speed;
-            return "Speed: " + speed + "mile/h \n";
+            return "Speed: " + speed + "mph \n";
         }
     }
 
     private void updateShow(Location location) {
-        if (location != null) {
-            StringBuilder sb_loc = new StringBuilder();
-            StringBuilder sb_speed = new StringBuilder();
-            cur_speed = 3.6 * location.getSpeed();
-            sb_loc.append("Location: \n");
-            sb_loc.append("Longitude: " + location.getLongitude() + "\n");
-            sb_loc.append("Latitude: " + location.getLatitude() + "\n");
-            sb_speed.append(unit_transfer(location.getSpeed()));
+        if(!is_test) {
+            if (location != null) {
+                StringBuilder sb = new StringBuilder();
+                cur_speed = 3.6 * location.getSpeed();
+                sb.append("Longitude: " + location.getLongitude() + "\n");
+                sb.append("Latitude: " + location.getLatitude() + "\n");
+                sb.append(unit_transfer(location.getSpeed()));
 
-            loc_message = sb_loc.toString();
-            speed_message = sb_speed.toString();
-        } else {
-            loc_message = "";
-            speed_message = "";
+
+                loc_message = sb.toString();
+            } else loc_message = "";
+        }
+        else{
+            loc_message = distance().toString();
         }
 
         handler.sendEmptyMessage(0x001);
+    }
+
+    private StringBuilder distance() {
+        double r_earth = 6378.0;
+        double dy = 0;
+        double dx = 16.098 / 36000;
+        double new_latitude = latitude  + (dy / r_earth) * (180 / Math.PI);
+        double new_longitude = longitude + (dx / r_earth) * (180 / Math.PI) / Math.cos(latitude * Math.PI/180);
+        cur_speed = 16.098 / 3.6;
+        StringBuilder sb = new StringBuilder();
+        sb.append("Longitude: " + new_longitude + "\n");
+        sb.append("Latitude: " + new_latitude + "\n");
+        sb.append(unit_transfer(cur_speed));
+        return sb;
     }
 
     public void locationUpdate() {
