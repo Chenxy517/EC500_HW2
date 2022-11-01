@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.Handler;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -120,25 +122,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //help pop-up window
-        help_btn = (Button) findViewById(R.id.help);
-        help_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                View popupView = MainActivity.this.getLayoutInflater().inflate(R.layout.popupwindow, null);
-
-                PopupWindow window = new PopupWindow(popupView, 800, 1200);
-
-                window.setAnimationStyle(R.style.popup_window_anim);
-                window.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#F8F8F8")));
-                window.setFocusable(true);
-                window.setOutsideTouchable(true);
-                window.update();
-                window.showAsDropDown(help_btn, 0, 20);
-
-            }
-        });
+        helpful_click();
 
         test_btn = (Button) findViewById(R.id.btnTest);
         test_btn.setOnClickListener(new View.OnClickListener() {
@@ -176,8 +160,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        makeToast("Welcome to the My - GPS! ");
     }
-
 
 
 
@@ -260,7 +244,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     public void setFontSize(View v, float fontSizeValue) {
         if(v instanceof TextView)
         {
@@ -283,6 +266,49 @@ public class MainActivity extends AppCompatActivity {
                 setFontSize(v1, fontSizeValue);
             }
         }
+    }
+
+
+    public void helpful_click() {
+        //help pop-up window
+        help_btn = (Button) findViewById(R.id.help);
+
+        // get the "HELP information" content from String HTML.
+        String htmlAsString = getString(R.string.msg_instruction);
+        Spanned htmlAsSpanned = Html.fromHtml(htmlAsString); // used by TextView
+
+
+        help_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Set the HTML TextView content:
+                TextView multiple_TextView = (TextView) findViewById(R.id.helpful_content);
+                multiple_TextView.setText(htmlAsSpanned);
+
+                View popupView = MainActivity.this.getLayoutInflater().inflate(R.layout.popupwindow, null);
+
+                PopupWindow window = new PopupWindow(popupView, 800, 1200);
+
+                window.setAnimationStyle(R.style.popup_window_anim);
+                window.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#F8F8F8")));
+                window.setFocusable(true);
+                window.setOutsideTouchable(true);
+                window.update();
+                window.showAsDropDown(help_btn, 0, 20);
+
+            }
+        });
+
+    }
+
+    /**
+     * Show a Toast of the given string
+     *
+     * @param str The string to show in the Toast
+     */
+    public void makeToast(String str) {
+        runOnUiThread(() -> Toast.makeText(this, str, Toast.LENGTH_LONG).show());
     }
 
 }
