@@ -235,6 +235,8 @@ public class MainActivity extends AppCompatActivity {
         sb.append("Longitude: " + new_longitude + "\n");
         sb.append("Latitude: " + new_latitude + "\n");
         sb.append(unit_transfer(cur_speed));
+        latitude = new_latitude;
+        longitude = new_longitude;
         return sb;
     }
 
