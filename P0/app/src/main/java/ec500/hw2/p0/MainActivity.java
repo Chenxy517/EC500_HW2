@@ -117,8 +117,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // pop out and jump to help information page:
-        helpful_JUMP();
+        //help pop-up window
+        help_btn = (Button) findViewById(R.id.help);
+        help_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                View popupView = MainActivity.this.getLayoutInflater().inflate(R.layout.popupwindow, null);
+
+                PopupWindow window = new PopupWindow(popupView, 800, 1200);
+
+                window.setAnimationStyle(R.style.popup_window_anim);
+                window.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#F8F8F8")));
+                window.setFocusable(true);
+                window.setOutsideTouchable(true);
+                window.update();
+                window.showAsDropDown(help_btn, 0, 20);
+
+            }
+        });
 
         // pause display
         pause_btn = (Button) findViewById(R.id.pause);
@@ -149,27 +166,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void helpful_JUMP() {
-        help_btn = (Button) findViewById(R.id.help);
-        help_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Intent intent = new Intent();
-                // Jump to Help Activity
-                intent.setClass(getApplicationContext(), HelpActivity.class);
-                startActivity(intent);
-
-//                View popupView = MainActivity.this.getLayoutInflater().inflate(R.layout.popupwindow, null);
-//
-//                // TODO: Make a popup preview window here by mouse pointer access only.
-//                TextView helpText = (TextView) popupView.findViewById(R.id.help);
-//
-//                PopupWindow window = new PopupWindow(popupView, 400, 600);
-
-            }
-        });
-    }
 
 
     public void onResume() {
@@ -230,7 +227,6 @@ public class MainActivity extends AppCompatActivity {
         Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
         updateShow(location);
-
 
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 1, mLocationListener);
     }

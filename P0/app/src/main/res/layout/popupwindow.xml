@@ -3,27 +3,67 @@
     android:id="@+id/popupWindow"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/popupwindow_background">
+    android:background="@drawable/popupwindow_background"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:fontFamily="sans-serif-black"
-            android:gravity="center"
-            android:text="@string/helperBar_title"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="20sp" />
-
-        <include layout="@layout/helpful_window" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" Help Information"
+            android:textSize="30dp" />
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="- Change Font Size: change the size of the font being used to display information."
+            android:textSize="20dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="- Pause: pause to display and Updates of GPS and Speed."
+            android:textSize="20dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="- Unit Change: change the units of the speed."
+            android:textSize="20dp" />
+
+    </LinearLayout>
 
 </LinearLayout>
