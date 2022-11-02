@@ -28,7 +28,7 @@
         android:padding="5dp"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_below="@id/titleLocation"/>
+        android:layout_below="@id/titleLocation" />
 
     <TextView
         android:id="@+id/speed_msg"
@@ -37,10 +37,7 @@
         android:layout_below="@id/loc_msg"
         android:padding="5dp"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:maxLines="1"
-        android:maxLength="4"
-        android:ellipsize="end"/>
+        android:textStyle="bold" />
 
 
     <EditText

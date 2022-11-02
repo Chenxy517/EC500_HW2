@@ -122,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         helpful_click();
 
         test_btn = (Button) findViewById(R.id.btnTest);
@@ -192,18 +191,24 @@ public class MainActivity extends AppCompatActivity {
     private void updateShow(Location location) {
         if(!is_test) {
             if (location != null) {
-                StringBuilder sb = new StringBuilder();
+                StringBuilder sb_loc = new StringBuilder();
+                StringBuilder sb_speed = new StringBuilder();
                 cur_speed = 3.6 * location.getSpeed();
-                sb.append("Longitude: " + location.getLongitude() + "\n");
-                sb.append("Latitude: " + location.getLatitude() + "\n");
-                sb.append(unit_transfer(location.getSpeed()));
+                sb_loc.append("Longitude: " + location.getLongitude() + "\n");
+                sb_loc.append("Latitude: " + location.getLatitude() + "\n");
+                sb_speed.append(unit_transfer(location.getSpeed()));
 
 
-                loc_message = sb.toString();
-            } else loc_message = "";
+                loc_message = sb_loc.toString();
+                speed_message = sb_speed.toString();
+            } else {
+                loc_message = "";
+                speed_message = "";
+            }
         }
         else{
             loc_message = distance().toString();
+            speed_message = "";
         }
 
         handler.sendEmptyMessage(0x001);
