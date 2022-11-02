@@ -201,7 +201,6 @@ public class MainActivity extends AppCompatActivity {
                 sb_loc.append("Latitude: " + location.getLatitude() + "\n");
                 sb_speed.append(unit_transfer(location.getSpeed()));
 
-
                 loc_message = sb_loc.toString();
                 speed_message = sb_speed.toString();
             } else {
@@ -210,8 +209,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         else{
-            loc_message = distance().toString();
-            speed_message = "";
+            StringBuilder sb_loc = new StringBuilder();
+            speed_message = distance().toString();
+            sb_loc.append("Longitude: " + latitude + "\n");
+            sb_loc.append("Latitude: " + longitude + "\n");
+            loc_message = sb_loc.toString();
         }
 
         handler.sendEmptyMessage(0x001);
@@ -224,10 +226,11 @@ public class MainActivity extends AppCompatActivity {
         double new_latitude = latitude  + (dy / r_earth) * (180 / Math.PI);
         double new_longitude = longitude + (dx / r_earth) * (180 / Math.PI) / Math.cos(latitude * Math.PI/180);
         cur_speed = 16.098 / 3.6;
+        double speed = cur_speed;
         StringBuilder sb = new StringBuilder();
-        sb.append("Longitude: " + new_longitude + "\n");
-        sb.append("Latitude: " + new_latitude + "\n");
-        sb.append(unit_transfer(cur_speed));
+//        sb.append("Longitude: " + new_longitude + "\n");
+//        sb.append("Latitude: " + new_latitude + "\n");
+        sb.append(unit_transfer(speed));
         latitude = new_latitude;
         longitude = new_longitude;
         return sb;
