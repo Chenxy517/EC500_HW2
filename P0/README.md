@@ -2,7 +2,7 @@
 
 ## Introduction:
 
-- Note: This project was bootstrapped with the Platform of Android mained in Java Language, which could be found in details of [Android API 13](https://developer.android.com/about). API and Reference: Android 13, the latest version of Android, includes stronger protections for user privacy, improvements for developer productivity.
+Note: This project was bootstrapped with the Platform of Android mained in Java Language, which could be found in details of [Android API 13](https://developer.android.com/about). API and Reference: Android 13, the latest version of Android, includes stronger protections for user privacy, improvements for developer productivity.
 
 
 - **Group Member:** `Xingyu Chen, Zhaozhong Qi, Yuxiang Wan, Shuyan Zhang`
@@ -45,7 +45,7 @@ About more information about the Current Androud system or Platform, please find
 ![Interface Preview_1](images/Preview1.png) ![Interface Preview_2](images/Preview2.png)
 
 
-- Before you running with the code and build the project, there are several steps needed of environment Set-up. Check the following section `#Environment SetUp` to learn about what needed to be installed.
+### Before you running with the code and build the project, there are several steps needed of environment Set-up. Check the following section `#Environment SetUp` to learn about what needed to be installed.
 
 
 ## Environment SetUp: 
