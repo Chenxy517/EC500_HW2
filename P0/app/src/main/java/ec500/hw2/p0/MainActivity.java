@@ -13,8 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.Handler;
-import android.text.Html;
-import android.text.Spanned;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
 
         helpful_click();
 
@@ -268,34 +269,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     public void helpful_click() {
-        //help pop-up window
+        // help Button.
         help_btn = (Button) findViewById(R.id.help);
-
-        // get the "HELP information" content from String HTML.
-        String htmlAsString = getString(R.string.msg_instruction);
-        Spanned htmlAsSpanned = Html.fromHtml(htmlAsString); // used by TextView
-
 
         help_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                // Set the HTML TextView content:
-                TextView multiple_TextView = (TextView) findViewById(R.id.helpful_content);
-                multiple_TextView.setText(htmlAsSpanned);
+                final Intent intent = new Intent();
+                // Jump to Help Activity:
+                intent.setClass(getApplicationContext(), HelpActivity.class);
+                startActivity(intent);
 
-                View popupView = MainActivity.this.getLayoutInflater().inflate(R.layout.popupwindow, null);
 
-                PopupWindow window = new PopupWindow(popupView, 800, 1200);
-
-                window.setAnimationStyle(R.style.popup_window_anim);
-                window.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#F8F8F8")));
-                window.setFocusable(true);
-                window.setOutsideTouchable(true);
-                window.update();
-                window.showAsDropDown(help_btn, 0, 20);
+//                // TODO: Figure out the way to show all the information through PopupWindow.
+//                View popupView = MainActivity.this.getLayoutInflater().inflate(R.layout.popupwindow, null);
+//
+//                // Alternative:
+//                // final PopupWindow window = new PopupWindow(popupView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+//                PopupWindow window = new PopupWindow(popupView, 1000, 1500);
+//
+//                window.setAnimationStyle(R.style.popup_window_anim);
+//                window.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#F8F8F8")));
+//                window.setFocusable(true);
+//                window.setOutsideTouchable(true);
+//                window.update();
+//                window.showAsDropDown(help_btn, 0, 20);
 
             }
         });

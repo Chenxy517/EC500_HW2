@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -55,40 +56,53 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/fontSize"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="10dp"
         android:text="Change Font Size" />
 
     <Button
-        android:id="@+id/help"
-        android:layout_width="wrap_content"
+        android:id="@+id/unit"
+        android:layout_width="141dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/changeSize"
-        android:padding="5dp"
-        android:text="Help" />
-
-    <Button
-        android:id="@+id/pause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/help"
-        android:padding="5dp"
-        android:text="Pause/Resume" />
-
-    <Button
-        android:id="@+id/unit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/pause"
+        android:layout_marginTop="10dp"
         android:padding="5dp"
         android:text="unit change" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnTest"
-        android:text="Test"
-        android:layout_below="@id/unit">
+        android:id="@+id/pause"
+        android:layout_width="141dp"
+        android:layout_height="67dp"
+        android:layout_below="@id/unit"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:text="Pause/Resume" />
 
-    </Button>
+    <Button
+        android:id="@+id/btnTest"
+        android:layout_width="wrap_content"
+        android:layout_height="58dp"
+        android:layout_below="@id/unit"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="133dp"
+        android:layout_marginTop="138dp"
+        android:layout_marginEnd="132dp"
+        android:text="Simulate" />
+
+    <Button
+        android:id="@+id/help"
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="263dp"
+        android:layout_marginTop="630dp"
+        android:layout_marginEnd="33dp"
+        android:insetTop="6dp"
+        android:padding="5dp"
+        android:text="Help" />
 
 </RelativeLayout>
+
+

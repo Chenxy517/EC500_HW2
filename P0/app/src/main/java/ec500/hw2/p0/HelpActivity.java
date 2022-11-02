@@ -3,9 +3,12 @@ package ec500.hw2.p0;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.Button;
-
+import android.widget.EditText;
+import android.widget.Toast;
 /**
  * Created by Group: Dnisde on 10.31.22
  *
@@ -24,6 +27,19 @@ public class HelpActivity extends AppCompatActivity {
         setContentView(R.layout.popupwindow);
 
         return_Main();
+
+        // get the "HELP information" content from String HTML.
+        String htmlAsString = getString(R.string.msg_instruction);
+        Spanned htmlAsSpanned = Html.fromHtml(htmlAsString); // used by TextView
+
+        //Set the HTML TextView content:
+        EditText multiple_TextView = findViewById(R.id.instruction);
+        multiple_TextView.setText(htmlAsSpanned);
+
+        multiple_TextView.setFocusable(false);
+        multiple_TextView.setClickable(true);
+
+        makeToast("Need Help? Scroll Down to check all instructions.");
     }
 
     /**
@@ -36,8 +52,8 @@ public class HelpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent();
-                // Jump to Help Activity
+                final Intent intent = new Intent();
+                // Jump to Main Activity:
                 intent.setClass(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
 
@@ -45,4 +61,12 @@ public class HelpActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Show a Toast of the given string
+     *
+     * @param str The string to show in the Toast
+     */
+    public void makeToast(String str) {
+        runOnUiThread(() -> Toast.makeText(this, str, Toast.LENGTH_LONG).show());
+    }
 }
