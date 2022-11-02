@@ -8,11 +8,11 @@
 Note: This project was bootstrapped with the Platform of Android mained in Java Language, which could be found in details of [Android API 13](https://developer.android.com/about). API and Reference: Android 13, the latest version of Android, includes stronger protections for user privacy, improvements for developer productivity.
 
 
-In our app, the testing is extremely simple, just click the  `Simulate` button then your are on the right track.
+In our app, the testing is extremely simple, just click the `Simulate` button then your are on the right track.
 
 The test will be in the speed of 10 miles per hour, meanwhile the lantitude and longtitude will also update as the simulation is on.
 
-You could also test it with  'Unit Change',  'Change Font Size' and  'HELP'.
+You could also test it with - 'Unit Change' , - 'Change Font Size' and - 'HELP'.
 
 
 ### Functionalities: 
