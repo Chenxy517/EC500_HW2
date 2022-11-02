@@ -1,8 +1,8 @@
 # EC501_HW2 Problem_0: 
 
-- **Group Member:** `Xingyu Chen, Zhaozhong Qi, Yuxiang Wan, Shuyan Zhang`
+- ### **Group Member:** `Xingyu Chen, Zhaozhong Qi, Yuxiang Wan, Shuyan Zhang`
 
-- **Labor:** There are no subdivisions to indicate which member has finish a particular part; Instead, each team-member helps the other and distributed fairly to build all the functionalities about this APP, includes all features of the buttons and attributes of the APP. 
+- ### **Labor:** There are no subdivisions to indicate which member has finish a particular part; Instead, each team-member helps the other and distributed fairly to build all the functionalities about this APP, includes all features of the buttons and attributes of the APP. 
 
 
 ## Introduction:
