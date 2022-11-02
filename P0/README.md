@@ -1,4 +1,4 @@
-# EC501_HW2 Problem_0: 
+# EC500_HW2 Problem_0: 
 
 - ### **Group Member:** `Xingyu Chen, Zhaozhong Qi, Yuxiang Wan, Shuyan Zhang`
 
