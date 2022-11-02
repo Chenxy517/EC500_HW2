@@ -38,17 +38,16 @@ About more information about the Current Androud system or Platform, please find
 3. **Two alternative mode:** Simulate / Real-time. Simulate Mode introduced like above, The Real-time mode are just display the currnet Real-time Location and Speed data.
 4. **Color change:** The color of the speed display will be various based on the travel speed being detected by the Phone.
 
+---
 
+#### Before you running with the code and build the project, there are several steps needed of environment Set-up. Check the following section `#Environment SetUp` to learn about what needed to be installed.
 
-### The Following pictures are the Interface Preview of the APP: 
+#### The Following pictures are the Interface Preview of the APP: 
 
 ![Interface Preview_1](images/Preview1.png) ![Interface Preview_2](images/Preview2.png)
 
 ---
 
-### Before you running with the code and build the project, there are several steps needed of environment Set-up. Check the following section `#Environment SetUp` to learn about what needed to be installed.
-
----
 ## Environment SetUp: 
 
 We Recommend you install the Android Studio and it just takes just a few clicks, menwhile it will help you build up all the necessary compoments enable to running this APP. For more details, check the link: [Install Android Studio](https://developer.android.com/studio/install)
