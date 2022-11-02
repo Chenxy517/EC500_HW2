@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private double latitude = 0.0;
     private double longitude = 0.0;
 
-
+    // handle message
     private Handler handler = new Handler(new Handler.Callback(){
         @Override
         public boolean handleMessage(Message msg) {
@@ -122,8 +122,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // help information page
         helpful_click();
 
+        // test app under synthetic source
         test_btn = (Button) findViewById(R.id.btnTest);
         test_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // change speed unit
         unit_btn = (Button) findViewById(R.id.unit);
         unit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -286,21 +289,6 @@ public class MainActivity extends AppCompatActivity {
                 // Jump to Help Activity:
                 intent.setClass(getApplicationContext(), HelpActivity.class);
                 startActivity(intent);
-
-
-//                // TODO: Figure out the way to show all the information through PopupWindow.
-//                View popupView = MainActivity.this.getLayoutInflater().inflate(R.layout.popupwindow, null);
-//
-//                // Alternative:
-//                // final PopupWindow window = new PopupWindow(popupView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-//                PopupWindow window = new PopupWindow(popupView, 1000, 1500);
-//
-//                window.setAnimationStyle(R.style.popup_window_anim);
-//                window.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#F8F8F8")));
-//                window.setFocusable(true);
-//                window.setOutsideTouchable(true);
-//                window.update();
-//                window.showAsDropDown(help_btn, 0, 20);
 
             }
         });
