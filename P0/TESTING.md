@@ -12,7 +12,7 @@ In our app, the testing is extremely simple, just click the `Simulate` button th
 
 The test will be in the speed of 10 miles per hour, meanwhile the lantitude and longtitude will also update as the simulation is on.
 
-You could also test it with - 'Unit Change' , - 'Change Font Size' and - 'HELP'.
+You could also test it with `Unit Change` , `Change Font Size` and `HELP`.
 
 
 ### Functionalities: 
