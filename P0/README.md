@@ -44,10 +44,11 @@ About more information about the Current Androud system or Platform, please find
 
 ![Interface Preview_1](images/Preview1.png) ![Interface Preview_2](images/Preview2.png)
 
+---
 
 ### Before you running with the code and build the project, there are several steps needed of environment Set-up. Check the following section `#Environment SetUp` to learn about what needed to be installed.
 
-
+---
 ## Environment SetUp: 
 
 We Recommend you install the Android Studio and it just takes just a few clicks, menwhile it will help you build up all the necessary compoments enable to running this APP. For more details, check the link: [Install Android Studio](https://developer.android.com/studio/install)
