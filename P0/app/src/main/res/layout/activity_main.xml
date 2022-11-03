@@ -4,72 +4,72 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_marginLeft="5dp"
     android:layout_marginTop="5dp"
     android:layout_marginRight="5dp"
-    android:layout_marginBottom="5dp">
+    android:layout_marginBottom="5dp"
+    android:orientation="vertical">
 
     <TextView
+        android:id="@+id/txtTitleLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="Location"
-        android:textStyle="bold"
         android:textSize="20sp"
-        android:id="@+id/titleLocation">
+        android:textStyle="bold">
     </TextView>
 
     <TextView
-        android:id="@+id/loc_msg"
+        android:id="@+id/txtLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/txtTitleLocation"
         android:layout_marginTop="10dp"
         android:padding="5dp"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_below="@id/titleLocation" />
+        android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/speed_msg"
+        android:id="@+id/txtSpeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/loc_msg"
+        android:layout_below="@id/txtLocation"
         android:padding="5dp"
         android:textSize="20sp"
         android:textStyle="bold" />
 
 
     <EditText
-        android:id="@+id/fontSize"
+        android:id="@+id/edtFontSize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/speed_msg"
+        android:layout_below="@id/txtSpeed"
         android:hint="Input Font Size" />
 
 
     <Button
-        android:id="@+id/changeSize"
+        android:id="@+id/btnChangeSize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/fontSize"
+        android:layout_below="@id/edtFontSize"
         android:layout_marginTop="10dp"
         android:text="Change Font Size" />
 
     <Button
-        android:id="@+id/unit"
+        android:id="@+id/btnUnit"
         android:layout_width="141dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/changeSize"
+        android:layout_below="@id/btnChangeSize"
         android:layout_marginTop="10dp"
         android:padding="5dp"
         android:text="unit change" />
 
     <Button
-        android:id="@+id/pause"
+        android:id="@+id/btnPause"
         android:layout_width="141dp"
         android:layout_height="67dp"
-        android:layout_below="@id/unit"
+        android:layout_below="@id/btnUnit"
         android:layout_marginTop="10dp"
         android:padding="5dp"
         android:text="Pause/Resume" />
@@ -78,7 +78,7 @@
         android:id="@+id/btnTest"
         android:layout_width="wrap_content"
         android:layout_height="58dp"
-        android:layout_below="@id/unit"
+        android:layout_below="@id/btnUnit"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="133dp"
@@ -87,7 +87,7 @@
         android:text="Simulate" />
 
     <Button
-        android:id="@+id/help"
+        android:id="@+id/btnHelp"
         android:layout_width="106dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"

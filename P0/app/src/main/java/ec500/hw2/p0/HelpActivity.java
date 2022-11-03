@@ -18,7 +18,7 @@ import android.widget.Toast;
  */
 public class HelpActivity extends AppCompatActivity {
 
-    private Button return_btn;
+    private Button btnReturn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,8 +47,8 @@ public class HelpActivity extends AppCompatActivity {
      * to jump pages between "MainActivity" and "HelpActivity".
      */
     public void return_Main() {
-        return_btn = (Button) findViewById(R.id.Return);
-        return_btn.setOnClickListener(new View.OnClickListener() {
+        btnReturn = (Button) findViewById(R.id.Return);
+        btnReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

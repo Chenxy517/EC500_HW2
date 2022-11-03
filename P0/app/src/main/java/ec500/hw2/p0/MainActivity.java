@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,50 +16,117 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-import org.w3c.dom.Text;
-
 public class MainActivity extends AppCompatActivity {
 
-    private LocationManager lm;
-    private TextView loc_msg, speed_msg;
-    private String loc_message, speed_message;
-    private Button changeSize, help_btn, pause_btn, unit_btn, test_btn;
-    private EditText fontSize;
-    private boolean is_test = false;
-    private boolean is_meter_per_second = true;
-    private double cur_speed = 0.0;
-    private boolean pauseStatus = false;
-    private double latitude = 0.0;
-    private double longitude = 0.0;
+    private LocationManager locationManager;
+    private TextView txtLocation, txtSpeed;
+    private String strLocation, strSpeed;
+    private Button btnChangeSize, btnHelp, btnPause, btnUnit, btnTest;
+    private EditText edtFontSize;
+    private boolean isTest = false;
+    private boolean isMeterPerSecond = true;
+    private double valCurrentSpeed = 0.0;
+    private boolean isPause = false;
+    private double valLatitude = 0.0;
+    private double valLongitude = 0.0;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        txtLocation = (TextView) findViewById(R.id.txtLocation);
+        txtSpeed = (TextView) findViewById(R.id.txtSpeed);
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        locationUpdate();
+
+        // Change font size
+        btnChangeSize = (Button) findViewById(R.id.btnChangeSize);
+        edtFontSize = (EditText) findViewById(R.id.edtFontSize);
+        btnChangeSize.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                if(edtFontSize.getText().toString().matches("[0-9]+")) {
+                    setFontSize(txtLocation, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtSpeed, Float.parseFloat(edtFontSize.getText().toString()));
+                }
+            }
+        });
+
+        // help information page
+        helpful_click();
+
+        // test app under synthetic source
+        btnTest = (Button) findViewById(R.id.btnTest);
+        btnTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                isTest = !isTest;
+            }
+        });
+
+        // pause display
+        btnPause = (Button) findViewById(R.id.btnPause);
+        btnPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isPause){
+                    onPause();
+                    Toast.makeText(MainActivity.this, "Pause the location updates", Toast.LENGTH_SHORT).show();
+                    isPause = true;
+                }
+                else{
+                    onResume();
+                    Toast.makeText(MainActivity.this, "Resume the location updates", Toast.LENGTH_SHORT).show();
+                    isPause = false;
+                }
+            }
+        });
+
+        // change speed unit
+        btnUnit = (Button) findViewById(R.id.btnUnit);
+        btnUnit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                isMeterPerSecond = !isMeterPerSecond;
+            }
+        });
+
+        makeToast("Welcome to the My - GPS! ");
+    }
 
     // handle message
     private Handler handler = new Handler(new Handler.Callback(){
         @Override
         public boolean handleMessage(Message msg) {
             if ( msg.what == 0x001 ) {
-                if (cur_speed < 10.0) {
-                    speed_msg.setTextColor(Color.BLACK);
+                if (valCurrentSpeed < 10.0) {
+                    txtSpeed.setTextColor(Color.BLACK);
                 }
-                else if (cur_speed < 20.0){
-                    speed_msg.setTextColor(Color.GREEN);
+                else if (valCurrentSpeed < 20.0){
+                    txtSpeed.setTextColor(Color.GREEN);
                 }
-                else if (cur_speed < 30.0){
-                    speed_msg.setTextColor(Color.BLUE);
+                else if (valCurrentSpeed < 30.0){
+                    txtSpeed.setTextColor(Color.BLUE);
                 }
-                else if (cur_speed < 50.0){
-                    speed_msg.setTextColor(Color.CYAN);
+                else if (valCurrentSpeed < 50.0){
+                    txtSpeed.setTextColor(Color.CYAN);
                 }
                 else{
-                    speed_msg.setTextColor(Color.RED);
+                    txtSpeed.setTextColor(Color.RED);
                 }
-                speed_msg.setText(speed_message);
-                loc_msg.setText(loc_message);
+                txtSpeed.setText(strSpeed);
+                txtLocation.setText(strLocation);
             }
 
             return false;
@@ -87,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            updateShow(lm.getLastKnownLocation(provider));
+            updateShow(locationManager.getLastKnownLocation(provider));
         }
 
         @Override
@@ -96,78 +162,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        loc_msg = (TextView) findViewById(R.id.loc_msg);
-        speed_msg = (TextView) findViewById(R.id.speed_msg);
-
-        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        locationUpdate();
-
-        // Change font size
-        changeSize = (Button) findViewById(R.id.changeSize);
-        fontSize = (EditText) findViewById(R.id.fontSize);
-        changeSize.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                if(fontSize.getText().toString().matches("[0-9]+")) {
-                    setFontSize(loc_msg, Float.parseFloat(fontSize.getText().toString()));
-                    setFontSize(speed_msg, Float.parseFloat(fontSize.getText().toString()));
-                }
-            }
-        });
-
-        // help information page
-        helpful_click();
-
-        // test app under synthetic source
-        test_btn = (Button) findViewById(R.id.btnTest);
-        test_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                is_test = !is_test;
-            }
-        });
-
-        // pause display
-        pause_btn = (Button) findViewById(R.id.pause);
-        pause_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!pauseStatus){
-                    onPause();
-                    Toast.makeText(MainActivity.this, "Pause the location updates", Toast.LENGTH_SHORT).show();
-                    pauseStatus = true;
-                }
-                else{
-                    onResume();
-                    Toast.makeText(MainActivity.this, "Resume the location updates", Toast.LENGTH_SHORT).show();
-                    pauseStatus = false;
-                }
-            }
-        });
-
-        // change speed unit
-        unit_btn = (Button) findViewById(R.id.unit);
-        unit_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                is_meter_per_second = !is_meter_per_second;
-            }
-        });
-
-        makeToast("Welcome to the My - GPS! ");
-    }
-
-
-
     public void onResume() {
         super.onResume();
         locationUpdate();
@@ -175,14 +169,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void onPause() {
         super.onPause();
-        lm.removeUpdates(mLocationListener);
+        locationManager.removeUpdates(mLocationListener);
     }
-
-
 
     public String unit_transfer(double speed){
         speed = 3.6 * speed;
-        if (is_meter_per_second){
+        if (isMeterPerSecond){
             return "Speed: " + speed + "kph \n";
         }
         else{
@@ -192,28 +184,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateShow(Location location) {
-        if(!is_test) {
+        if(!isTest) {
             if (location != null) {
                 StringBuilder sb_loc = new StringBuilder();
                 StringBuilder sb_speed = new StringBuilder();
-                cur_speed = 3.6 * location.getSpeed();
+                valCurrentSpeed = 3.6 * location.getSpeed();
                 sb_loc.append("Longitude: " + location.getLongitude() + "\n");
                 sb_loc.append("Latitude: " + location.getLatitude() + "\n");
                 sb_speed.append(unit_transfer(location.getSpeed()));
 
-                loc_message = sb_loc.toString();
-                speed_message = sb_speed.toString();
+                strLocation = sb_loc.toString();
+                strSpeed = sb_speed.toString();
             } else {
-                loc_message = "";
-                speed_message = "";
+                strLocation = "";
+                strSpeed = "";
             }
         }
         else{
             StringBuilder sb_loc = new StringBuilder();
-            speed_message = distance().toString();
-            sb_loc.append("Longitude: " + latitude + "\n");
-            sb_loc.append("Latitude: " + longitude + "\n");
-            loc_message = sb_loc.toString();
+            strSpeed = distance().toString();
+            sb_loc.append("Longitude: " + valLatitude + "\n");
+            sb_loc.append("Latitude: " + valLongitude + "\n");
+            strLocation = sb_loc.toString();
         }
 
         handler.sendEmptyMessage(0x001);
@@ -223,16 +215,16 @@ public class MainActivity extends AppCompatActivity {
         double r_earth = 6378.0;
         double dy = 0;
         double dx = 16.098 / 36000;
-        double new_latitude = latitude  + (dy / r_earth) * (180 / Math.PI);
-        double new_longitude = longitude + (dx / r_earth) * (180 / Math.PI) / Math.cos(latitude * Math.PI/180);
-        cur_speed = 16.098 / 3.6;
-        double speed = cur_speed;
+        double new_latitude = valLatitude + (dy / r_earth) * (180 / Math.PI);
+        double new_longitude = valLongitude + (dx / r_earth) * (180 / Math.PI) / Math.cos(valLatitude * Math.PI/180);
+        valCurrentSpeed = 16.098 / 3.6;
+        double speed = valCurrentSpeed;
         StringBuilder sb = new StringBuilder();
 //        sb.append("Longitude: " + new_longitude + "\n");
 //        sb.append("Latitude: " + new_latitude + "\n");
         sb.append(unit_transfer(speed));
-        latitude = new_latitude;
-        longitude = new_longitude;
+        valLatitude = new_latitude;
+        valLongitude = new_longitude;
         return sb;
     }
 
@@ -248,13 +240,12 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
         updateShow(location);
 
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 1, mLocationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 1, mLocationListener);
     }
-
 
     public void setFontSize(View v, float fontSizeValue) {
         if(v instanceof TextView)
@@ -282,9 +273,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void helpful_click() {
         // help Button.
-        help_btn = (Button) findViewById(R.id.help);
+        btnHelp = (Button) findViewById(R.id.btnHelp);
 
-        help_btn.setOnClickListener(new View.OnClickListener() {
+        btnHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
