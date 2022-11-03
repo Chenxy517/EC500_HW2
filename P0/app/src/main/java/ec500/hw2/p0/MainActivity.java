@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        Location location = locationManager.getLastKnownLocation(LocationManager. GPS_PROVIDER);
 
         updateShow(location);
 
