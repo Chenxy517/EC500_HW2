@@ -2,6 +2,7 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="5dp"
@@ -19,6 +20,52 @@
         android:textSize="20sp"
         android:textStyle="bold">
     </TextView>
+
+    <TextView
+        android:id="@+id/txtDistanceUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/optionDistanceUnit"
+        android:layout_below="@+id/btnTest"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="43dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="263dp"
+        android:layout_marginBottom="29dp"
+        android:text="Distance Unit"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtTimeUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/optionTimeUnit"
+        android:layout_below="@+id/btnTest"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="166dp"
+        android:layout_marginBottom="33dp"
+        android:text="Time Unit"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtSpeedUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/optionSpeedUnit"
+        android:layout_below="@+id/btnTest"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="278dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="46dp"
+        android:layout_marginBottom="30dp"
+        android:text="Speed Unit"
+        android:textSize="15sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/txtLocation"
@@ -56,20 +103,12 @@
         android:layout_marginTop="10dp"
         android:text="Change Font Size" />
 
-    <Button
-        android:id="@+id/btnUnit"
-        android:layout_width="141dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btnChangeSize"
-        android:layout_marginTop="10dp"
-        android:padding="5dp"
-        android:text="unit change" />
 
     <Button
         android:id="@+id/btnPause"
-        android:layout_width="141dp"
-        android:layout_height="67dp"
-        android:layout_below="@id/btnUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnChangeSize"
         android:layout_marginTop="10dp"
         android:padding="5dp"
         android:text="Pause/Resume" />
@@ -77,18 +116,14 @@
     <Button
         android:id="@+id/btnTest"
         android:layout_width="wrap_content"
-        android:layout_height="58dp"
-        android:layout_below="@id/btnUnit"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="133dp"
-        android:layout_marginTop="138dp"
-        android:layout_marginEnd="132dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnPause"
+        android:layout_marginTop="10dp"
         android:text="Simulate" />
 
     <Button
         android:id="@+id/btnHelp"
-        android:layout_width="106dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
@@ -99,6 +134,49 @@
         android:insetTop="6dp"
         android:padding="5dp"
         android:text="Help" />
+
+
+    <Spinner
+        android:id="@+id/optionDistanceUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnTest"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="283dp"
+        android:layout_marginBottom="46dp"
+        android:backgroundTint="#6200ED"
+        android:visibility="visible" />
+
+    <Spinner
+        android:id="@+id/optionTimeUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/optionDistanceUnit"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="158dp"
+        android:layout_marginEnd="151dp"
+        android:layout_marginBottom="223dp"
+        android:backgroundTint="#6200ED"
+        android:visibility="visible" />
+
+    <Spinner
+        android:id="@+id/optionSpeedUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/optionDistanceUnit"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="271dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginBottom="220dp"
+        android:backgroundTint="#6200ED"
+        android:visibility="visible" />
 
 </RelativeLayout>
 

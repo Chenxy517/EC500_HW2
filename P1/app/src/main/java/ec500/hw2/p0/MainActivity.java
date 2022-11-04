@@ -14,10 +14,13 @@ import android.os.Message;
 import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Spinner;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean isPause = false;
     private double valLatitude = 0.0;
     private double valLongitude = 0.0;
+    private String Unit_distance;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,14 +97,27 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // change speed unit
-        btnUnit = (Button) findViewById(R.id.btnUnit);
-        btnUnit.setOnClickListener(new View.OnClickListener() {
+        setContentView(R.layout.activity_main);
+        Spinner DistanceUnit = (Spinner)findViewById(R.id.optionDistanceUnit);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.distance_unit, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        DistanceUnit.setAdapter(adapter);
+        final String[] item = new String[1];
+        DistanceUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v)
-            {
-                isMeterPerSecond = !isMeterPerSecond;
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                item[0] = parent.getItemAtPosition(position).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+        Unit_distance = item[0];
+        //
 
         makeToast("Welcome to the My - GPS! ");
     }
