@@ -1,4 +1,4 @@
-# EC500_HW2 Problem_0: 
+# EC500_HW2 Problem_1: 
 
 - ### **Group Member:** `Xingyu Chen, Zhaozhong Qi, Yuxiang Wan, Shuyan Zhang`
 
@@ -12,33 +12,25 @@ Note: This project was bootstrapped with the Platform of Android mained in Java 
 
 In this project, our team designed and depolyed an a simple Android application who satisfies the following specifications:
 
-- It has accesses the phone's GPS unit to get regular updates of location information.
-- It calculates and displays the speed at which the phone is moving (in miles per hour), based on the GPS data.
+- Display of the following additional metrics:
+  - Elapsed time (in seconds) - since the start of the application (or the last reset);
+  - Height of the phone (in meters) - based on GPS data;
+  - Distance traveled (in meters) - since the start of the application (or the last reset);
+  
+- Ability for the user to change units for any measurement, among the following types:
+  - Seconds ⟶ Minutes ⟶ Hours ⟶ Days
+  - Meters ⟶ Kilometers ⟶ Miles ⟶ Feet
+  - Meters per second ⟶ Kilometers per hour ⟶ Miles per hour ⟶ Minutes / mile
+  
+- An independent location processing thread that handles all location and measurement updates asynchronously.
 
 About more information about the Current Androud system or Platform, please find out the page in Helpful Sections: 
 
 
 ### Functionalities: 
 
--   `Change Font Size`: Allow the user to change the size of the font being used to display the speed.
-
--   `Pause/Resume`: A pause button that allows the user to Pause/Resume the Display and Updates data of GPS and Speed.
-
--   `Unit Change`: Allow the user to change the units in which the speed is being displayed.
-
--   `Simulate`: The button allowed user to switchover to the alternative mode: **TEST**, where the location updates are provided not from GPS but rather from a synthetic (simulated) source traveling 10 miles per hour.
-
--   `HELP`: The button will help you jump to the display of helpful information on how to use the app.
-
-
-#### Except those basic integrated Button, The APP also possess the following attributes while playing the GPS and Speed Data: 
-
-### Basic Attributes: 
-
-1. **GPS:** Current / Simulate Relative Location data in **(Longitude, Latitude)**. 
-2. **Speed:** Current / Simulate Speed of the phone.
-3. **Two alternative mode:** Simulate / Real-time. Simulate Mode introduced like above, The Real-time mode are just display the currnet Real-time Location and Speed data.
-4. **Color change:** The color of the speed display will be various based on the travel speed being detected by the Phone.
+ - Individualize Compoment: 
+ 
 
 ---
 
@@ -46,7 +38,7 @@ About more information about the Current Androud system or Platform, please find
 
 #### The Following pictures are the Interface Preview of the APP: 
 
-![Interface Preview_1](images/Preview1.png) ![Interface Preview_2](images/Preview2.png)
+
 
 ---
 
