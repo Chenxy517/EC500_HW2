@@ -24,12 +24,15 @@ import android.widget.Spinner;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
 
     private LocationManager locationManager;
     private TextView txtLocation, txtSpeed;
     private String strLocation, strSpeed;
-    private Button btnChangeSize, btnHelp, btnPause, btnUnit, btnTest;
+    private Button btnChangeSize, btnHelp, btnPause, btnTest;
+    private Spinner DistanceUnit, TimeUnit, SpeedUnit;
     private EditText edtFontSize;
     private boolean isTest = false;
     private boolean isMeterPerSecond = true;
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean isPause = false;
     private double valLatitude = 0.0;
     private double valLongitude = 0.0;
-    private String Unit_distance;
+    private String Unit_distance, Unit_Time, Unit_Speed;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,30 +99,82 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // change speed unit
-        setContentView(R.layout.activity_main);
-        Spinner DistanceUnit = (Spinner)findViewById(R.id.optionDistanceUnit);
+        DistanceSpinner();
+        TimeSpinner();
+        SpeedSpinner();
+
+        //
+
+        makeToast("Welcome to the My - GPS! ");
+    }
+
+    public void DistanceSpinner(){
+        // change Distance unit
+        DistanceUnit = (Spinner)findViewById(R.id.optionDistanceUnit);
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        ArrayAdapter<CharSequence> adapter_Distance = ArrayAdapter.createFromResource(this,
                 R.array.distance_unit, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter_Distance.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        DistanceUnit.setAdapter(adapter);
-        final String[] item = new String[1];
+        DistanceUnit.setAdapter(adapter_Distance);
+        final String[] Distance = new String[1];
         DistanceUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                item[0] = parent.getItemAtPosition(position).toString();
+                Distance[0] = parent.getItemAtPosition(position).toString();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        Unit_distance = item[0];
-        //
+        Unit_distance = DistanceUnit.getSelectedItem().toString();
+    }
 
-        makeToast("Welcome to the My - GPS! ");
+    public void TimeSpinner(){
+        // change Time unit
+        TimeUnit = (Spinner)findViewById(R.id.optionTimeUnit);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter_Time = ArrayAdapter.createFromResource(this,
+                R.array.time_unit, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter_Time.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        TimeUnit.setAdapter(adapter_Time);
+        final String[] Time = new String[1];
+        TimeUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Time[0] = parent.getItemAtPosition(position).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        Unit_Time = TimeUnit.getSelectedItem().toString();
+    }
+
+    public void SpeedSpinner(){
+        // change Speed unit
+        SpeedUnit = (Spinner)findViewById(R.id.optionSpeedUnit);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter_Speed = ArrayAdapter.createFromResource(this,
+                R.array.speed_unit, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter_Speed.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        SpeedUnit.setAdapter(adapter_Speed);
+        final String[] Speed = new String[1];
+        SpeedUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Speed[0] = parent.getItemAtPosition(position).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        Unit_Speed = SpeedUnit.getSelectedItem().toString();
     }
 
     // handle message
@@ -190,13 +245,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String unit_transfer(double speed){
-        speed = 3.6 * speed;
-        if (isMeterPerSecond){
-            return "Speed: " + speed + "kph \n";
+        if (Objects.equals(Unit_Speed, "Miles per minute")){
+            return "Speed: " + (0.621371192 / 60 * speed) + "Mpm \n";
+        }
+        else if(Objects.equals(Unit_Speed, "Kilometers per hour")){
+            return "Speed: " + (3.6 * speed) + "Kph \n";
+        }
+        else if(Objects.equals(Unit_Speed, "Miles per hour")){
+            return "Speed: " + (0.621371192 * speed) + "Mph \n";
         }
         else{
-            speed = 0.621371192 * speed;
-            return "Speed: " + speed + "mph \n";
+            return "Speed: " + speed + "Mps \n";
         }
     }
 
@@ -219,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             StringBuilder sb_loc = new StringBuilder();
-            strSpeed = distance().toString();
+            strSpeed = simulation_distance().toString();
             sb_loc.append("Longitude: " + valLatitude + "\n");
             sb_loc.append("Latitude: " + valLongitude + "\n");
             strLocation = sb_loc.toString();
@@ -228,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
         handler.sendEmptyMessage(0x001);
     }
 
-    private StringBuilder distance() {
+    private StringBuilder simulation_distance() {
         double r_earth = 6378.0;
         double dy = 0;
         double dx = 16.098 / 36000;

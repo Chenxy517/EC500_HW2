@@ -22,48 +22,38 @@
     </TextView>
 
     <TextView
-        android:id="@+id/txtDistanceUnit"
+        android:id="@+id/txtSpeedUnit"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/optionDistanceUnit"
+        android:layout_height="23dp"
         android:layout_below="@+id/btnTest"
-        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="43dp"
-        android:layout_marginTop="13dp"
-        android:layout_marginEnd="263dp"
-        android:layout_marginBottom="29dp"
-        android:text="Distance Unit"
+        android:layout_marginTop="65dp"
+        android:layout_marginEnd="47dp"
+        android:text="Speed Unit"
         android:textSize="15sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/txtTimeUnit"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/optionTimeUnit"
+        android:layout_height="23dp"
         android:layout_below="@+id/btnTest"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="166dp"
-        android:layout_marginBottom="33dp"
+        android:layout_marginTop="66dp"
+        android:layout_marginEnd="184dp"
         android:text="Time Unit"
         android:textSize="15sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/txtSpeedUnit"
+        android:id="@+id/txtDistanceUnit"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/optionSpeedUnit"
+        android:layout_height="23dp"
         android:layout_below="@+id/btnTest"
-        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="278dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="46dp"
-        android:layout_marginBottom="30dp"
-        android:text="Speed Unit"
+        android:layout_marginTop="66dp"
+        android:layout_marginEnd="308dp"
+        android:text="Distance Unit"
         android:textSize="15sp"
         android:textStyle="bold" />
 
@@ -135,48 +125,45 @@
         android:padding="5dp"
         android:text="Help" />
 
-
     <Spinner
-        android:id="@+id/optionDistanceUnit"
+        android:id="@+id/optionSpeedUnit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnTest"
+        android:layout_below="@+id/txtSpeedUnit"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="283dp"
-        android:layout_marginBottom="46dp"
-        android:backgroundTint="#6200ED"
-        android:visibility="visible" />
+        android:layout_marginStart="252dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="227dp" />
 
     <Spinner
         android:id="@+id/optionTimeUnit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/optionDistanceUnit"
+        android:layout_below="@+id/txtSpeedUnit"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="158dp"
-        android:layout_marginEnd="151dp"
-        android:layout_marginBottom="223dp"
-        android:backgroundTint="#6200ED"
-        android:visibility="visible" />
+        android:layout_marginStart="119dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="157dp"
+        android:layout_marginBottom="226dp" />
 
     <Spinner
-        android:id="@+id/optionSpeedUnit"
+        android:id="@+id/optionDistanceUnit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/optionDistanceUnit"
+        android:layout_below="@+id/txtSpeedUnit"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="271dp"
-        android:layout_marginEnd="38dp"
-        android:layout_marginBottom="220dp"
-        android:backgroundTint="#6200ED"
-        android:visibility="visible" />
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="293dp"
+        android:layout_marginBottom="226dp" />
+
 
 </RelativeLayout>
 
