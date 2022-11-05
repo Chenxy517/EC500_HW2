@@ -43,12 +43,16 @@ public class MainActivity extends AppCompatActivity {
     private boolean isTest = false;
     private boolean isMeterPerSecond = true;
     private double valCurrentSpeed = 0.0;
+    private double valCurrentTime = 0.0;
+    private double valCurrentDistance = 0.0;
     private boolean isPause = false;
     private double valLatitude = 0.0;
     private double valLongitude = 0.0;
     private static int Unit_distance, Unit_Time, Unit_Speed;
-    private int count_SpeedUnit_OnItemSelectedListener = 0;
+    private int count_Speed_OnItemSelectedListener = 0;
     private int count_Distance_OnItemSelectedListener = 0;
+    private int count_Time_OnItemSelectedListener = 0;
+
 
     private static GPSDatabase database;
 
@@ -165,8 +169,13 @@ public class MainActivity extends AppCompatActivity {
         TimeUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Time[0] = parent.getItemAtPosition(position).toString();
-//                Unit_Time = Time[0];
+                if (count_Time_OnItemSelectedListener == 1) {
+                    Time[0] = parent.getItemAtPosition(position).toString();
+                    Unit_Time = position;
+                }
+                else{
+                    count_Time_OnItemSelectedListener += 1;
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -189,12 +198,12 @@ public class MainActivity extends AppCompatActivity {
         SpeedUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (count_SpeedUnit_OnItemSelectedListener == 1) {
+                if (count_Speed_OnItemSelectedListener == 1) {
                     Speed[0] = parent.getItemAtPosition(position).toString();
                     Unit_Speed = position;
                 }
                 else{
-                    count_SpeedUnit_OnItemSelectedListener += 1;
+                    count_Speed_OnItemSelectedListener += 1;
                 }
             }
             @Override
@@ -284,14 +293,50 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public String distance_unit_transfer(double distance, int Unit_Distance){
+        switch (Unit_Speed) {
+            case 0:
+                return "Distance: " + distance + "m \n";
+            case 1:
+                return "Distance: " + (distance / 1000) + "km \n";
+            case 2:
+                return "Distance: " + (distance * 0.000621371192) + "miles \n";
+            default:
+                return "Distance: " + (distance * 3.2808399 ) + "feet \n";
+        }
+    }
+
+    public String time_unit_transfer(double time, int Unit_Time){
+        switch (Unit_Speed) {
+            case 0:
+                return "Time: " + time + "s \n";
+            case 1:
+                return "Time: " + (time / 60) + "mins \n";
+            case 2:
+                return "Time: " + (time / 3600) + "hours \n";
+            default:
+                return "Time: " + (time / 3600 / 24) + "days \n";
+        }
+    }
+
+
+
+
+
+
     private void updateShow(Location location) {
         if(!isTest) {
             if (location != null) {
                 StringBuilder sb_loc = new StringBuilder();
                 StringBuilder sb_speed = new StringBuilder();
+
                 valCurrentSpeed = 3.6 * location.getSpeed();
                 sb_loc.append("Longitude: " + location.getLongitude() + "\n");
                 sb_loc.append("Latitude: " + location.getLatitude() + "\n");
+                valCurrentTime = valCurrentTime + 0.1;
+                valCurrentDistance = valCurrentDistance + location.getSpeed() * 0.1;
+                sb_loc.append(time_unit_transfer(valCurrentTime, Unit_Time));
+                sb_loc.append(distance_unit_transfer(valCurrentDistance, Unit_distance));
                 sb_speed.append(speed_unit_transfer(location.getSpeed(), Unit_Speed));
 
                 strLocation = sb_loc.toString();

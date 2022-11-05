@@ -82,7 +82,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/txtSpeed"
-        android:hint="Input Font Size" />
+        android:hint="Input Font Size"
+        android:minHeight="48dp" />
 
 
     <Button
@@ -128,20 +129,21 @@
     <Spinner
         android:id="@+id/optionSpeedUnit"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="172dp"
         android:layout_below="@+id/txtSpeedUnit"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="252dp"
         android:layout_marginTop="31dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="227dp" />
+        android:layout_marginEnd="26dp"
+        android:layout_marginBottom="99dp"
+        android:minHeight="48dp" />
 
     <Spinner
         android:id="@+id/optionTimeUnit"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="172dp"
         android:layout_below="@+id/txtSpeedUnit"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
@@ -149,20 +151,21 @@
         android:layout_marginStart="119dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="157dp"
-        android:layout_marginBottom="226dp" />
+        android:layout_marginBottom="97dp"
+        android:minHeight="48dp" />
 
     <Spinner
         android:id="@+id/optionDistanceUnit"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="167dp"
         android:layout_below="@+id/txtSpeedUnit"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="9dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="293dp"
-        android:layout_marginBottom="226dp" />
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="295dp"
+        android:layout_marginBottom="99dp" />
 
 
 </RelativeLayout>

@@ -10,7 +10,7 @@
 Note: This project was bootstrapped with the Platform of Android mained in Java Language, which could be found in details of [Android API 13](https://developer.android.com/about). API and Reference: Android 13, the latest version of Android, includes stronger protections for user privacy, improvements for developer productivity.
 
 
-In this project, our team designed and depolyed an a simple Android application who satisfies the following specifications:
+In this project, our team designed and deployed an a simple Android application who satisfies the following specifications:
 
 - Display of the following additional metrics:
   - Elapsed time (in seconds) - since the start of the application (or the last reset);
@@ -24,12 +24,12 @@ In this project, our team designed and depolyed an a simple Android application 
   
 - An independent location processing thread that handles all location and measurement updates asynchronously.
 
-About more information about the Current Androud system or Platform, please find out the page in Helpful Sections: 
+About more information about the Current Android system or Platform, please find out the page in Helpful Sections: 
 
 
 ### Functionalities: 
 
- - Individualize Compoment: 
+ - Individualize Component: 
  
 
 ---
