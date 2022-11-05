@@ -47,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private double valLatitude = 0.0;
     private double valLongitude = 0.0;
     private static int Unit_distance, Unit_Time, Unit_Speed;
-    private int count_OnItemSelectedListener = 0;
+    private int count_SpeedUnit_OnItemSelectedListener = 0;
+    private int count_Distance_OnItemSelectedListener = 0;
 
     private static GPSDatabase database;
 
@@ -134,13 +135,12 @@ public class MainActivity extends AppCompatActivity {
         DistanceUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (count_OnItemSelectedListener == 1) {
+                if (count_Distance_OnItemSelectedListener == 1) {
                     Distance[0] = parent.getItemAtPosition(position).toString();
                     Unit_distance = position;
-                    count_OnItemSelectedListener = 0;
                 }
                 else{
-                    count_OnItemSelectedListener += 1;
+                    count_Distance_OnItemSelectedListener += 1;
                 }
 //                Unit_distance = Distance[0]
             }
@@ -189,13 +189,12 @@ public class MainActivity extends AppCompatActivity {
         SpeedUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (count_OnItemSelectedListener == 1) {
+                if (count_SpeedUnit_OnItemSelectedListener == 1) {
                     Speed[0] = parent.getItemAtPosition(position).toString();
                     Unit_Speed = position;
-                    count_OnItemSelectedListener = 0;
                 }
                 else{
-                    count_OnItemSelectedListener += 1;
+                    count_SpeedUnit_OnItemSelectedListener += 1;
                 }
             }
             @Override
