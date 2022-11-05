@@ -35,12 +35,13 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager locationManager;
     private TextView txtLocation, txtSpeed;
     private String strLocation, strSpeed;
-    private Button btnChangeSize, btnHelp, btnPause, btnTest;
+    private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset;
     private static Spinner DistanceUnit;
     private static Spinner TimeUnit;
     private static Spinner SpeedUnit;
     private EditText edtFontSize;
     private boolean isTest = false;
+    private boolean isReset = false;
     private boolean isMeterPerSecond = true;
     private double valCurrentSpeed = 0.0;
     private double valCurrentTime = 0.0;
@@ -95,6 +96,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 isTest = !isTest;
+            }
+        });
+
+        // Reset accumulated distance and time
+        btnReset = (Button) findViewById(R.id.btnReset);
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                isReset = true;
             }
         });
 
@@ -294,7 +305,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String distance_unit_transfer(double distance, int Unit_Distance){
-        switch (Unit_Speed) {
+        switch (Unit_Distance) {
             case 0:
                 return "Distance: " + distance + "m \n";
             case 1:
@@ -307,7 +318,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String time_unit_transfer(double time, int Unit_Time){
-        switch (Unit_Speed) {
+        switch (Unit_Time) {
             case 0:
                 return "Time: " + time + "s \n";
             case 1:
@@ -335,6 +346,11 @@ public class MainActivity extends AppCompatActivity {
                 sb_loc.append("Latitude: " + location.getLatitude() + "\n");
                 valCurrentTime = valCurrentTime + 0.1;
                 valCurrentDistance = valCurrentDistance + location.getSpeed() * 0.1;
+                if(isReset){
+                    valCurrentTime = 0;
+                    valCurrentDistance = 0;
+                    isReset = false;
+                }
                 sb_loc.append(time_unit_transfer(valCurrentTime, Unit_Time));
                 sb_loc.append(distance_unit_transfer(valCurrentDistance, Unit_distance));
                 sb_speed.append(speed_unit_transfer(location.getSpeed(), Unit_Speed));
