@@ -36,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtLocation, txtSpeed;
     private String strLocation, strSpeed;
     private Button btnChangeSize, btnHelp, btnPause, btnTest;
-    private Spinner DistanceUnit, TimeUnit, SpeedUnit;
+    private static Spinner DistanceUnit;
+    private static Spinner TimeUnit;
+    private static Spinner SpeedUnit;
     private EditText edtFontSize;
     private boolean isTest = false;
     private boolean isMeterPerSecond = true;
@@ -44,17 +46,19 @@ public class MainActivity extends AppCompatActivity {
     private boolean isPause = false;
     private double valLatitude = 0.0;
     private double valLongitude = 0.0;
-    private String Unit_distance, Unit_Time, Unit_Speed;
+    private static int Unit_distance, Unit_Time, Unit_Speed;
+    private int count_OnItemSelectedListener = 0;
+
     private static GPSDatabase database;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_main);
         database = Room.databaseBuilder(this, GPSDatabase.class, "GPS_db").build();
 
-        setContentView(R.layout.activity_main);
+
         txtLocation = (TextView) findViewById(R.id.txtLocation);
         txtSpeed = (TextView) findViewById(R.id.txtSpeed);
 
@@ -130,16 +134,24 @@ public class MainActivity extends AppCompatActivity {
         DistanceUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Distance[0] = parent.getItemAtPosition(position).toString();
+                if (count_OnItemSelectedListener == 1) {
+                    Distance[0] = parent.getItemAtPosition(position).toString();
+                    Unit_distance = position;
+                    count_OnItemSelectedListener = 0;
+                }
+                else{
+                    count_OnItemSelectedListener += 1;
+                }
+//                Unit_distance = Distance[0]
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        Unit_distance = DistanceUnit.getSelectedItem().toString();
+//        Unit_distance = DistanceUnit.getSelectedItem().toString();
     }
 
-    public void TimeSpinner(){
+    private void TimeSpinner(){
         // change Time unit
         TimeUnit = (Spinner)findViewById(R.id.optionTimeUnit);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -154,15 +166,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Time[0] = parent.getItemAtPosition(position).toString();
+//                Unit_Time = Time[0];
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        Unit_Time = TimeUnit.getSelectedItem().toString();
+//        Unit_Time = TimeUnit.getSelectedItem().toString();
     }
 
-    public void SpeedSpinner(){
+    private void SpeedSpinner(){
         // change Speed unit
         SpeedUnit = (Spinner)findViewById(R.id.optionSpeedUnit);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -176,13 +189,20 @@ public class MainActivity extends AppCompatActivity {
         SpeedUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Speed[0] = parent.getItemAtPosition(position).toString();
+                if (count_OnItemSelectedListener == 1) {
+                    Speed[0] = parent.getItemAtPosition(position).toString();
+                    Unit_Speed = position;
+                    count_OnItemSelectedListener = 0;
+                }
+                else{
+                    count_OnItemSelectedListener += 1;
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        Unit_Speed = SpeedUnit.getSelectedItem().toString();
+//        Unit_Speed = SpeedUnit.getSelectedItem().toString();
     }
 
     // handle message
@@ -252,18 +272,16 @@ public class MainActivity extends AppCompatActivity {
         locationManager.removeUpdates(mLocationListener);
     }
 
-    public String unit_transfer(double speed){
-        if (Objects.equals(Unit_Speed, "Miles per minute")){
-            return "Speed: " + (0.621371192 / 60 * speed) + "Mpm \n";
-        }
-        else if(Objects.equals(Unit_Speed, "Kilometers per hour")){
-            return "Speed: " + (3.6 * speed) + "Kph \n";
-        }
-        else if(Objects.equals(Unit_Speed, "Miles per hour")){
-            return "Speed: " + (0.621371192 * speed) + "Mph \n";
-        }
-        else{
-            return "Speed: " + speed + "Mps \n";
+    public String speed_unit_transfer(double speed, int Unit_Speed){
+        switch (Unit_Speed) {
+            case 0:
+                return "Speed: " + speed + "Mps \n";
+            case 1:
+                return "Speed: " + (3.6 * speed) + "Kph \n";
+            case 2:
+                return "Speed: " + (0.621371192 * speed) + "Mph \n";
+            default:
+                return "Speed: " + (0.621371192 / 60 * speed) + "Mpm \n";
         }
     }
 
@@ -275,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
                 valCurrentSpeed = 3.6 * location.getSpeed();
                 sb_loc.append("Longitude: " + location.getLongitude() + "\n");
                 sb_loc.append("Latitude: " + location.getLatitude() + "\n");
-                sb_speed.append(unit_transfer(location.getSpeed()));
+                sb_speed.append(speed_unit_transfer(location.getSpeed(), Unit_Speed));
 
                 strLocation = sb_loc.toString();
                 strSpeed = sb_speed.toString();
@@ -306,7 +324,7 @@ public class MainActivity extends AppCompatActivity {
         StringBuilder sb = new StringBuilder();
 //        sb.append("Longitude: " + new_longitude + "\n");
 //        sb.append("Latitude: " + new_latitude + "\n");
-        sb.append(unit_transfer(speed));
+        sb.append(speed_unit_transfer(speed, Unit_Speed));
         valLatitude = new_latitude;
         valLongitude = new_longitude;
         return sb;
