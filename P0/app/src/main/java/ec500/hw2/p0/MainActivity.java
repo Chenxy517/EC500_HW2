@@ -191,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
                 valCurrentSpeed = 3.6 * location.getSpeed();
                 sb_loc.append("Longitude: " + location.getLongitude() + "\n");
                 sb_loc.append("Latitude: " + location.getLatitude() + "\n");
+                sb_loc.append("Altitude: " + location.getAltitude());
                 sb_speed.append(unit_transfer(location.getSpeed()));
 
                 strLocation = sb_loc.toString();

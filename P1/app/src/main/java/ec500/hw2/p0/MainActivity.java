@@ -9,6 +9,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.provider.Settings;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
+
 import android.os.Bundle;
 import android.os.Message;
 import android.os.Handler;
@@ -26,6 +28,8 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 import java.util.Objects;
 
+import ec500.hw2.p0.database.GPSDatabase;
+
 public class MainActivity extends AppCompatActivity {
 
     private LocationManager locationManager;
@@ -41,11 +45,15 @@ public class MainActivity extends AppCompatActivity {
     private double valLatitude = 0.0;
     private double valLongitude = 0.0;
     private String Unit_distance, Unit_Time, Unit_Speed;
+    private static GPSDatabase database;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        database = Room.databaseBuilder(this, GPSDatabase.class, "GPS_db").build();
+
         setContentView(R.layout.activity_main);
         txtLocation = (TextView) findViewById(R.id.txtLocation);
         txtSpeed = (TextView) findViewById(R.id.txtSpeed);
