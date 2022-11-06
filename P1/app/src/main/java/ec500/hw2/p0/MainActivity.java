@@ -53,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
     private int count_Speed_OnItemSelectedListener = 0;
     private int count_Distance_OnItemSelectedListener = 0;
     private int count_Time_OnItemSelectedListener = 0;
+    private long startTime = System.nanoTime();
+    private long curTime = 0;
+    private long preTime = startTime;
+
 
 
     private static GPSDatabase database;
@@ -337,6 +341,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateShow(Location location) {
         if(!isTest) {
+            curTime = System.nanoTime();
             if (location != null) {
                 StringBuilder sb_loc = new StringBuilder();
                 StringBuilder sb_speed = new StringBuilder();
@@ -344,9 +349,13 @@ public class MainActivity extends AppCompatActivity {
                 valCurrentSpeed = 3.6 * location.getSpeed();
                 sb_loc.append("Longitude: " + location.getLongitude() + "\n");
                 sb_loc.append("Latitude: " + location.getLatitude() + "\n");
-                valCurrentTime = valCurrentTime + 0.1;
-                valCurrentDistance = valCurrentDistance + location.getSpeed() * 0.1;
+
+                valCurrentTime = (curTime - preTime) / 1E9+ valCurrentTime;
+                valCurrentDistance = valCurrentDistance + location.getSpeed() * (curTime - preTime) / 1E9;
+                preTime = curTime;
                 if(isReset){
+                    startTime = System.nanoTime();
+                    preTime = startTime;
                     valCurrentTime = 0;
                     valCurrentDistance = 0;
                     isReset = false;
