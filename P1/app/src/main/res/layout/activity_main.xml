@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,55 +13,17 @@
 
     <TextView
         android:id="@+id/txtTitleLocation"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
         android:text="Location"
         android:textSize="20sp"
-        android:textStyle="bold">
-    </TextView>
-
-    <TextView
-        android:id="@+id/txtSpeedUnit"
-        android:layout_width="wrap_content"
-        android:layout_height="23dp"
-        android:layout_below="@+id/btnTest"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="65dp"
-        android:layout_marginEnd="47dp"
-        android:text="Speed Unit"
-        android:textSize="15sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/txtTimeUnit"
-        android:layout_width="wrap_content"
-        android:layout_height="23dp"
-        android:layout_below="@+id/btnTest"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="66dp"
-        android:layout_marginEnd="184dp"
-        android:text="Time Unit"
-        android:textSize="15sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/txtDistanceUnit"
-        android:layout_width="wrap_content"
-        android:layout_height="23dp"
-        android:layout_below="@+id/btnTest"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="66dp"
-        android:layout_marginEnd="308dp"
-        android:text="Distance Unit"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/txtLocation"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtTitleLocation"
         android:layout_marginTop="10dp"
         android:padding="5dp"
         android:textSize="20sp"
@@ -69,113 +31,161 @@
 
     <TextView
         android:id="@+id/txtSpeed"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtLocation"
         android:padding="5dp"
+        android:layout_marginTop="5dp"
         android:textSize="20sp"
         android:textStyle="bold" />
 
-
-    <EditText
-        android:id="@+id/edtFontSize"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtSpeed"
-        android:hint="Input Font Size"
-        android:minHeight="48dp" />
+        android:layout_marginTop="20dp">
 
+        <EditText
+            android:id="@+id/edtFontSize"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:hint="Input Font Size"
+            android:minHeight="48dp" />
 
-    <Button
-        android:id="@+id/btnChangeSize"
-        android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/btnChangeSize"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1.0"
+            android:text="Change Font Size" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edtFontSize"
-        android:layout_marginTop="10dp"
-        android:text="Change Font Size" />
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/btnPause"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:padding="5dp"
+            android:text="Pause/Resume" />
+
+        <Button
+            android:id="@+id/btnTest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_below="@+id/btnPause"
+            android:layout_weight="1.0"
+            android:text="Simulate" />
 
 
-    <Button
-        android:id="@+id/btnPause"
-        android:layout_width="wrap_content"
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btnChangeSize"
-        android:layout_marginTop="10dp"
-        android:padding="5dp"
-        android:text="Pause/Resume" />
+        android:layout_marginTop="10dp">
 
-    <Button
-        android:id="@+id/btnTest"
-        android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/btnReset"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Reset" />
+
+        <Button
+            android:id="@+id/btnHelp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="Help" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnPause"
-        android:layout_marginTop="10dp"
-        android:text="Simulate" />
+        >
 
-    <Button
-        android:id="@+id/btnReset"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/txtSpeedUnit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:text="Speed Unit"
+            android:layout_marginStart="10dp"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/optionSpeedUnit"
+            android:layout_width="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnPause"
-        android:layout_marginTop="69dp"
-        android:text="Reset" />
+        android:layout_marginTop="10dp">
 
-    <Button
-        android:id="@+id/btnHelp"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/txtTimeUnit"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Time Unit"
+            android:textSize="15sp"
+            android:layout_marginStart="10dp"
+            android:gravity="start"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/optionTimeUnit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="263dp"
-        android:layout_marginTop="630dp"
-        android:layout_marginEnd="33dp"
-        android:insetTop="6dp"
-        android:padding="5dp"
-        android:text="Help" />
+        android:layout_marginTop="10dp">
 
-    <Spinner
-        android:id="@+id/optionSpeedUnit"
-        android:layout_width="wrap_content"
-        android:layout_height="172dp"
-        android:layout_below="@+id/txtSpeedUnit"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="252dp"
-        android:layout_marginTop="31dp"
-        android:layout_marginEnd="26dp"
-        android:layout_marginBottom="99dp"
-        android:minHeight="48dp" />
+        <TextView
+            android:id="@+id/txtDistanceUnit"
+            android:layout_width="0dp"
+            android:layout_height="23dp"
+            android:layout_weight="1"
+            android:text="Distance Unit"
+            android:gravity="start"
+            android:textSize="15sp"
+            android:layout_marginStart="10dp"
+            android:textStyle="bold" />
 
-    <Spinner
-        android:id="@+id/optionTimeUnit"
-        android:layout_width="wrap_content"
-        android:layout_height="172dp"
-        android:layout_below="@+id/txtSpeedUnit"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="119dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="157dp"
-        android:layout_marginBottom="97dp"
-        android:minHeight="48dp" />
-
-    <Spinner
-        android:id="@+id/optionDistanceUnit"
-        android:layout_width="wrap_content"
-        android:layout_height="167dp"
-        android:layout_below="@+id/txtSpeedUnit"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="9dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="295dp"
-        android:layout_marginBottom="99dp" />
+        <Spinner
+            android:id="@+id/optionDistanceUnit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="2" />
+    </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>
 
 
