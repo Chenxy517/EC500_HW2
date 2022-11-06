@@ -19,7 +19,7 @@ public interface SpeedDao {
     Speed[] getAll();
 
     @Query("SELECT * FROM speed WHERE id IN (:userIds)")
-    List<Speed> loadAllByIds(int[] userIds);
+    List<Speed> loadAllByIds(String[] userIds);
 
     @Delete
     void delete(Speed... speed);

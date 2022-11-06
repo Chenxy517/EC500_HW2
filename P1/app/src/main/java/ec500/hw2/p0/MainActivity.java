@@ -29,6 +29,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import java.util.Objects;
 
 import ec500.hw2.p0.database.GPSDatabase;
+import ec500.hw2.p0.model.Speed;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,11 +50,11 @@ public class MainActivity extends AppCompatActivity {
     private boolean isPause = false;
     private double valLatitude = 0.0;
     private double valLongitude = 0.0;
+    private double valCurrentMaxSpeed = 0.0;
     private static int Unit_distance, Unit_Time, Unit_Speed;
     private int count_Speed_OnItemSelectedListener = 0;
     private int count_Distance_OnItemSelectedListener = 0;
     private int count_Time_OnItemSelectedListener = 0;
-
 
     private static GPSDatabase database;
 
@@ -62,8 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        database = Room.databaseBuilder(this, GPSDatabase.class, "GPS_db").build();
-
+        database = Room.databaseBuilder(this, GPSDatabase.class, "GPS_db").allowMainThreadQueries().build();
 
         txtLocation = (TextView) findViewById(R.id.txtLocation);
         txtSpeed = (TextView) findViewById(R.id.txtSpeed);
@@ -317,6 +317,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     public String time_unit_transfer(double time, int Unit_Time){
         switch (Unit_Time) {
             case 0:
@@ -331,11 +332,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-    private void updateShow(Location location) {
+    private synchronized void updateShow(Location location) {
         if(!isTest) {
             if (location != null) {
                 StringBuilder sb_loc = new StringBuilder();
@@ -349,20 +346,49 @@ public class MainActivity extends AppCompatActivity {
                 if(isReset){
                     valCurrentTime = 0;
                     valCurrentDistance = 0;
+                    for (Speed speedItem : database.speedDao().getAll()) {
+                        database.speedDao().delete(speedItem);
+                    }
+
                     isReset = false;
                 }
                 sb_loc.append(time_unit_transfer(valCurrentTime, Unit_Time));
                 sb_loc.append(distance_unit_transfer(valCurrentDistance, Unit_distance));
                 sb_speed.append(speed_unit_transfer(location.getSpeed(), Unit_Speed));
 
+                String[] s = new String[1];
+                s[0] = "max";
+                if (database.speedDao().loadAllByIds(s).size() > 0) {
+                    valCurrentMaxSpeed = database.speedDao().loadAllByIds(s).get(0).val;
+
+                    if (location.getSpeed() > valCurrentMaxSpeed) {
+                        valCurrentMaxSpeed = location.getSpeed();
+                        Speed speed = new Speed();
+                        speed.val = valCurrentMaxSpeed;
+                        speed.id = "max";
+                        database.speedDao().delete(speed);
+                        database.speedDao().insertAll(speed);
+                    }
+
+                    sb_speed.append("Max Speed: " + valCurrentMaxSpeed);
+                } else {
+                    Speed speed = new Speed();
+                    speed.val = valCurrentMaxSpeed;
+                    speed.id = "max";
+                    database.speedDao().delete(speed);
+                    database.speedDao().insertAll(speed);
+                    sb_speed.append("Max Speed: 0.0");
+                }
+
                 strLocation = sb_loc.toString();
                 strSpeed = sb_speed.toString();
+
             } else {
                 strLocation = "";
                 strSpeed = "";
             }
         }
-        else{
+        else {
             StringBuilder sb_loc = new StringBuilder();
             strSpeed = simulation_distance().toString();
             sb_loc.append("Longitude: " + valLatitude + "\n");
