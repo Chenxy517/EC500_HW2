@@ -26,7 +26,8 @@ import android.widget.Spinner;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-import java.util.Objects;
+import java.math.BigDecimal;
+import java.math.MathContext;
 
 import ec500.hw2.p0.database.GPSDatabase;
 import ec500.hw2.p0.model.Speed;
@@ -60,6 +61,12 @@ public class MainActivity extends AppCompatActivity {
     private long curTime = 0;
     private long preTime = startTime;
 
+    // Define the Significant Filter:
+    private static final int FRACTION_CONSTRAINT = 3;
+    private static final int GPS_CONSTRAINT = 4;
+
+    // String filter, Java regex:
+    private final String regex = "^\\-?(\\d{0,8}|\\d{0,5}\\.\\d{0,3})$";
 
     private static GPSDatabase database;
 
@@ -91,10 +98,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Instruction page of the MY_GPS
+        // Instruction page of the APP.
         helpful_click();
 
-        // test app under synthetic source
+        // Test app under synthetic source
         btnTest = (Button) findViewById(R.id.btnTest);
         btnTest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,16 +144,13 @@ public class MainActivity extends AppCompatActivity {
         TimeSpinner();
 
         SpeedSpinner();
-
-        makeToast("Welcome to the My - GPS! ");
     }
-
 
     @Override
     protected void onStart() {
         super.onStart();
 //        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        makeToast("Start the Application.");
+        makeToast("Welcome to My Altimeter! ");
     }
 
     @Override
@@ -164,22 +168,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
-        makeToast("onStop()");
+        makeToast("My Altimeter is still recording... Resume in any time ");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        makeToast("onDestroy()");
+        makeToast("Thank you, See you next time! ");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-
-        makeToast("Restart the application. ");
+        makeToast("Welcome back ^_^");
     }
 
     public void DistanceSpinner(){
@@ -270,7 +271,8 @@ public class MainActivity extends AppCompatActivity {
 //        Unit_Speed = SpeedUnit.getSelectedItem().toString();
     }
 
-    // handle message
+
+    // Handle messages
     private Handler handler = new Handler(new Handler.Callback(){
         @Override
         public boolean handleMessage(Message msg) {
@@ -298,6 +300,8 @@ public class MainActivity extends AppCompatActivity {
         }
     });
 
+
+    // Update variable within the class of Location.
     private LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
@@ -331,26 +335,26 @@ public class MainActivity extends AppCompatActivity {
     public String speed_unit_transfer(double speed, int Unit_Speed){
         switch (Unit_Speed) {
             case 0:
-                return "Speed: " + speed + "Mps \n";
+                return "Speed: " + significant_fraction(speed, FRACTION_CONSTRAINT) + "Mps \n";
             case 1:
-                return "Speed: " + (3.6 * speed) + "Kph \n";
+                return "Speed: " + significant_fraction(3.6 * speed, FRACTION_CONSTRAINT) + "Kph \n";
             case 2:
-                return "Speed: " + (0.621371192 * speed) + "Mph \n";
+                return "Speed: " + significant_fraction(0.621371192 * speed, FRACTION_CONSTRAINT) + "Mph \n";
             default:
-                return "Speed: " + (0.621371192 / 60 * speed) + "Mpm \n";
+                return "Speed: " + significant_fraction(0.621371192 / 60 * speed, FRACTION_CONSTRAINT) + "Mpm \n";
         }
     }
 
     public String distance_unit_transfer(double distance, int Unit_Distance){
         switch (Unit_Distance) {
             case 0:
-                return "Distance: " + distance + "m \n";
+                return "Distance: " + significant_fraction(distance, FRACTION_CONSTRAINT) + "m \n";
             case 1:
-                return "Distance: " + (distance / 1000) + "km \n";
+                return "Distance: " + significant_fraction(distance / 1000, FRACTION_CONSTRAINT) + "km \n";
             case 2:
-                return "Distance: " + (distance * 0.000621371192) + "miles \n";
+                return "Distance: " + significant_fraction(distance * 0.000621371192, FRACTION_CONSTRAINT) + "miles \n";
             default:
-                return "Distance: " + (distance * 3.2808399 ) + "feet \n";
+                return "Distance: " + significant_fraction(distance * 3.2808399, FRACTION_CONSTRAINT) + "feet \n";
         }
     }
 
@@ -358,18 +362,52 @@ public class MainActivity extends AppCompatActivity {
     public String time_unit_transfer(double time, int Unit_Time){
         switch (Unit_Time) {
             case 0:
-                return "Time: " + time + "s \n";
+                return "Time: " + significant_fraction(time, FRACTION_CONSTRAINT) + "s \n";
             case 1:
-                return "Time: " + (time / 60) + "mins \n";
+                return "Time: " + significant_fraction(time / 60, FRACTION_CONSTRAINT) + "mins \n";
             case 2:
-                return "Time: " + (time / 3600) + "hours \n";
+                return "Time: " + significant_fraction(time / 3600, FRACTION_CONSTRAINT) + "hours \n";
             default:
-                return "Time: " + (time / 3600 / 24) + "days \n";
+                return "Time: " + significant_fraction(time / 3600 / 24, FRACTION_CONSTRAINT) + "days \n";
         }
     }
 
+    /**
+     * Given a string, and check if it matches the regular expression of
+     * @param var: Input decimal number that needed to be rounded up.
+     * @param decimal_places : Number of decimal place to round up
+     * @return A rounded value in certain significant figures.
+     */
+    private synchronized double significant_fraction(double var, int decimal_places) {
+        
+        String str_var = Double.toString(Math.abs(var));
+        int decimal_place = str_var.length() - str_var.indexOf('.') - 1;
 
+        // If variables' decimal places length is larger than our requirement:
+        if (decimal_place > decimal_places)
+        {
+            int integer_part = (int)var;
+            BigDecimal big_var = new BigDecimal(var - integer_part);
+            big_var = big_var.round(new MathContext(decimal_places));
+            return big_var.doubleValue() + integer_part;
+        }
+        else
+        {   // No need to round up, expedite the program design.
+            return var;
+        }
+        
+    }
+
+
+    /**
+     * Synchronize update the MainActivity by the update of Location variables.
+     * Synchronized used: Wait until responses from Local Database update finishing, and then update
+     * @param location: The data class object of the Location, consists of a latitude, longitude, timestamp, accuracy,
+     *                and other information such as bearing, altitude and velocity
+     */
     private synchronized void updateShow(Location location) {
+
+        // If is not in the test mode:
         if(!isTest) {
             curTime = System.nanoTime();
             if (location != null) {
@@ -377,12 +415,13 @@ public class MainActivity extends AppCompatActivity {
                 StringBuilder sb_speed = new StringBuilder();
 
                 valCurrentSpeed = 3.6 * location.getSpeed();
-                sb_loc.append("Longitude: " + location.getLongitude() + "\n");
-                sb_loc.append("Latitude: " + location.getLatitude() + "\n");
-                sb_loc.append("Altitude: " + location.getAltitude() + "\n");
+                sb_loc.append("Longitude: " + significant_fraction(location.getLongitude(), GPS_CONSTRAINT) + "\n");
+                sb_loc.append("Latitude: " + significant_fraction(location.getLatitude(), GPS_CONSTRAINT) + "\n");
+                sb_loc.append("Altitude: " + significant_fraction(location.getAltitude(), GPS_CONSTRAINT) + "\n");
 
-                valCurrentTime = (curTime - preTime) / 1E9+ valCurrentTime;
+                valCurrentTime = (curTime - preTime) / 1E9 + valCurrentTime;
                 valCurrentDistance = valCurrentDistance + location.getSpeed() * (curTime - preTime) / 1E9;
+
                 preTime = curTime;
                 if(isReset){
                     startTime = System.nanoTime();
@@ -397,6 +436,8 @@ public class MainActivity extends AppCompatActivity {
 
                     isReset = false;
                 }
+
+
                 sb_loc.append(time_unit_transfer(valCurrentTime, Unit_Time));
                 sb_loc.append(distance_unit_transfer(valCurrentDistance, Unit_distance));
                 sb_speed.append(speed_unit_transfer(location.getSpeed(), Unit_Speed));
@@ -415,7 +456,7 @@ public class MainActivity extends AppCompatActivity {
                         database.speedDao().insertAll(speed);
                     }
 
-                    sb_speed.append("Max Speed: " + valCurrentMaxSpeed + "\n");
+                    sb_speed.append("Max Speed: " + significant_fraction(valCurrentMaxSpeed, FRACTION_CONSTRAINT) + "\n");
                 } else {
                     Speed speed = new Speed();
                     speed.val = valCurrentMaxSpeed;
@@ -439,7 +480,7 @@ public class MainActivity extends AppCompatActivity {
                         database.speedDao().insertAll(speed);
                     }
 
-                    sb_speed.append("Min Speed: " + valCurrentMinSpeed + "\n");
+                    sb_speed.append("Min Speed: " + significant_fraction(valCurrentMinSpeed, FRACTION_CONSTRAINT) + "\n");
                 } else {
                     Speed speed = new Speed();
                     speed.val = valCurrentMinSpeed;
@@ -487,11 +528,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void locationUpdate() {
 
-        // check GPS authority
+        // check GPS authority from User and App..
         if ( checkCallingOrSelfPermission(ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            Toast.makeText(MainActivity.this, "Turn on GPS", Toast.LENGTH_SHORT).show();
-
+            makeToast("You should enable GPS to get full functionalities work !");
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivityForResult(intent, 0);
             return;

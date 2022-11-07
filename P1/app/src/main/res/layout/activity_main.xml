@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="Location"
+        android:text="@string/app_name"
         android:textSize="20sp"
         android:textStyle="bold"/>
 
@@ -48,7 +48,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
-            android:hint="Input Font Size"
+            android:hint="@string/placeHolder_fontSize"
             android:minHeight="48dp" />
 
         <Button
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_weight="1.0"
-            android:text="Change Font Size" />
+            android:text="@string/change_frontSize_btn" />
 
     </LinearLayout>
 
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:padding="5dp"
-            android:text="Pause/Resume" />
+            android:text="@string/pauseResume_btn" />
 
         <Button
             android:id="@+id/btnTest"
@@ -81,7 +81,7 @@
             android:layout_marginStart="10dp"
             android:layout_below="@+id/btnPause"
             android:layout_weight="1.0"
-            android:text="Simulate" />
+            android:text="@string/test_btn" />
 
 
     </LinearLayout>
@@ -96,7 +96,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Reset" />
+            android:text="@string/reset_btn" />
 
         <Button
             android:id="@+id/btnHelp"
@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_weight="1"
-            android:text="Help" />
+            android:text="@string/help_btn" />
 
 
     </LinearLayout>
@@ -122,7 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="start"
-            android:text="Speed Unit"
+            android:text="@string/unit_Speed"
             android:layout_marginStart="10dp"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -146,7 +146,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Time Unit"
+            android:text="@string/unit_Time"
             android:textSize="15sp"
             android:layout_marginStart="10dp"
             android:gravity="start"
@@ -171,7 +171,7 @@
             android:layout_width="0dp"
             android:layout_height="23dp"
             android:layout_weight="1"
-            android:text="Distance Unit"
+            android:text="@string/unit_Distance"
             android:gravity="start"
             android:textSize="15sp"
             android:layout_marginStart="10dp"
@@ -183,6 +183,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_weight="2" />
+
     </LinearLayout>
 
 

@@ -1,11 +1,16 @@
 <resources>
-    <string name="app_name">P0</string>
+    <string name="app_name">My Altimeter</string>
 
-    <string name="helper_message">This is the instruction of My GPS APP: </string>
+    <string name="helperBar_title">MY Altimeter - Instruction</string>
 
-    <string name="helperBar_title">MY GPS - Instruction</string>
+    <!--    Textview Variable name:    -->
+    <string name="placeHolder_fontSize">Default Font: 20</string>
 
-<!--    Text Alignment of Help Information - HTML embedded.-->
+    <string name="unit_Speed">Speed Unit</string>
+    <string name="unit_Time">Time Unit</string>
+    <string name="unit_Distance">Distance Unit</string>
+
+    <!--    Text Alignment of Help Information - HTML embedded.-->
     <string name="msg_instruction">
         <![CDATA[
         <body>
@@ -46,7 +51,14 @@
         ]]>
     </string>
 
-    <string name="helper_bottom1">NEXT</string>
-    <string name="helper_bottom2">RETURN</string>
+    <!--    Button's name   -->
+    <string name="helper_bottom1">RETURN</string>
+
+    <string name="change_frontSize_btn">CHANGE FONT SIZE</string>
+    <string name="pauseResume_btn">PAUSE/RESUME</string>
+    <string name="test_btn">SIMULATE</string>
+    <string name="reset_btn">RESET</string>
+    <string name="help_btn">HELP</string>
+
 
 </resources>
