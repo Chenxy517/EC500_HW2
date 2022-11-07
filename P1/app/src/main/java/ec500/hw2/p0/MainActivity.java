@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // help information page
+        // Instruction page of the MY_GPS
         helpful_click();
 
         // test app under synthetic source
@@ -132,12 +132,53 @@ public class MainActivity extends AppCompatActivity {
         });
 
         DistanceSpinner();
+
         TimeSpinner();
+
         SpeedSpinner();
 
-        //
-
         makeToast("Welcome to the My - GPS! ");
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        makeToast("Start the Application.");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        locationUpdate();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        locationManager.removeUpdates(mLocationListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        makeToast("onStop()");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        makeToast("onDestroy()");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        makeToast("Restart the application. ");
     }
 
     public void DistanceSpinner(){
@@ -285,15 +326,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public void onResume() {
-        super.onResume();
-        locationUpdate();
-    }
-
-    public void onPause() {
-        super.onPause();
-        locationManager.removeUpdates(mLocationListener);
-    }
 
     public String speed_unit_transfer(double speed, int Unit_Speed){
         switch (Unit_Speed) {
