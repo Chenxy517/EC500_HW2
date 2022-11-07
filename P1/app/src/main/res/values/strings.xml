@@ -3,6 +3,8 @@
 
     <string name="helperBar_title">MY Altimeter - Instruction</string>
 
+    <string name="highScore_title">Highest Scores</string>
+
     <!--    Textview Variable name:    -->
     <string name="placeHolder_fontSize">Default Font: 20</string>
 
@@ -53,7 +55,6 @@
 
     <!--    Button's name   -->
     <string name="helper_bottom1">RETURN</string>
-
     <string name="change_frontSize_btn">CHANGE FONT SIZE</string>
     <string name="pauseResume_btn">PAUSE/RESUME</string>
     <string name="test_btn">SIMULATE</string>

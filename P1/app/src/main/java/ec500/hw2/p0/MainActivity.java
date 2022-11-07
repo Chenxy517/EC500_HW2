@@ -23,6 +23,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Spinner;
+import android.widget.ViewFlipper;
+import androidx.appcompat.app.AppCompatActivity;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
@@ -34,10 +36,12 @@ import ec500.hw2.p0.model.Speed;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ViewFlipper flipper;
     private LocationManager locationManager;
     private TextView txtLocation, txtSpeed;
+
 //    private String strLocation, strSpeed;
-    private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset;
+    private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset, btn_previous, btn_next;
     private static Spinner DistanceUnit;
     private static Spinner TimeUnit;
     private static Spinner SpeedUnit;
@@ -96,6 +100,14 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        flipper = findViewById(R.id.view_flipper);
+        btn_previous = findViewById(R.id.prev_button);
+        btn_next = findViewById(R.id.next_button);
+
+        btn_nextClick();
+        btn_previousClick();
+
         database = Room.databaseBuilder(this, GPSDatabase.class, "GPS_db").allowMainThreadQueries().build();
 
 //        txtLocation = (TextView) findViewById(R.id.txtLocation);
@@ -268,6 +280,42 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         makeToast("Welcome back ^_^");
+    }
+
+    public void btn_nextClick(){
+        btn_next.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        // Set the in and out animation of View flipper.
+                        flipper.setInAnimation(MainActivity.this,
+                                R.anim.slide_right);
+                        flipper.setOutAnimation(MainActivity.this,
+                                R.anim.slide_left);
+
+                        // It shows next view..
+                        flipper.showNext();
+                    }
+                });
+    }
+
+    public void btn_previousClick() {
+        btn_previous.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        // Set the in and out animation of View flipper.
+                        flipper.setInAnimation(MainActivity.this,
+                                android.R.anim.slide_in_left);
+                        flipper.setOutAnimation(MainActivity.this,
+                                android.R.anim.slide_out_right);
+
+                        // It shows previous view.
+                        flipper.showPrevious();
+                    }
+                });
     }
 
     public void DistanceSpinner(){
