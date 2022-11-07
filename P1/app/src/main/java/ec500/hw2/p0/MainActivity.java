@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     private LocationManager locationManager;
     private TextView txtLocation, txtSpeed;
-    private String strLocation, strSpeed;
+//    private String strLocation, strSpeed;
     private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset;
     private static Spinner DistanceUnit;
     private static Spinner TimeUnit;
@@ -61,6 +61,19 @@ public class MainActivity extends AppCompatActivity {
     private long curTime = 0;
     private long preTime = startTime;
 
+    private TextView txtLongitudeValue, txtLongitude;
+    private TextView txtLatitudeValue, txtLatitude;
+    private TextView txtAltitudeValue, txtAltitude;
+    private TextView txtDistanceValue, txtDistance, txtDistanceUnit;
+    private TextView txtTimeValue, txtTimeShow, txtTimeUnit;
+    private TextView txtSpeedValue, txtSpeedShow, txtSpeedUnit;
+    private TextView txtSpeedMinValue, txtSpeedMinShow, txtSpeedMinUnit;
+    private TextView txtSpeedMaxValue, txtSpeedMaxShow, txtSpeedMaxUnit;
+    private String strLongitude, strLatitude, strAltitude, strSpeedMax, strSpeedMin, strSpeedUnit;
+    private String strTimeValue, strTimeUnit;
+    private String strDistanceValue, strDistanceUnit;
+    private String strSpeedValue;
+
     // Define the Significant Filter:
     private static final int FRACTION_CONSTRAINT = 3;
     private static final int GPS_CONSTRAINT = 4;
@@ -77,8 +90,46 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         database = Room.databaseBuilder(this, GPSDatabase.class, "GPS_db").allowMainThreadQueries().build();
 
-        txtLocation = (TextView) findViewById(R.id.txtLocation);
-        txtSpeed = (TextView) findViewById(R.id.txtSpeed);
+//        txtLocation = (TextView) findViewById(R.id.txtLocation);
+//        txtSpeed = (TextView) findViewById(R.id.txtSpeed);
+
+        // Longitude
+        txtLongitude = (TextView) findViewById(R.id.txtLongitude);
+        txtLongitudeValue = (TextView) findViewById(R.id.txtLongitudeValue);
+
+        // Latitude
+        txtLatitude = (TextView) findViewById(R.id.txtLatitude);
+        txtLatitudeValue = (TextView) findViewById(R.id.txtLatitudeValue);
+
+        // Altitude
+        txtAltitude = (TextView) findViewById(R.id.txtAltitude);
+        txtAltitudeValue = (TextView) findViewById(R.id.txtAltitudeValue);
+
+        // Distance
+        txtDistance = (TextView) findViewById(R.id.txtDistance);
+        txtDistanceValue = (TextView) findViewById(R.id.txtDistanceValue);
+        txtDistanceUnit = (TextView) findViewById(R.id.txtDistanceUnitShow);
+
+        // Time
+        txtTimeShow = (TextView) findViewById(R.id.txtTime);
+        txtTimeValue = (TextView) findViewById(R.id.txtTimeValue);
+        txtTimeUnit = (TextView) findViewById(R.id.txtTimeUnitShow);
+
+        // Speed
+        txtSpeedShow = (TextView) findViewById(R.id.txtSpeedShow);
+        txtSpeedValue = (TextView) findViewById(R.id.txtSpeedValue);
+        txtSpeedUnit = (TextView) findViewById(R.id.txtSpeedUnitShow);
+
+        // Min Speed
+        txtSpeedMinShow = (TextView) findViewById(R.id.txtSpeedMin);
+        txtSpeedMinValue = (TextView) findViewById(R.id.txtSpeedMinValue);
+        txtSpeedMinUnit = (TextView) findViewById(R.id.txtSpeedMinUnitShow);
+
+        // Max Speed
+        txtSpeedMaxShow = (TextView) findViewById(R.id.txtSpeedMax);
+        txtSpeedMaxValue = (TextView) findViewById(R.id.txtSpeedMaxValue);
+        txtSpeedMaxUnit = (TextView) findViewById(R.id.txtSpeedMaxUnitShow);
+
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -91,9 +142,33 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+//                if(edtFontSize.getText().toString().matches("[0-9]+")) {
+//                    setFontSize(txtLocation, Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(txtSpeed, Float.parseFloat(edtFontSize.getText().toString()));
+//                }
                 if(edtFontSize.getText().toString().matches("[0-9]+")) {
-                    setFontSize(txtLocation, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtSpeed, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtLongitude, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtLongitudeValue, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtLatitude, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtLatitudeValue, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtAltitude, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtAltitudeValue, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtDistance, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtDistanceValue, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtDistanceUnit, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtTimeShow, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtTimeValue, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtTimeUnit, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtSpeedShow, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtSpeedValue, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtSpeedUnit, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtSpeedMinShow, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtSpeedMinValue, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtSpeedMinUnit, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtSpeedMaxShow, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtSpeedMaxValue, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtSpeedMaxUnit, Float.parseFloat(edtFontSize.getText().toString()));
+
                 }
             }
         });
@@ -276,24 +351,61 @@ public class MainActivity extends AppCompatActivity {
     private Handler handler = new Handler(new Handler.Callback(){
         @Override
         public boolean handleMessage(Message msg) {
+//            if ( msg.what == 0x001 ) {
+//                if (valCurrentSpeed < 10.0) {
+//                    txtSpeed.setTextColor(Color.BLACK);
+//                }
+//                else if (valCurrentSpeed < 20.0){
+//                    txtSpeed.setTextColor(Color.GREEN);
+//                }
+//                else if (valCurrentSpeed < 30.0){
+//                    txtSpeed.setTextColor(Color.BLUE);
+//                }
+//                else if (valCurrentSpeed < 50.0){
+//                    txtSpeed.setTextColor(Color.CYAN);
+//                }
+//                else{
+//                    txtSpeed.setTextColor(Color.RED);
+//                }
+//                txtSpeed.setText(strSpeed);
+//                txtLocation.setText(strLocation);
+//            }
             if ( msg.what == 0x001 ) {
                 if (valCurrentSpeed < 10.0) {
-                    txtSpeed.setTextColor(Color.BLACK);
+//                    txtSpeed.setTextColor(Color.BLACK);
+                    txtSpeedValue.setTextColor(Color.BLACK);
                 }
                 else if (valCurrentSpeed < 20.0){
-                    txtSpeed.setTextColor(Color.GREEN);
+//                    txtSpeed.setTextColor(Color.GREEN);
+                    txtSpeedValue.setTextColor(Color.GREEN);
                 }
                 else if (valCurrentSpeed < 30.0){
-                    txtSpeed.setTextColor(Color.BLUE);
+//                    txtSpeed.setTextColor(Color.BLUE);
+                    txtSpeedValue.setTextColor(Color.BLUE);
                 }
                 else if (valCurrentSpeed < 50.0){
-                    txtSpeed.setTextColor(Color.CYAN);
+//                    txtSpeed.setTextColor(Color.CYAN);
+                    txtSpeedValue.setTextColor(Color.CYAN);
                 }
                 else{
-                    txtSpeed.setTextColor(Color.RED);
+//                    txtSpeed.setTextColor(Color.RED);
+                    txtSpeedValue.setTextColor(Color.RED);
                 }
-                txtSpeed.setText(strSpeed);
-                txtLocation.setText(strLocation);
+//                txtSpeed.setText(strSpeed);
+//                txtLocation.setText(strLocation);
+                txtSpeedValue.setText(strSpeedValue);
+                txtSpeedUnit.setText(strSpeedUnit);
+                txtLongitudeValue.setText(strLongitude);
+                txtLatitudeValue.setText(strLatitude);
+                txtAltitudeValue.setText(strAltitude);
+                txtDistanceValue.setText(strDistanceValue);
+                txtDistanceUnit.setText(strDistanceUnit);
+                txtTimeValue.setText(strTimeValue);
+                txtTimeUnit.setText(strTimeUnit);
+                txtSpeedMaxValue.setText(strSpeedMax);
+                txtSpeedMinValue.setText(strSpeedMin);
+                txtSpeedMinUnit.setText(strSpeedUnit);
+                txtSpeedMaxUnit.setText(strSpeedUnit);
             }
 
             return false;
@@ -332,43 +444,121 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
-    public String speed_unit_transfer(double speed, int Unit_Speed){
+//    public String speed_unit_transfer(double speed, int Unit_Speed){
+//        switch (Unit_Speed) {
+//            case 0:
+//                return "Speed: " + significant_fraction(speed, FRACTION_CONSTRAINT) + "Mps \n";
+//            case 1:
+//                return "Speed: " + significant_fraction(3.6 * speed, FRACTION_CONSTRAINT) + "Kph \n";
+//            case 2:
+//                return "Speed: " + significant_fraction(2.2369362921 * speed, FRACTION_CONSTRAINT) + "Mph \n";
+//            default:
+//                return "Speed: " + significant_fraction(2.2369362921 / 60 * speed, FRACTION_CONSTRAINT) + "Mpm \n";
+//        }
+//    }
+
+    public double speed_unit_transfer_value(double speed, int Unit_Speed){
         switch (Unit_Speed) {
             case 0:
-                return "Speed: " + significant_fraction(speed, FRACTION_CONSTRAINT) + "Mps \n";
+                return significant_fraction(speed, FRACTION_CONSTRAINT);
             case 1:
-                return "Speed: " + significant_fraction(3.6 * speed, FRACTION_CONSTRAINT) + "Kph \n";
+                return significant_fraction(3.6 * speed, FRACTION_CONSTRAINT);
             case 2:
-                return "Speed: " + significant_fraction(0.621371192 * speed, FRACTION_CONSTRAINT) + "Mph \n";
+                return significant_fraction(2.2369362921 * speed, FRACTION_CONSTRAINT);
             default:
-                return "Speed: " + significant_fraction(0.621371192 / 60 * speed, FRACTION_CONSTRAINT) + "Mpm \n";
+                return significant_fraction(2.2369362921 / 60 * speed, FRACTION_CONSTRAINT);
         }
     }
 
-    public String distance_unit_transfer(double distance, int Unit_Distance){
+    public String speed_unit_transfer_unit(int Unit_Speed){
+        switch (Unit_Speed) {
+            case 0:
+                return "Mps";
+            case 1:
+                return "Kph";
+            case 2:
+                return "Mph";
+            default:
+                return "Mpm";
+        }
+    }
+
+//    public String distance_unit_transfer(double distance, int Unit_Distance){
+//        switch (Unit_Distance) {
+//            case 0:
+//                return "Distance: " + significant_fraction(distance, FRACTION_CONSTRAINT) + "m \n";
+//            case 1:
+//                return "Distance: " + significant_fraction(distance / 1000, FRACTION_CONSTRAINT) + "km \n";
+//            case 2:
+//                return "Distance: " + significant_fraction(distance * 0.000621371192, FRACTION_CONSTRAINT) + "miles \n";
+//            default:
+//                return "Distance: " + significant_fraction(distance * 3.2808399, FRACTION_CONSTRAINT) + "feet \n";
+//        }
+//    }
+
+    public double distance_unit_transfer_value(double distance, int Unit_Distance){
         switch (Unit_Distance) {
             case 0:
-                return "Distance: " + significant_fraction(distance, FRACTION_CONSTRAINT) + "m \n";
+                return significant_fraction(distance, FRACTION_CONSTRAINT) ;
             case 1:
-                return "Distance: " + significant_fraction(distance / 1000, FRACTION_CONSTRAINT) + "km \n";
+                return significant_fraction(distance / 1000, FRACTION_CONSTRAINT);
             case 2:
-                return "Distance: " + significant_fraction(distance * 0.000621371192, FRACTION_CONSTRAINT) + "miles \n";
+                return significant_fraction(distance * 0.000621371192, FRACTION_CONSTRAINT);
             default:
-                return "Distance: " + significant_fraction(distance * 3.2808399, FRACTION_CONSTRAINT) + "feet \n";
+                return significant_fraction(distance * 3.2808399, FRACTION_CONSTRAINT);
+        }
+    }
+
+    public String distance_unit_transfer_unit(int Unit_Distance){
+        switch (Unit_Distance) {
+            case 0:
+                return "m";
+            case 1:
+                return "km";
+            case 2:
+                return "miles";
+            default:
+                return "feet";
         }
     }
 
 
-    public String time_unit_transfer(double time, int Unit_Time){
+//    public String time_unit_transfer(double time, int Unit_Time){
+//        switch (Unit_Time) {
+//            case 0:
+//                return "Time: " + significant_fraction(time, FRACTION_CONSTRAINT) + "s \n";
+//            case 1:
+//                return "Time: " + significant_fraction(time / 60, FRACTION_CONSTRAINT) + "mins \n";
+//            case 2:
+//                return "Time: " + significant_fraction(time / 3600, FRACTION_CONSTRAINT) + "hours \n";
+//            default:
+//                return "Time: " + significant_fraction(time / 3600 / 24, FRACTION_CONSTRAINT) + "days \n";
+//        }
+//    }
+
+    public Double time_unit_transfer_value(double time, int Unit_Time){
         switch (Unit_Time) {
             case 0:
-                return "Time: " + significant_fraction(time, FRACTION_CONSTRAINT) + "s \n";
+                return significant_fraction(time, FRACTION_CONSTRAINT);
             case 1:
-                return "Time: " + significant_fraction(time / 60, FRACTION_CONSTRAINT) + "mins \n";
+                return significant_fraction(time / 60, FRACTION_CONSTRAINT);
             case 2:
-                return "Time: " + significant_fraction(time / 3600, FRACTION_CONSTRAINT) + "hours \n";
+                return significant_fraction(time / 3600, FRACTION_CONSTRAINT);
             default:
-                return "Time: " + significant_fraction(time / 3600 / 24, FRACTION_CONSTRAINT) + "days \n";
+                return significant_fraction(time / 3600 / 24, FRACTION_CONSTRAINT);
+        }
+    }
+
+    public String time_unit_transfer_unit(int Unit_Time){
+        switch (Unit_Time) {
+            case 0:
+                return "s";
+            case 1:
+                return "mins";
+            case 2:
+                return "hrs";
+            default:
+                return "days";
         }
     }
 
@@ -411,13 +601,29 @@ public class MainActivity extends AppCompatActivity {
         if(!isTest) {
             curTime = System.nanoTime();
             if (location != null) {
-                StringBuilder sb_loc = new StringBuilder();
-                StringBuilder sb_speed = new StringBuilder();
+//                StringBuilder sb_loc = new StringBuilder();
+//                StringBuilder sb_speed = new StringBuilder();
+
+                StringBuilder stringBuilderLongitude = new StringBuilder();
+                StringBuilder stringBuilderLatitude = new StringBuilder();
+                StringBuilder stringBuilderAltitude = new StringBuilder();
+                StringBuilder stringBuilderSpeedValue = new StringBuilder();
+                StringBuilder stringBuilderSpeedUnit = new StringBuilder();
+                StringBuilder stringBuilderSpeedMin = new StringBuilder();
+                StringBuilder stringBuilderSpeedMax = new StringBuilder();
+                StringBuilder stringBuilderTimeValue = new StringBuilder();
+                StringBuilder stringBuilderTimeUnit = new StringBuilder();
+                StringBuilder stringBuilderDistanceValue = new StringBuilder();
+                StringBuilder stringBuilderDistanceUnit = new StringBuilder();
+
+                stringBuilderLongitude.append(significant_fraction(location.getLongitude(), GPS_CONSTRAINT));
+                stringBuilderLatitude.append(significant_fraction(location.getLatitude(), GPS_CONSTRAINT));
+                stringBuilderAltitude.append(significant_fraction(location.getAltitude(), GPS_CONSTRAINT));
 
                 valCurrentSpeed = 3.6 * location.getSpeed();
-                sb_loc.append("Longitude: " + significant_fraction(location.getLongitude(), GPS_CONSTRAINT) + "\n");
-                sb_loc.append("Latitude: " + significant_fraction(location.getLatitude(), GPS_CONSTRAINT) + "\n");
-                sb_loc.append("Altitude: " + significant_fraction(location.getAltitude(), GPS_CONSTRAINT) + "\n");
+//                sb_loc.append("Longitude: " + significant_fraction(location.getLongitude(), GPS_CONSTRAINT) + "\n");
+//                sb_loc.append("Latitude: " + significant_fraction(location.getLatitude(), GPS_CONSTRAINT) + "\n");
+//                sb_loc.append("Altitude: " + significant_fraction(location.getAltitude(), GPS_CONSTRAINT) + "\n");
 
                 valCurrentTime = (curTime - preTime) / 1E9 + valCurrentTime;
                 valCurrentDistance = valCurrentDistance + location.getSpeed() * (curTime - preTime) / 1E9;
@@ -437,10 +643,18 @@ public class MainActivity extends AppCompatActivity {
                     isReset = false;
                 }
 
+//                // Unit Transfer
+//                sb_loc.append(time_unit_transfer(valCurrentTime, Unit_Time));
+//                sb_loc.append(distance_unit_transfer(valCurrentDistance, Unit_distance));
+//                sb_speed.append(speed_unit_transfer(location.getSpeed(), Unit_Speed));
 
-                sb_loc.append(time_unit_transfer(valCurrentTime, Unit_Time));
-                sb_loc.append(distance_unit_transfer(valCurrentDistance, Unit_distance));
-                sb_speed.append(speed_unit_transfer(location.getSpeed(), Unit_Speed));
+                // Unit Transfer New
+                stringBuilderSpeedValue.append(speed_unit_transfer_value(location.getSpeed(),Unit_Speed));
+                stringBuilderSpeedUnit.append(speed_unit_transfer_unit(Unit_Speed));
+                stringBuilderTimeValue.append(time_unit_transfer_value(valCurrentTime,Unit_Time));
+                stringBuilderTimeUnit.append(time_unit_transfer_unit(Unit_Time));
+                stringBuilderDistanceValue.append(distance_unit_transfer_value(valCurrentDistance,Unit_distance));
+                stringBuilderDistanceUnit.append(distance_unit_transfer_unit(Unit_distance));
 
                 String[] s_max = new String[1];
                 s_max[0] = "max";
@@ -456,14 +670,16 @@ public class MainActivity extends AppCompatActivity {
                         database.speedDao().insertAll(speed);
                     }
 
-                    sb_speed.append("Max Speed: " + significant_fraction(valCurrentMaxSpeed, FRACTION_CONSTRAINT) + "\n");
+                    stringBuilderSpeedMax.append(significant_fraction(valCurrentMaxSpeed, FRACTION_CONSTRAINT));
+//                    sb_speed.append("Max Speed: " + significant_fraction(valCurrentMaxSpeed, FRACTION_CONSTRAINT) + "\n");
                 } else {
                     Speed speed = new Speed();
                     speed.val = valCurrentMaxSpeed;
                     speed.id = "max";
                     database.speedDao().delete(speed);
                     database.speedDao().insertAll(speed);
-                    sb_speed.append("Max Speed: 0.0\n");
+//                    sb_speed.append("Max Speed: 0.0\n");
+                    stringBuilderSpeedMax.append("0.0");
                 }
 
                 String[] s_min = new String[1];
@@ -480,30 +696,66 @@ public class MainActivity extends AppCompatActivity {
                         database.speedDao().insertAll(speed);
                     }
 
-                    sb_speed.append("Min Speed: " + significant_fraction(valCurrentMinSpeed, FRACTION_CONSTRAINT) + "\n");
+                    stringBuilderSpeedMin.append(significant_fraction(valCurrentMinSpeed, FRACTION_CONSTRAINT));
+//                    sb_speed.append("Min Speed: " + significant_fraction(valCurrentMinSpeed, FRACTION_CONSTRAINT) + "\n");
                 } else {
                     Speed speed = new Speed();
                     speed.val = valCurrentMinSpeed;
                     speed.id = "min";
                     database.speedDao().delete(speed);
                     database.speedDao().insertAll(speed);
-                    sb_speed.append("Min Speed: 0.0\n");
+//                    sb_speed.append("Min Speed: 0.0\n");
+                    stringBuilderSpeedMin.append("0.0");
                 }
 
-                strLocation = sb_loc.toString();
-                strSpeed = sb_speed.toString();
+//                strLocation = sb_loc.toString();
+//                strSpeed = sb_speed.toString();
+
+                strLongitude = stringBuilderLongitude.toString();
+                strLatitude = stringBuilderLatitude.toString();
+                strAltitude = stringBuilderAltitude.toString();
+                strSpeedValue = stringBuilderSpeedValue.toString();
+                strSpeedUnit = stringBuilderSpeedUnit.toString();
+                strSpeedMin = stringBuilderSpeedMin.toString();
+                strSpeedMax = stringBuilderSpeedMax.toString();
+                strTimeValue = stringBuilderTimeValue.toString();
+                strTimeUnit = stringBuilderTimeUnit.toString();
+                strDistanceValue = stringBuilderDistanceValue.toString();
+                strDistanceUnit = stringBuilderDistanceUnit.toString();
 
             } else {
-                strLocation = "";
-                strSpeed = "";
+//                strLocation = "";
+//                strSpeed = "";
+
+                strLongitude = "";
+                strLatitude = "";
+                strAltitude = "";
+                strSpeedValue = "";
+                strSpeedMax = "";
+                strSpeedMin = "";
+                strSpeedUnit = "";
+                strTimeValue = "";
+                strTimeUnit = "";
+                strDistanceValue = "";
+                strDistanceUnit = "";
             }
         }
         else {
-            StringBuilder sb_loc = new StringBuilder();
-            strSpeed = simulation_distance().toString();
-            sb_loc.append("Longitude: " + valLatitude + "\n");
-            sb_loc.append("Latitude: " + valLongitude + "\n");
-            strLocation = sb_loc.toString();
+//            StringBuilder sb_loc = new StringBuilder();
+//            strSpeed = simulation_distance().toString();
+//            sb_loc.append("Longitude: " + valLatitude + "\n");
+//            sb_loc.append("Latitude: " + valLongitude + "\n");
+//            strLocation = sb_loc.toString();
+
+            StringBuilder stringBuilderLongitude = new StringBuilder();
+            StringBuilder stringBuilderLatitude = new StringBuilder();
+
+            stringBuilderLongitude.append(valLongitude);
+            stringBuilderLatitude.append(valLatitude);
+
+            strLongitude = stringBuilderLongitude.toString();
+            strLatitude = stringBuilderLatitude.toString();
+
         }
 
         handler.sendEmptyMessage(0x001);
@@ -520,7 +772,7 @@ public class MainActivity extends AppCompatActivity {
         StringBuilder sb = new StringBuilder();
 //        sb.append("Longitude: " + new_longitude + "\n");
 //        sb.append("Latitude: " + new_latitude + "\n");
-        sb.append(speed_unit_transfer(speed, Unit_Speed));
+//        sb.append(speed_unit_transfer(speed, Unit_Speed));
         valLatitude = new_latitude;
         valLongitude = new_longitude;
         return sb;
