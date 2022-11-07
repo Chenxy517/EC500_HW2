@@ -347,6 +347,7 @@ public class MainActivity extends AppCompatActivity {
                 valCurrentSpeed = 3.6 * location.getSpeed();
                 sb_loc.append("Longitude: " + location.getLongitude() + "\n");
                 sb_loc.append("Latitude: " + location.getLatitude() + "\n");
+                sb_loc.append("Altitude: " + location.getAltitude() + "\n");
 
                 valCurrentTime = (curTime - preTime) / 1E9+ valCurrentTime;
                 valCurrentDistance = valCurrentDistance + location.getSpeed() * (curTime - preTime) / 1E9;
@@ -356,6 +357,8 @@ public class MainActivity extends AppCompatActivity {
                     preTime = startTime;
                     valCurrentTime = 0;
                     valCurrentDistance = 0;
+                    valCurrentMaxSpeed = 0;
+                    valCurrentMinSpeed = Double.MAX_VALUE;
                     for (Speed speedItem : database.speedDao().getAll()) {
                         database.speedDao().delete(speedItem);
                     }
