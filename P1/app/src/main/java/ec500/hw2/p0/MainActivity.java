@@ -383,7 +383,7 @@ public class MainActivity extends AppCompatActivity {
         String str_var = Double.toString(Math.abs(var));
         int decimal_place = str_var.length() - str_var.indexOf('.') - 1;
 
-        // If variables' decimal places length is larger than our requirement:
+        // If variables' decimal places length is larger than our expectation:
         if (decimal_place > decimal_places)
         {
             int integer_part = (int)var;
@@ -392,7 +392,7 @@ public class MainActivity extends AppCompatActivity {
             return big_var.doubleValue() + integer_part;
         }
         else
-        {   // No need to round up, expedite the program design.
+        {   // No need to round up, return the original value to expedite running of the program.
             return var;
         }
         
