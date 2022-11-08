@@ -213,11 +213,11 @@ public class MainActivity extends AppCompatActivity {
         txtHC_Time.setText("N/A");
         txtHC_Time.setTextColor(Color.BLUE);
 
-        for (Speed speedItem : database.speedDao().getAll()) {
-            database.speedDao().delete(speedItem);
+        for (Loc locItem : database.locDao().getAll()) {
+            database.locDao().delete(locItem);
         }
-        for (Speed speedItem : globalDatabase.speedDao().getAll()) {
-            database.speedDao().delete(speedItem);
+        for (Loc locItem : globalDatabase.locDao().getAll()) {
+            database.locDao().delete(locItem);
         }
 
     }
@@ -235,12 +235,8 @@ public class MainActivity extends AppCompatActivity {
         btn_nextClick();
         btn_previousClick();
 
-<<<<<<< Updated upstream
         database = Room.databaseBuilder(this, GPSDatabase.class, "GPS_db").allowMainThreadQueries().fallbackToDestructiveMigration().build();
-=======
-        database = Room.databaseBuilder(this, GPSDatabase.class, "GPS_db").allowMainThreadQueries().build();
         globalDatabase = Room.databaseBuilder(this, GPSDatabase.class, "GPS_global_db").allowMainThreadQueries().build();
->>>>>>> Stashed changes
 
         // Longitude
         txtLongitude = (TextView) findViewById(R.id.txtLongitude);
@@ -758,7 +754,7 @@ public class MainActivity extends AppCompatActivity {
      * @return A rounded value in certain significant figures.
      */
     private synchronized double significant_fraction(double var, int decimal_places) {
-        
+
         String str_var = Double.toString(Math.abs(var));
         int decimal_place = str_var.length() - str_var.indexOf('.') - 1;
 
@@ -775,7 +771,7 @@ public class MainActivity extends AppCompatActivity {
         {
             return var;
         }
-        
+
     }
 
 
@@ -1120,17 +1116,17 @@ public class MainActivity extends AppCompatActivity {
         // ---------- Update Variance Speed ----------
         String[] variant_s = new String[1];
         variant_s[0] = "variant_speed";
-        if (globalDatabase.speedDao().loadAllByIds(variant_s).size() > 0) {
-            valVarianceSpeed = globalDatabase.speedDao().loadAllByIds(variant_s).get(0).val;
+        if (globalDatabase.locDao().loadAllByIds(variant_s).size() > 0) {
+            valVarianceSpeed = globalDatabase.locDao().loadAllByIds(variant_s).get(0).speed;
 
             // If Current Speed is greater than the last time stamp's speed, Print the Differences and store the current Speed.
             if (location.getSpeed() > valVarianceSpeed) {
                 double difference = location.getSpeed() - valVarianceSpeed;
-                Speed speed = new Speed();
-                speed.val = location.getSpeed();
-                speed.id = "variant_speed";
-                globalDatabase.speedDao().delete(speed);
-                globalDatabase.speedDao().insertAll(speed);
+                Loc loc = new Loc();
+                loc.speed = location.getSpeed();
+                loc.id = "variant_speed";
+                globalDatabase.locDao().delete(loc);
+                globalDatabase.locDao().insertAll(loc);
                 stringBuilderVarianceSpeed.append("+ ");
                 stringBuilderVarianceSpeed.append(
                         speed_unit_transfer_value(
@@ -1141,11 +1137,11 @@ public class MainActivity extends AppCompatActivity {
             // Else: Current Speed is smaller than the last time stamp's speed, Print the Differences and store the current Speed.
             else {
                 double difference = valVarianceSpeed - location.getSpeed();
-                Speed speed = new Speed();
-                speed.val = location.getSpeed();
-                speed.id = "variant_speed";
-                globalDatabase.speedDao().delete(speed);
-                globalDatabase.speedDao().insertAll(speed);
+                Loc loc = new Loc();
+                loc.speed = location.getSpeed();
+                loc.id = "variant_speed";
+                globalDatabase.locDao().delete(loc);
+                globalDatabase.locDao().insertAll(loc);
                 stringBuilderVarianceSpeed.append("- ");
                 stringBuilderVarianceSpeed.append(
                         speed_unit_transfer_value(
@@ -1155,11 +1151,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } else {
-            Speed speed = new Speed();
-            speed.val = location.getSpeed();
-            speed.id = "variant_speed";
-            globalDatabase.speedDao().delete(speed);
-            globalDatabase.speedDao().insertAll(speed);
+            Loc loc = new Loc();
+            loc.speed = location.getSpeed();
+            loc.id = "variant_speed";
+            globalDatabase.locDao().delete(loc);
+            globalDatabase.locDao().insertAll(loc);
             stringBuilderVarianceSpeed.append(speed_unit_transfer_value(location.getSpeed(), Unit_Speed));
             stringBuilderVarianceSpeed.append(speed_unit_transfer_unit(Unit_Speed));
         }
@@ -1172,16 +1168,16 @@ public class MainActivity extends AppCompatActivity {
         global_sMax[0] = "g_max";
 
         // If existed this entity in Global-Database
-        if (globalDatabase.speedDao().loadAllByIds(global_sMax).size() > 0) {
-            valGlobalMaxSpeed = globalDatabase.speedDao().loadAllByIds(global_sMax).get(0).val;
+        if (globalDatabase.locDao().loadAllByIds(global_sMax).size() > 0) {
+            valGlobalMaxSpeed = globalDatabase.locDao().loadAllByIds(global_sMax).get(0).speed;
 
             if (location.getSpeed() >= valGlobalMaxSpeed) {
                 valGlobalMaxSpeed = location.getSpeed();
-                Speed speed = new Speed();
-                speed.val = valGlobalMaxSpeed;
-                speed.id = "g_max";
-                globalDatabase.speedDao().delete(speed);
-                globalDatabase.speedDao().insertAll(speed);
+                Loc loc = new Loc();
+                loc.speed = valGlobalMaxSpeed;
+                loc.id = "g_max";
+                globalDatabase.locDao().delete(loc);
+                globalDatabase.locDao().insertAll(loc);
             }
 
             stringBuilderGlobalMaxSpeed.append(
@@ -1192,11 +1188,11 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
             // Initiate this entity
-            Speed speed = new Speed();
-            speed.val = valGlobalMaxSpeed;
-            speed.id = "g_max";
-            globalDatabase.speedDao().delete(speed);
-            globalDatabase.speedDao().insertAll(speed);
+            Loc loc = new Loc();
+            loc.speed = valGlobalMaxSpeed;
+            loc.id = "g_max";
+            globalDatabase.locDao().delete(loc);
+            globalDatabase.locDao().insertAll(loc);
             stringBuilderGlobalMaxSpeed.append("0.0");
             stringBuilderGlobalMaxSpeed.append(speed_unit_transfer_unit(Unit_Speed));
         }
@@ -1208,16 +1204,16 @@ public class MainActivity extends AppCompatActivity {
         String[] global_sMin = new String[1];
         global_sMin[0] = "g_min";
         // If existed this entity in Global-Database
-        if (globalDatabase.speedDao().loadAllByIds(global_sMin).size() > 0) {
-            valGlobalMinSpeed = globalDatabase.speedDao().loadAllByIds(global_sMin).get(0).val;
+        if (globalDatabase.locDao().loadAllByIds(global_sMin).size() > 0) {
+            valGlobalMinSpeed = globalDatabase.locDao().loadAllByIds(global_sMin).get(0).speed;
 
             if (location.getSpeed() < valGlobalMinSpeed) {
                 valGlobalMinSpeed = location.getSpeed();
-                Speed speed = new Speed();
-                speed.val = valGlobalMinSpeed;
-                speed.id = "g_min";
-                globalDatabase.speedDao().delete(speed);
-                globalDatabase.speedDao().insertAll(speed);
+                Loc loc = new Loc();
+                loc.speed = valGlobalMinSpeed;
+                loc.id = "g_min";
+                globalDatabase.locDao().delete(loc);
+                globalDatabase.locDao().insertAll(loc);
             }
 
             stringBuilderGlobalMinSpeed.append(
@@ -1228,11 +1224,11 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
             // Initiate this entity
-            Speed speed = new Speed();
-            speed.val = valGlobalMinSpeed;
-            speed.id = "g_min";
-            globalDatabase.speedDao().delete(speed);
-            globalDatabase.speedDao().insertAll(speed);
+            Loc loc = new Loc();
+            loc.speed = valGlobalMinSpeed;
+            loc.id = "g_min";
+            globalDatabase.locDao().delete(loc);
+            globalDatabase.locDao().insertAll(loc);
             stringBuilderGlobalMinSpeed.append(speed_unit_transfer_value(0.0, Unit_Speed));
             stringBuilderGlobalMinSpeed.append(speed_unit_transfer_unit(Unit_Speed));
         }
@@ -1245,16 +1241,16 @@ public class MainActivity extends AppCompatActivity {
         global_HighAL[0] = "g_maxAltitude";
 
         // If existed this entity in Global-Database
-        if (globalDatabase.speedDao().loadAllByIds(global_HighAL).size() > 0) {
-            valHighestAltitude = globalDatabase.speedDao().loadAllByIds(global_HighAL).get(0).val;
+        if (globalDatabase.locDao().loadAllByIds(global_HighAL).size() > 0) {
+            valHighestAltitude = globalDatabase.locDao().loadAllByIds(global_HighAL).get(0).speed;
 
             if (location.getAltitude() >= valHighestAltitude) {
                 valGlobalMaxSpeed = location.getAltitude();
-                Speed speed = new Speed();
-                speed.val = valHighestAltitude;
+                Loc speed = new Loc();
+                speed.speed = valHighestAltitude;
                 speed.id = "g_maxAltitude";
-                globalDatabase.speedDao().delete(speed);
-                globalDatabase.speedDao().insertAll(speed);
+                globalDatabase.locDao().delete(speed);
+                globalDatabase.locDao().insertAll(speed);
             }
 
             stringBuilderHighestAltitude.append(
@@ -1264,11 +1260,11 @@ public class MainActivity extends AppCompatActivity {
             stringBuilderHighestAltitude.append(distance_unit_transfer_unit(Unit_distance));
 
         } else {
-            Speed speed = new Speed();
-            speed.val = valHighestAltitude;
-            speed.id = "g_maxAltitude";
-            globalDatabase.speedDao().delete(speed);
-            globalDatabase.speedDao().insertAll(speed);
+            Loc loc = new Loc();
+            loc.speed = valHighestAltitude;
+            loc.id = "g_maxAltitude";
+            globalDatabase.locDao().delete(loc);
+            globalDatabase.locDao().insertAll(loc);
             stringBuilderHighestAltitude.append(distance_unit_transfer_value(0.0, Unit_distance));
             stringBuilderHighestAltitude.append(distance_unit_transfer_unit(Unit_distance));
         }
@@ -1281,17 +1277,17 @@ public class MainActivity extends AppCompatActivity {
         global_longD[0] = "g_longDistance";
 
         // If existed this entity in Global-Database
-        if (globalDatabase.speedDao().loadAllByIds(global_longD).size() > 0) {
-            valLongestDistance = globalDatabase.speedDao().loadAllByIds(global_longD).get(0).val;
+        if (globalDatabase.locDao().loadAllByIds(global_longD).size() > 0) {
+            valLongestDistance = globalDatabase.locDao().loadAllByIds(global_longD).get(0).speed;
 
             // Record from Temporary Database, If the Longest Distance smaller than the record since Last Traveled before Reset.
             if (valCurrentDistance >= valLongestDistance) {
                 valLongestDistance = valCurrentDistance;
-                Speed speed = new Speed();
-                speed.val = valLongestDistance;
-                speed.id = "g_longDistance";
-                globalDatabase.speedDao().delete(speed);
-                globalDatabase.speedDao().insertAll(speed);
+                Loc loc = new Loc();
+                loc.speed = valLongestDistance;
+                loc.id = "g_longDistance";
+                globalDatabase.locDao().delete(loc);
+                globalDatabase.locDao().insertAll(loc);
             }
 
             stringBuilderLongestDistance.append(
@@ -1301,11 +1297,11 @@ public class MainActivity extends AppCompatActivity {
             stringBuilderLongestDistance.append(distance_unit_transfer_unit(Unit_distance));
 
         } else {
-            Speed speed = new Speed();
-            speed.val = valLongestDistance;
-            speed.id = "g_longDistance";
-            globalDatabase.speedDao().delete(speed);
-            globalDatabase.speedDao().insertAll(speed);
+            Loc loc = new Loc();
+            loc.speed = valLongestDistance;
+            loc.id = "g_longDistance";
+            globalDatabase.locDao().delete(loc);
+            globalDatabase.locDao().insertAll(loc);
             stringBuilderLongestDistance.append(distance_unit_transfer_value(0.0, Unit_distance));
             stringBuilderLongestDistance.append(distance_unit_transfer_unit(Unit_distance));
         }
@@ -1318,17 +1314,17 @@ public class MainActivity extends AppCompatActivity {
         global_longT[0] = "g_longTime";
 
         // If existed this entity in Global-Database
-        if (globalDatabase.speedDao().loadAllByIds(global_longT).size() > 0) {
-            valLongestTime = globalDatabase.speedDao().loadAllByIds(global_longT).get(0).val;
+        if (globalDatabase.locDao().loadAllByIds(global_longT).size() > 0) {
+            valLongestTime = globalDatabase.locDao().loadAllByIds(global_longT).get(0).speed;
 
             // Record from Temporary Database, If the Longest time smaller than the record since Last Traveled before Reset.
             if (valCurrentTime >= valLongestTime) {
                 valLongestTime = valCurrentTime;
-                Speed speed = new Speed();
-                speed.val = valLongestTime;
-                speed.id = "g_longTime";
-                globalDatabase.speedDao().delete(speed);
-                globalDatabase.speedDao().insertAll(speed);
+                Loc loc = new Loc();
+                loc.speed = valLongestTime;
+                loc.id = "g_longTime";
+                globalDatabase.locDao().delete(loc);
+                globalDatabase.locDao().insertAll(loc);
             }
 
             stringBuilderLongestTime.append(
@@ -1338,11 +1334,11 @@ public class MainActivity extends AppCompatActivity {
             stringBuilderLongestTime.append(time_unit_transfer_unit(Unit_Time));
 
         } else {
-            Speed speed = new Speed();
-            speed.val = valLongestTime;
-            speed.id = "g_longTime";
-            globalDatabase.speedDao().delete(speed);
-            globalDatabase.speedDao().insertAll(speed);
+            Loc loc = new Loc();
+            loc.speed = valLongestTime;
+            loc.id = "g_longTime";
+            globalDatabase.locDao().delete(loc);
+            globalDatabase.locDao().insertAll(loc);
             stringBuilderLongestTime.append(time_unit_transfer_value(0.0, Unit_Time));
             stringBuilderLongestTime.append(time_unit_transfer_unit(Unit_Time));
         }
