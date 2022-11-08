@@ -71,14 +71,13 @@ public class MainActivity extends AppCompatActivity {
     private long curTime = 0;
     private long preTime = startTime;
 
-    // Use for High Score View only:
+    // --- Use for High Score View only:
     private double valVarianceSpeed = 0.0;
     private double valGlobalMinSpeed = Double.MAX_VALUE;
     private double valGlobalMaxSpeed = 0.0;
-    private double valHighestAltitude = 0.0;
     private double valVarianceAltitude = 0.0;
-    private double valLongestDistance = 0.0;
-    private double valLongestTime = 0.0;
+    private double valMaxAltitude = 0.0;
+    private double valMinAltitude = Double.MAX_VALUE;
 
     // Textview in Main view.
     private TextView txtLongitudeValue, txtLongitude;
@@ -90,10 +89,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtSpeedMinValue, txtSpeedMinShow, txtSpeedMinUnit;
     private TextView txtSpeedMaxValue, txtSpeedMaxShow, txtSpeedMaxUnit;
 
-    // Textview in High_Score view.
-    private TextView titleHC_speedData, titleHC_Max, titleHC_Min, titleHC_Altitude, titleHC_Distance, titleHC_Time;
+    // --- Textview in High_Score view.
+    private TextView titleHC_speedData, titleHC_Max, titleHC_Min, titleHC_Altitude, titleHC_MaxAltitude, titleHC_MinAltitude;
     private TextView txtHC_speedData, txtHC_variationSpeed, txtHC_maxSpeed, txtHC_minSpeed;
-    private TextView txtHC_Altitude, txtHC_variationAltitude, txtHC_Distance, txtHC_Time;
+    private TextView txtHC_Altitude, txtHC_variationAltitude, txtHC_maxAltitude, txtHC_minAltitude;
 
     // For value shown in Textview() in Main Layout
     private String strLongitude, strLatitude, strAltitude, strSpeedMax, strSpeedMin, strSpeedUnit;
@@ -103,8 +102,8 @@ public class MainActivity extends AppCompatActivity {
     private String strSpeedValue;
 
     // For value shown in Textview() in High Score Layout:
-    private String strHighestSpeed, strVariantSpeed, strGlobalSpeedMax, strGlobalSpeedMin;
-    private String strHighestAltitude, strVariantAltitude, strLongestDistance, strLongestTime;
+    private String strVariantSpeed, strGlobalSpeedMax, strGlobalSpeedMin;
+    private String strVariantAltitude, strMaxAltitude, strMinAltitude;
 
     // Define the Significant Filter:
     private static final int FRACTION_CONSTRAINT = 3;
@@ -167,8 +166,8 @@ public class MainActivity extends AppCompatActivity {
         titleHC_Max = (TextView) findViewById(R.id.titleHC_Max);
         titleHC_Min = (TextView) findViewById(R.id.titleHC_Min);
         titleHC_Altitude = (TextView) findViewById(R.id.titleHC_Altitude);
-        titleHC_Distance = (TextView) findViewById(R.id.titleHC_Distance);
-        titleHC_Time = (TextView) findViewById(R.id.titleHC_Time);
+        titleHC_MaxAltitude = (TextView) findViewById(R.id.titleHC_MaxAltitude);
+        titleHC_MinAltitude = (TextView) findViewById(R.id.titleHC_MinAltitude);
 
         // Value:
         txtHC_speedData = (TextView) findViewById(R.id.txtHC_speedData);
@@ -177,8 +176,8 @@ public class MainActivity extends AppCompatActivity {
         txtHC_minSpeed = (TextView) findViewById(R.id.txtHC_minSpeed);
         txtHC_Altitude = (TextView) findViewById(R.id.txtHC_Altitude);
         txtHC_variationAltitude = (TextView) findViewById(R.id.txtHC_variationAltitude);
-        txtHC_Distance = (TextView) findViewById(R.id.txtHC_Distance);
-        txtHC_Time = (TextView) findViewById(R.id.txtHC_Time);
+        txtHC_maxAltitude = (TextView) findViewById(R.id.txtHC_maxAltitude);
+        txtHC_minAltitude = (TextView) findViewById(R.id.txtHC_minAltitude);
 
         txtSpeedValue.setText("N/A");
         txtSpeedUnit.setText("N/A");
@@ -197,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set Value for the TextView in High Score:
         txtHC_speedData.setText("N/A");
-//                txtHC_speedData.setTextColor(Color.BLUE);
+        txtHC_speedData.setTextColor(Color.DKGRAY);
         txtHC_variationSpeed.setText("N/A");
         txtHC_variationSpeed.setTextColor(Color.BLUE);
         txtHC_maxSpeed.setText("N/A");
@@ -208,10 +207,10 @@ public class MainActivity extends AppCompatActivity {
         txtHC_Altitude.setTextColor(Color.BLUE);
         txtHC_variationAltitude.setText("N/A");
         txtHC_variationAltitude.setTextColor(Color.BLUE);
-        txtHC_Distance.setText("N/A");
-        txtHC_Distance.setTextColor(Color.BLUE);
-        txtHC_Time.setText("N/A");
-        txtHC_Time.setTextColor(Color.BLUE);
+        txtHC_maxAltitude.setText("N/A");
+        txtHC_maxAltitude.setTextColor(Color.RED);
+        txtHC_minAltitude.setText("N/A");
+        txtHC_minAltitude.setTextColor(Color.GREEN);
 
         for (Loc locItem : database.locDao().getAll()) {
             database.locDao().delete(locItem);
@@ -287,8 +286,8 @@ public class MainActivity extends AppCompatActivity {
         titleHC_Max = findViewById(R.id.titleHC_Max);
         titleHC_Min = findViewById(R.id.titleHC_Min);
         titleHC_Altitude = findViewById(R.id.titleHC_Altitude);
-        titleHC_Distance = findViewById(R.id.titleHC_Distance);
-        titleHC_Time = findViewById(R.id.titleHC_Time);
+        titleHC_MaxAltitude = findViewById(R.id.titleHC_MaxAltitude);
+        titleHC_MinAltitude = findViewById(R.id.titleHC_MinAltitude);
 
         // Value:
         txtHC_speedData = findViewById(R.id.txtHC_speedData);
@@ -297,8 +296,8 @@ public class MainActivity extends AppCompatActivity {
         txtHC_minSpeed = findViewById(R.id.txtHC_minSpeed);
         txtHC_Altitude = findViewById(R.id.txtHC_Altitude);
         txtHC_variationAltitude =  findViewById(R.id.txtHC_variationAltitude);
-        txtHC_Distance = findViewById(R.id.txtHC_Distance);
-        txtHC_Time = findViewById(R.id.txtHC_Time);
+        txtHC_maxAltitude = findViewById(R.id.txtHC_maxAltitude);
+        txtHC_minAltitude = findViewById(R.id.txtHC_minAltitude);
 
 
         // Location Object.
@@ -345,8 +344,8 @@ public class MainActivity extends AppCompatActivity {
                     setFontSize(titleHC_Max, Float.parseFloat(edtFontSize.getText().toString()) - 2);
                     setFontSize(titleHC_Min, Float.parseFloat(edtFontSize.getText().toString()) - 2);
                     setFontSize(titleHC_Altitude, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(titleHC_Distance, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(titleHC_Time, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(titleHC_MaxAltitude, Float.parseFloat(edtFontSize.getText().toString()) - 2);
+                    setFontSize(titleHC_MinAltitude, Float.parseFloat(edtFontSize.getText().toString()) - 2);
 
                     // Corresponding Value:
                     setFontSize(txtHC_speedData, Float.parseFloat(edtFontSize.getText().toString()));
@@ -355,8 +354,8 @@ public class MainActivity extends AppCompatActivity {
                     setFontSize(txtHC_minSpeed, Float.parseFloat(edtFontSize.getText().toString()) - 3);
                     setFontSize(txtHC_Altitude, Float.parseFloat(edtFontSize.getText().toString()));
                     setFontSize(txtHC_variationAltitude, Float.parseFloat(edtFontSize.getText().toString()) - 3);
-                    setFontSize(txtHC_Distance, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtHC_Time, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtHC_maxAltitude, Float.parseFloat(edtFontSize.getText().toString()) - 3);
+                    setFontSize(txtHC_minAltitude, Float.parseFloat(edtFontSize.getText().toString()) - 3);
                 }
             }
         });
@@ -622,14 +621,16 @@ public class MainActivity extends AppCompatActivity {
                 txtHC_maxSpeed.setTextColor(Color.RED);
                 txtHC_minSpeed.setText(strGlobalSpeedMin);
                 txtHC_minSpeed.setTextColor(Color.GREEN);
-                txtHC_Altitude.setText(strHighestAltitude);
+
+                String text_altitudeData = strAltitude + " /" + strDistanceUnit;
+                txtHC_Altitude.setText(text_altitudeData);
                 txtHC_Altitude.setTextColor(Color.MAGENTA);
                 txtHC_variationAltitude.setText(strVariantAltitude);
                 txtHC_variationAltitude.setTextColor(Color.BLUE);
-                txtHC_Distance.setText(strLongestDistance);
-                txtHC_Distance.setTextColor(Color.MAGENTA);
-                txtHC_Time.setText(strLongestTime);
-                txtHC_Time.setTextColor(Color.MAGENTA);
+                txtHC_maxAltitude.setText(strMaxAltitude);
+                txtHC_maxAltitude.setTextColor(Color.RED);
+                txtHC_minAltitude.setText(strMinAltitude);
+                txtHC_minAltitude.setTextColor(Color.GREEN);
 
             }
 
@@ -809,14 +810,12 @@ public class MainActivity extends AppCompatActivity {
                 StringBuilder stringBuildertxtRunningTime = new StringBuilder();
 
                 // String Builder for calculate values of matrices in HighScore View:
-                StringBuilder stringBuilderHighestSpeed = new StringBuilder();
                 StringBuilder stringBuilderVarianceSpeed = new StringBuilder();
                 StringBuilder stringBuilderGlobalMaxSpeed = new StringBuilder();
                 StringBuilder stringBuilderGlobalMinSpeed = new StringBuilder();
-                StringBuilder stringBuilderHighestAltitude = new StringBuilder();
                 StringBuilder stringBuilderVarianceAltitude = new StringBuilder();
-                StringBuilder stringBuilderLongestDistance = new StringBuilder();
-                StringBuilder stringBuilderLongestTime = new StringBuilder();
+                StringBuilder stringBuilderMaxAltitude = new StringBuilder();
+                StringBuilder stringBuilderMinAltitude = new StringBuilder();
 
                 valCurrentSpeed = 3.6 * location.getSpeed();
 
@@ -835,8 +834,20 @@ public class MainActivity extends AppCompatActivity {
                     valCurrentDistance = 0;
                     valCurrentMaxSpeed = 0;
                     valCurrentMinSpeed = Double.MAX_VALUE;
+                    valGlobalMaxSpeed = 0.0;
+                    valGlobalMinSpeed = Double.MAX_VALUE;
+                    valMaxAltitude = 0.0;
+                    valMinAltitude = Double.MAX_VALUE;
+                    valVarianceAltitude = 0.0;
+                    valVarianceSpeed = 0.0;
+
+                    // Clear Database:
                     for (Loc locItem : database.locDao().getAll()) {
                         database.locDao().delete(locItem);
+                    }
+
+                    for (Loc locItem : globalDatabase.locDao().getAll()) {
+                        globalDatabase.locDao().delete(locItem);
                     }
 
                     isReset = false;
@@ -852,7 +863,6 @@ public class MainActivity extends AppCompatActivity {
                 stringBuilderDistanceUnit.append(distance_unit_transfer_unit(Unit_distance));
                 stringBuildertxtRunningTime.append("App running Time: ").append((curTime - runningTime) / 1E9).append("s");
 
-
                 // ---------  Current database update: --------
                 String[] s_max = new String[1];
                 s_max[0] = "max_speed";
@@ -867,7 +877,6 @@ public class MainActivity extends AppCompatActivity {
                         database.locDao().delete(loc);
                         database.locDao().insertAll(loc);
                     }
-
                     stringBuilderSpeedMax.append(significant_fraction(valCurrentMaxSpeed, FRACTION_CONSTRAINT));
                 } else {
                     Loc loc = new Loc();
@@ -903,14 +912,12 @@ public class MainActivity extends AppCompatActivity {
 
 
                 // ------ Global Database and High Score View update: -------
-                // TODO: Unfinished Backend: - VarianceAltitude...
                 updateHighScoreData(location, stringBuilderVarianceSpeed,
                                     stringBuilderGlobalMaxSpeed,
                                     stringBuilderGlobalMinSpeed,
-                                    stringBuilderHighestAltitude,
                                     stringBuilderVarianceAltitude,
-                                    stringBuilderLongestDistance,
-                                    stringBuilderLongestTime);
+                                    stringBuilderMaxAltitude,
+                                    stringBuilderMinAltitude);
 
                 /* ------------------------------------------------------------------------------------------------------*/
                 // ---- Main View: ----
@@ -953,15 +960,12 @@ public class MainActivity extends AppCompatActivity {
                 strDistanceUnit = "";
 
                 // Highest Scores:
-                strHighestSpeed = "";
                 strVariantSpeed = "";
                 strGlobalSpeedMax = "";
                 strGlobalSpeedMin = "";
-                strHighestAltitude = "";
                 strVariantAltitude = "";
-                strLongestDistance = "";
-                strLongestTime = "";
-
+                strMaxAltitude = "";
+                strMinAltitude = "";
                 strRunningTime = "App running Time: " + ((System.nanoTime() - runningTime) / 1E9) + "s";
             }
         }
@@ -1005,8 +1009,19 @@ public class MainActivity extends AppCompatActivity {
                     Sim_valCurrentDistance = 0;
                     valCurrentMaxSpeed = 0;
                     valCurrentMinSpeed = Double.MAX_VALUE;
+                    valGlobalMinSpeed = Double.MAX_VALUE;
+                    valGlobalMaxSpeed = 0.0;
+                    valMaxAltitude = 0.0;
+                    valMinAltitude = Double.MAX_VALUE;
+                    valVarianceAltitude = 0.0;
+                    valVarianceSpeed = 0.0;
+
+                    // Clearing Database:
                     for (Loc locItem : database.locDao().getAll()) {
                         database.locDao().delete(locItem);
+                    }
+                    for (Loc locItem : globalDatabase.locDao().getAll()) {
+                        globalDatabase.locDao().delete(locItem);
                     }
 
                     isReset = false;
@@ -1094,6 +1109,14 @@ public class MainActivity extends AppCompatActivity {
                 strTimeUnit = "";
                 strDistanceValue = "";
                 strDistanceUnit = "";
+
+//                // Highest Scores:
+//                strVariantSpeed = "";
+//                strGlobalSpeedMax = "";
+//                strGlobalSpeedMin = "";
+//                strVariantAltitude = "";
+//                strMaxAltitude = "";
+//                strMinAltitude = "";
                 strRunningTime = "App running Time: " + ((System.nanoTime() - runningTime) / 1E9) + "s";
             }
         }
@@ -1114,19 +1137,17 @@ public class MainActivity extends AppCompatActivity {
      */
 
     private synchronized void updateHighScoreData(Location location, StringBuilder stringBuilderVarianceSpeed,
-                                     StringBuilder stringBuilderGlobalMaxSpeed,
-                                     StringBuilder stringBuilderGlobalMinSpeed,
-                                     StringBuilder stringBuilderHighestAltitude,
-                                     StringBuilder stringBuilderVarianceAltitude,
-                                     StringBuilder stringBuilderLongestDistance,
-                                     StringBuilder stringBuilderLongestTime)  {
+                                                  StringBuilder stringBuilderGlobalMaxSpeed,
+                                                  StringBuilder stringBuilderGlobalMinSpeed,
+                                                  StringBuilder stringBuilderVarianceAltitude,
+                                                  StringBuilder stringBuilderMaxAltitude,
+                                                  StringBuilder stringBuilderMinAltitude)  {
 
         // ---------- Update Variance Speed ----------
         String[] variant_s = new String[1];
         variant_s[0] = "variant_speed";
         if (globalDatabase.locDao().loadAllByIds(variant_s).size() > 0) {
             valVarianceSpeed = globalDatabase.locDao().loadAllByIds(variant_s).get(0).speed;
-
             // If Current Speed is greater than the last time stamp's speed, Print the Differences and store the current Speed.
             if (location.getSpeed() > valVarianceSpeed) {
                 double difference = location.getSpeed() - valVarianceSpeed;
@@ -1136,11 +1157,7 @@ public class MainActivity extends AppCompatActivity {
                 globalDatabase.locDao().delete(loc);
                 globalDatabase.locDao().insertAll(loc);
                 stringBuilderVarianceSpeed.append("+ ");
-                stringBuilderVarianceSpeed.append(
-                        speed_unit_transfer_value(
-                                significant_fraction(difference, FRACTION_CONSTRAINT), Unit_Speed)
-                );
-                stringBuilderVarianceSpeed.append(speed_unit_transfer_unit(Unit_Speed));
+                stringBuilderVarianceSpeed.append(speed_unit_transfer_value(difference, Unit_Speed));
             }
             // Else: Current Speed is smaller than the last time stamp's speed, Print the Differences and store the current Speed.
             else {
@@ -1151,11 +1168,7 @@ public class MainActivity extends AppCompatActivity {
                 globalDatabase.locDao().delete(loc);
                 globalDatabase.locDao().insertAll(loc);
                 stringBuilderVarianceSpeed.append("- ");
-                stringBuilderVarianceSpeed.append(
-                        speed_unit_transfer_value(
-                                significant_fraction(difference, FRACTION_CONSTRAINT), Unit_Speed)
-                );
-                stringBuilderVarianceSpeed.append(speed_unit_transfer_unit(Unit_Speed));
+                stringBuilderVarianceSpeed.append(speed_unit_transfer_value(difference, Unit_Speed));
             }
 
         } else {
@@ -1165,21 +1178,19 @@ public class MainActivity extends AppCompatActivity {
             globalDatabase.locDao().delete(loc);
             globalDatabase.locDao().insertAll(loc);
             stringBuilderVarianceSpeed.append(speed_unit_transfer_value(location.getSpeed(), Unit_Speed));
-            stringBuilderVarianceSpeed.append(speed_unit_transfer_unit(Unit_Speed));
         }
-
+        stringBuilderVarianceSpeed.append(speed_unit_transfer_unit(Unit_Speed));
         strVariantSpeed = stringBuilderVarianceSpeed.toString();
 
 
         // --------- Update Global Maximum Speed; ----------
         String[] global_sMax = new String[1];
         global_sMax[0] = "g_max";
-
         // If existed this entity in Global-Database
         if (globalDatabase.locDao().loadAllByIds(global_sMax).size() > 0) {
             valGlobalMaxSpeed = globalDatabase.locDao().loadAllByIds(global_sMax).get(0).speed;
 
-            if (location.getSpeed() >= valGlobalMaxSpeed) {
+            if (location.getSpeed() > valGlobalMaxSpeed) {
                 valGlobalMaxSpeed = location.getSpeed();
                 Loc loc = new Loc();
                 loc.speed = valGlobalMaxSpeed;
@@ -1187,13 +1198,6 @@ public class MainActivity extends AppCompatActivity {
                 globalDatabase.locDao().delete(loc);
                 globalDatabase.locDao().insertAll(loc);
             }
-
-            stringBuilderGlobalMaxSpeed.append(
-                    speed_unit_transfer_value(
-                            significant_fraction(valGlobalMaxSpeed, FRACTION_CONSTRAINT), Unit_Speed)
-            );
-            stringBuilderGlobalMaxSpeed.append(speed_unit_transfer_unit(Unit_Speed));
-
         } else {
             // Initiate this entity
             Loc loc = new Loc();
@@ -1201,10 +1205,10 @@ public class MainActivity extends AppCompatActivity {
             loc.id = "g_max";
             globalDatabase.locDao().delete(loc);
             globalDatabase.locDao().insertAll(loc);
-            stringBuilderGlobalMaxSpeed.append("0.0");
-            stringBuilderGlobalMaxSpeed.append(speed_unit_transfer_unit(Unit_Speed));
         }
 
+        stringBuilderGlobalMaxSpeed.append(speed_unit_transfer_value(valGlobalMaxSpeed, Unit_Speed));
+        stringBuilderGlobalMaxSpeed.append(speed_unit_transfer_unit(Unit_Speed));
         strGlobalSpeedMax = stringBuilderGlobalMaxSpeed.toString();
 
 
@@ -1223,13 +1227,6 @@ public class MainActivity extends AppCompatActivity {
                 globalDatabase.locDao().delete(loc);
                 globalDatabase.locDao().insertAll(loc);
             }
-
-            stringBuilderGlobalMinSpeed.append(
-                    speed_unit_transfer_value(
-                            significant_fraction(valGlobalMinSpeed, FRACTION_CONSTRAINT), Unit_Speed)
-            );
-            stringBuilderGlobalMinSpeed.append(speed_unit_transfer_unit(Unit_Speed));
-
         } else {
             // Initiate this entity
             Loc loc = new Loc();
@@ -1237,11 +1234,55 @@ public class MainActivity extends AppCompatActivity {
             loc.id = "g_min";
             globalDatabase.locDao().delete(loc);
             globalDatabase.locDao().insertAll(loc);
-            stringBuilderGlobalMinSpeed.append(speed_unit_transfer_value(0.0, Unit_Speed));
-            stringBuilderGlobalMinSpeed.append(speed_unit_transfer_unit(Unit_Speed));
+        }
+        stringBuilderGlobalMinSpeed.append(speed_unit_transfer_value(valGlobalMinSpeed, Unit_Speed));
+        stringBuilderGlobalMinSpeed.append(speed_unit_transfer_unit(Unit_Speed));
+        strGlobalSpeedMin = stringBuilderGlobalMinSpeed.toString();
+
+
+        // ---------- Update Variance Altitude ----------
+        String[] variant_a = new String[1];
+        variant_a[0] = "variant_altitude";
+        if (globalDatabase.locDao().loadAllByIds(variant_a).size() > 0) {
+            valVarianceAltitude = globalDatabase.locDao().loadAllByIds(variant_a).get(0).speed;
+
+            // If Current Speed is Greater than the last time stamp's Height(Altitude),
+            // Print the Differences and store the current Speed.
+            if (location.getAltitude() > valVarianceAltitude) {
+                double difference = location.getAltitude() - valVarianceAltitude;
+                Loc loc = new Loc();
+                loc.speed = location.getAltitude();
+                loc.id = "variant_altitude";
+                globalDatabase.locDao().delete(loc);
+                globalDatabase.locDao().insertAll(loc);
+                stringBuilderVarianceAltitude.append("+ ");
+                stringBuilderVarianceAltitude.append(speed_unit_transfer_value(difference, Unit_distance));
+            }
+            // Else: Current Speed is Smaller than the last time stamp's Height(altitude),
+            // Print the Differences and store the current Speed.
+            else {
+                double difference = valVarianceAltitude - location.getAltitude();
+                Loc loc = new Loc();
+                loc.speed = location.getAltitude();
+                loc.id = "variant_altitude";
+                globalDatabase.locDao().delete(loc);
+                globalDatabase.locDao().insertAll(loc);
+                stringBuilderVarianceAltitude.append("- ");
+                stringBuilderVarianceAltitude.append(speed_unit_transfer_value(difference, Unit_distance));
+            }
+
+        } else {
+            // Initialize difference as = 0.0;
+            Loc loc = new Loc();
+            loc.speed = 0.0;
+            loc.id = "variant_altitude";
+            globalDatabase.locDao().delete(loc);
+            globalDatabase.locDao().insertAll(loc);
+            stringBuilderVarianceAltitude.append(speed_unit_transfer_value(0.0, Unit_distance));
         }
 
-        strGlobalSpeedMin = stringBuilderGlobalMinSpeed.toString();
+        stringBuilderVarianceAltitude.append(speed_unit_transfer_unit(Unit_distance));
+        strVariantAltitude = stringBuilderVarianceAltitude.toString();
 
 
         // --------- Update Global Highest Altitude; ----------
@@ -1250,108 +1291,55 @@ public class MainActivity extends AppCompatActivity {
 
         // If existed this entity in Global-Database
         if (globalDatabase.locDao().loadAllByIds(global_HighAL).size() > 0) {
-            valHighestAltitude = globalDatabase.locDao().loadAllByIds(global_HighAL).get(0).speed;
+            valMaxAltitude = globalDatabase.locDao().loadAllByIds(global_HighAL).get(0).speed;
 
-            if (location.getAltitude() >= valHighestAltitude) {
+            if (location.getAltitude() >= valMaxAltitude) {
                 valGlobalMaxSpeed = location.getAltitude();
-                Loc speed = new Loc();
-                speed.speed = valHighestAltitude;
-                speed.id = "g_maxAltitude";
-                globalDatabase.locDao().delete(speed);
-                globalDatabase.locDao().insertAll(speed);
+                Loc loc = new Loc();
+                loc.speed = valMaxAltitude;
+                loc.id = "g_maxAltitude";
+                globalDatabase.locDao().delete(loc);
+                globalDatabase.locDao().insertAll(loc);
             }
-
-            stringBuilderHighestAltitude.append(
-                    distance_unit_transfer_value(
-                            significant_fraction(valHighestAltitude, FRACTION_CONSTRAINT), Unit_distance)
-            );
-            stringBuilderHighestAltitude.append(distance_unit_transfer_unit(Unit_distance));
-
         } else {
             Loc loc = new Loc();
-            loc.speed = valHighestAltitude;
+            loc.speed = valMaxAltitude;
             loc.id = "g_maxAltitude";
             globalDatabase.locDao().delete(loc);
             globalDatabase.locDao().insertAll(loc);
-            stringBuilderHighestAltitude.append(distance_unit_transfer_value(0.0, Unit_distance));
-            stringBuilderHighestAltitude.append(distance_unit_transfer_unit(Unit_distance));
         }
 
-        strHighestAltitude = stringBuilderHighestAltitude.toString();
+        stringBuilderMaxAltitude.append(distance_unit_transfer_value(valMaxAltitude, Unit_distance));
+        stringBuilderMaxAltitude.append(distance_unit_transfer_unit(Unit_distance));
+        strMaxAltitude = stringBuilderMaxAltitude.toString();
 
 
-        // --------- Update Global Longest Distance traveled since last reset pressed ----------
-        String[] global_longD = new String[1];
-        global_longD[0] = "g_longDistance";
+        // --------- Update Global Lowest Altitude; ----------
+        String[] global_LowAL = new String[1];
+        global_LowAL[0] = "g_minAltitude";
 
         // If existed this entity in Global-Database
-        if (globalDatabase.locDao().loadAllByIds(global_longD).size() > 0) {
-            valLongestDistance = globalDatabase.locDao().loadAllByIds(global_longD).get(0).speed;
+        if (globalDatabase.locDao().loadAllByIds(global_LowAL).size() > 0) {
+            valMinAltitude = globalDatabase.locDao().loadAllByIds(global_LowAL).get(0).speed;
 
-            // Record from Temporary Database, If the Longest Distance smaller than the record since Last Traveled before Reset.
-            if (valCurrentDistance >= valLongestDistance) {
-                valLongestDistance = valCurrentDistance;
+            if (location.getAltitude() < valMinAltitude) {
+                valMinAltitude = location.getAltitude();
                 Loc loc = new Loc();
-                loc.speed = valLongestDistance;
-                loc.id = "g_longDistance";
+                loc.speed = valMinAltitude;
+                loc.id = "g_minAltitude";
                 globalDatabase.locDao().delete(loc);
                 globalDatabase.locDao().insertAll(loc);
             }
-
-            stringBuilderLongestDistance.append(
-                    distance_unit_transfer_value(
-                            significant_fraction(valLongestDistance, FRACTION_CONSTRAINT), Unit_distance)
-            );
-            stringBuilderLongestDistance.append(distance_unit_transfer_unit(Unit_distance));
-
         } else {
             Loc loc = new Loc();
-            loc.speed = valLongestDistance;
-            loc.id = "g_longDistance";
+            loc.speed = valMinAltitude;
+            loc.id = "g_minAltitude";
             globalDatabase.locDao().delete(loc);
             globalDatabase.locDao().insertAll(loc);
-            stringBuilderLongestDistance.append(distance_unit_transfer_value(0.0, Unit_distance));
-            stringBuilderLongestDistance.append(distance_unit_transfer_unit(Unit_distance));
         }
-
-        strLongestDistance = stringBuilderLongestDistance.toString();
-
-
-        // --------- Update Global Longest Time traveled Since Last Reset pressed; ----------
-        String[] global_longT = new String[1];
-        global_longT[0] = "g_longTime";
-
-        // If existed this entity in Global-Database
-        if (globalDatabase.locDao().loadAllByIds(global_longT).size() > 0) {
-            valLongestTime = globalDatabase.locDao().loadAllByIds(global_longT).get(0).speed;
-
-            // Record from Temporary Database, If the Longest time smaller than the record since Last Traveled before Reset.
-            if (valCurrentTime >= valLongestTime) {
-                valLongestTime = valCurrentTime;
-                Loc loc = new Loc();
-                loc.speed = valLongestTime;
-                loc.id = "g_longTime";
-                globalDatabase.locDao().delete(loc);
-                globalDatabase.locDao().insertAll(loc);
-            }
-
-            stringBuilderLongestTime.append(
-                    time_unit_transfer_value(
-                            significant_fraction(valLongestTime, FRACTION_CONSTRAINT), Unit_Time)
-            );
-            stringBuilderLongestTime.append(time_unit_transfer_unit(Unit_Time));
-
-        } else {
-            Loc loc = new Loc();
-            loc.speed = valLongestTime;
-            loc.id = "g_longTime";
-            globalDatabase.locDao().delete(loc);
-            globalDatabase.locDao().insertAll(loc);
-            stringBuilderLongestTime.append(time_unit_transfer_value(0.0, Unit_Time));
-            stringBuilderLongestTime.append(time_unit_transfer_unit(Unit_Time));
-        }
-
-        strLongestTime = stringBuilderLongestTime.toString();
+        stringBuilderMinAltitude.append(distance_unit_transfer_value(valMinAltitude, Unit_distance));
+        stringBuilderMinAltitude.append(distance_unit_transfer_unit(Unit_distance));
+        strMinAltitude = stringBuilderMinAltitude.toString();
 
     }
 
