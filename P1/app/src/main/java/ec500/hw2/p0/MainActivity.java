@@ -701,7 +701,7 @@ public class MainActivity extends AppCompatActivity {
                 strRunningTime = stringBuildertxtRunningTime.toString();
 
             } else {
-                // If Location is null...
+                // If Location is null, cannot grab information from Location (etc. "Non Fine authority of GPS").
                 strLongitude = "";
                 strLatitude = "";
                 strAltitude = "";
@@ -779,14 +779,12 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     stringBuilderSpeedMax.append(significant_fraction(valCurrentMaxSpeed, FRACTION_CONSTRAINT));
-//                    sb_speed.append("Max Speed: " + significant_fraction(valCurrentMaxSpeed, FRACTION_CONSTRAINT) + "\n");
                 } else {
                     Speed speed = new Speed();
                     speed.val = valCurrentMaxSpeed;
                     speed.id = "max";
                     database.speedDao().delete(speed);
                     database.speedDao().insertAll(speed);
-//                    sb_speed.append("Max Speed: 0.0\n");
                     stringBuilderSpeedMax.append("0.0");
                 }
 
@@ -805,17 +803,15 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     stringBuilderSpeedMin.append(significant_fraction(valCurrentMinSpeed, FRACTION_CONSTRAINT));
-//                    sb_speed.append("Min Speed: " + significant_fraction(valCurrentMinSpeed, FRACTION_CONSTRAINT) + "\n");
+
                 } else {
                     Speed speed = new Speed();
                     speed.val = valCurrentMinSpeed;
                     speed.id = "min";
                     database.speedDao().delete(speed);
                     database.speedDao().insertAll(speed);
-//                    sb_speed.append("Min Speed: 0.0\n");
                     stringBuilderSpeedMin.append("0.0");
                 }
-
 
                 strLongitude = stringBuilderLongitude.toString();
                 strLatitude = stringBuilderLatitude.toString();
@@ -866,7 +862,7 @@ public class MainActivity extends AppCompatActivity {
     public void locationUpdate() {
 
         // check GPS authority from User and App..
-        if ( checkCallingOrSelfPermission(ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (checkCallingOrSelfPermission(ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             makeToast("You should enable GPS to get full functionalities work !");
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
