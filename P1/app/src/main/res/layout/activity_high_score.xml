@@ -37,6 +37,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="20dp"
         android:padding="5dp"
+        android:text="N/A"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,8 +49,9 @@
         android:layout_height="37dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
-        android:padding="5dp"
-        android:textSize="20sp"
+        android:padding="7dp"
+        android:text="N/A"
+        android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtHC_speedData" />
@@ -62,7 +64,7 @@
         android:layout_marginTop="68dp"
         android:padding="5dp"
         android:text="MAX: "
-        android:textSize="17sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/txtHC_maxSpeed"
         app:layout_constraintHorizontal_bias="0.246"
@@ -73,13 +75,14 @@
         android:id="@+id/txtHC_maxSpeed"
         android:layout_width="226dp"
         android:layout_height="34dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
         android:padding="5dp"
+        android:text="N/A"
         android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleHC_speedData" />
+        app:layout_constraintTop_toBottomOf="@+id/txtHC_variationSpeed" />
 
     <TextView
         android:id="@+id/titleHC_Min"
@@ -88,7 +91,7 @@
         android:layout_marginTop="4dp"
         android:padding="5dp"
         android:text="MIN: "
-        android:textSize="17sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/txtHC_minSpeed"
         app:layout_constraintHorizontal_bias="0.246"
@@ -102,6 +105,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="20dp"
         android:padding="5dp"
+        android:text="N/A"
         android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -123,24 +127,28 @@
 
     <TextView
         android:id="@+id/txtHC_Altitude"
-        android:layout_width="226dp"
+        android:layout_width="200dp"
         android:layout_height="37dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:padding="5dp"
+        android:text="N/A"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/txtHC_variationAltitude"
-        app:layout_constraintHorizontal_bias="0.551"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleHC_Altitude" />
 
     <TextView
         android:id="@+id/txtHC_variationAltitude"
-        android:layout_width="136dp"
+        android:layout_width="160dp"
         android:layout_height="37dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
-        android:textSize="20sp"
+        android:padding="7dp"
+        android:text="N/A"
+        android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleHC_Altitude" />
@@ -161,9 +169,11 @@
 
     <TextView
         android:id="@+id/txtHC_Distance"
-        android:layout_width="226dp"
+        android:layout_width="200dp"
         android:layout_height="37dp"
         android:layout_marginTop="16dp"
+        android:padding="5dp"
+        android:text="N/A"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -187,9 +197,11 @@
 
     <TextView
         android:id="@+id/txtHC_Time"
-        android:layout_width="226dp"
+        android:layout_width="200dp"
         android:layout_height="37dp"
         android:layout_marginTop="16dp"
+        android:padding="5dp"
+        android:text="N/A"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
