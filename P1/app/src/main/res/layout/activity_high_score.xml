@@ -20,6 +20,7 @@
         android:layout_width="123dp"
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
+        android:fontFamily="sans-serif"
         android:padding="5dp"
         android:text="Speed Data: "
         android:textSize="20sp"
