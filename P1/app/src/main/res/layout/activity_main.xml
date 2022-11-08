@@ -391,6 +391,10 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/txtRunningTime"
+                android:layout_width="match_parent"
+                android:layout_height="34dp" />
 
         </LinearLayout>
 
