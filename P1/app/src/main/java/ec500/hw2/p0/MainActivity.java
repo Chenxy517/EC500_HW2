@@ -830,7 +830,7 @@ public class MainActivity extends AppCompatActivity {
                 // ------  Functionalities of RESET:  ------
                 preTime = curTime;
                 if(isReset){
-                    preTime = startTime;
+                    preTime = System.nanoTime();
                     valCurrentTime = 0;
                     valCurrentDistance = 0;
                     valCurrentMaxSpeed = 0;
@@ -987,12 +987,20 @@ public class MainActivity extends AppCompatActivity {
                 stringBuilderLongitude.append(significant_fraction(valLongitude, GPS_CONSTRAINT));
                 stringBuilderLatitude.append(significant_fraction(valLatitude, GPS_CONSTRAINT));
                 stringBuilderAltitude.append(significant_fraction(curTime/1E20, GPS_CONSTRAINT));
-                Sim_valCurrentTime = (curTime - preTime) / 1E9 + valCurrentTime;
-                Sim_valCurrentDistance = valCurrentDistance + Sim_valCurrentSpeed * (curTime - preTime) / 1E9;
+                Sim_valCurrentTime = (curTime - preTime) / 1E9 + Sim_valCurrentTime;
+                Sim_valCurrentDistance = Sim_valCurrentDistance + Sim_valCurrentSpeed * (curTime - preTime) / 1E9;
+
+                valCurrentSpeed = 3.6 * location.getSpeed();
+                if(!(preLatitude == location.getLatitude() && preLongitude == location.getLongitude())){
+                    valCurrentTime = (curTime - preTime) / 1E9 + valCurrentTime;
+                }
+                preLatitude = location.getLatitude();
+                preLongitude = location.getLongitude();
+                valCurrentDistance = valCurrentDistance + location.getSpeed() * (curTime - preTime) / 1E9;
 
                 preTime = curTime;
                 if(isReset){
-                    preTime = startTime;
+                    preTime = System.nanoTime();
                     Sim_valCurrentTime = 0;
                     Sim_valCurrentDistance = 0;
                     valCurrentMaxSpeed = 0;
