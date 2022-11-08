@@ -759,7 +759,11 @@ public class MainActivity extends AppCompatActivity {
 
                 stringBuilderLongitude.append(significant_fraction(location.getLongitude(), GPS_CONSTRAINT));
                 stringBuilderLatitude.append(significant_fraction(location.getLatitude(), GPS_CONSTRAINT));
-                stringBuilderAltitude.append(significant_fraction(location.getAltitude(), GPS_CONSTRAINT));
+                stringBuilderAltitude.append(
+                                speed_unit_transfer_value(
+                                significant_fraction(location.getAltitude(), FRACTION_CONSTRAINT), Unit_distance)
+                );
+                stringBuilderAltitude.append(distance_unit_transfer_unit(Unit_distance));
 
                 // String Builder for calculate values of matrices in Main View:
                 StringBuilder stringBuilderSpeedValue = new StringBuilder();
