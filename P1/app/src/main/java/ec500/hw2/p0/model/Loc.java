@@ -5,14 +5,16 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "speed")
-public class Speed {
+@Entity(tableName = "loc")
+public class Loc {
 
     @NonNull
     @PrimaryKey
     public String id;
 
-    @ColumnInfo(name = "value")
-    public double val;
+    @ColumnInfo(name = "speed")
+    public double speed;
 
+    @ColumnInfo(name = "height")
+    public double height;
 }

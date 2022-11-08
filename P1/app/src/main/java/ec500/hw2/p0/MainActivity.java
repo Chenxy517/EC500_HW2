@@ -32,7 +32,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 
 import ec500.hw2.p0.database.GPSDatabase;
-import ec500.hw2.p0.model.Speed;
+import ec500.hw2.p0.model.Loc;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         btn_nextClick();
         btn_previousClick();
 
-        database = Room.databaseBuilder(this, GPSDatabase.class, "GPS_db").allowMainThreadQueries().build();
+        database = Room.databaseBuilder(this, GPSDatabase.class, "GPS_db").allowMainThreadQueries().fallbackToDestructiveMigration().build();
 
 //        txtLocation = (TextView) findViewById(R.id.txtLocation);
 //        txtSpeed = (TextView) findViewById(R.id.txtSpeed);
@@ -643,8 +643,8 @@ public class MainActivity extends AppCompatActivity {
                     valCurrentDistance = 0;
                     valCurrentMaxSpeed = 0;
                     valCurrentMinSpeed = Double.MAX_VALUE;
-                    for (Speed speedItem : database.speedDao().getAll()) {
-                        database.speedDao().delete(speedItem);
+                    for (Loc locItem : database.locDao().getAll()) {
+                        database.locDao().delete(locItem);
                     }
 
                     isReset = false;
@@ -665,55 +665,50 @@ public class MainActivity extends AppCompatActivity {
                 stringBuildertxtRunningTime.append("App running Time: ").append((curTime - runningTime) / 1E9).append("s");
 
                 String[] s_max = new String[1];
-                s_max[0] = "max";
-                if (database.speedDao().loadAllByIds(s_max).size() > 0) {
-                    valCurrentMaxSpeed = database.speedDao().loadAllByIds(s_max).get(0).val;
+                s_max[0] = "max_speed";
+                if (database.locDao().loadAllByIds(s_max).size() > 0) {
+                    valCurrentMaxSpeed = database.locDao().loadAllByIds(s_max).get(0).speed;
 
                     if (location.getSpeed() > valCurrentMaxSpeed) {
                         valCurrentMaxSpeed = location.getSpeed();
-                        Speed speed = new Speed();
-                        speed.val = valCurrentMaxSpeed;
-                        speed.id = "max";
-                        database.speedDao().delete(speed);
-                        database.speedDao().insertAll(speed);
+                        Loc loc = new Loc();
+                        loc.speed = valCurrentMaxSpeed;
+                        loc.id = "max_speed";
+                        database.locDao().delete(loc);
+                        database.locDao().insertAll(loc);
                     }
 
                     stringBuilderSpeedMax.append(significant_fraction(valCurrentMaxSpeed, FRACTION_CONSTRAINT));
-//                    sb_speed.append("Max Speed: " + significant_fraction(valCurrentMaxSpeed, FRACTION_CONSTRAINT) + "\n");
                 } else {
-                    Speed speed = new Speed();
-                    speed.val = valCurrentMaxSpeed;
-                    speed.id = "max";
-                    database.speedDao().delete(speed);
-                    database.speedDao().insertAll(speed);
-//                    sb_speed.append("Max Speed: 0.0\n");
+                    Loc loc = new Loc();
+                    loc.speed = valCurrentMaxSpeed;
+                    loc.id = "max_speed";
+                    database.locDao().delete(loc);
+                    database.locDao().insertAll(loc);
                     stringBuilderSpeedMax.append("0.0");
                 }
 
                 String[] s_min = new String[1];
-                s_min[0] = "min";
-                if (database.speedDao().loadAllByIds(s_min).size() > 0) {
-                    valCurrentMinSpeed = database.speedDao().loadAllByIds(s_min).get(0).val;
+                s_min[0] = "min_speed";
+                if (database.locDao().loadAllByIds(s_min).size() > 0) {
+                    valCurrentMinSpeed = database.locDao().loadAllByIds(s_min).get(0).speed;
 
                     if (location.getSpeed() < valCurrentMinSpeed) {
                         valCurrentMinSpeed = location.getSpeed();
-                        Speed speed = new Speed();
-                        speed.val = valCurrentMinSpeed;
-                        speed.id = "min";
-                        database.speedDao().delete(speed);
-                        database.speedDao().insertAll(speed);
+                        Loc loc = new Loc();
+                        loc.speed = valCurrentMinSpeed;
+                        loc.id = "min_speed";
+                        database.locDao().delete(loc);
+                        database.locDao().insertAll(loc);
                     }
-
                     stringBuilderSpeedMin.append(significant_fraction(valCurrentMinSpeed, FRACTION_CONSTRAINT));
-//                    sb_speed.append("Min Speed: " + significant_fraction(valCurrentMinSpeed, FRACTION_CONSTRAINT) + "\n");
                 } else {
-                    Speed speed = new Speed();
-                    speed.val = valCurrentMinSpeed;
-                    speed.id = "min";
-                    database.speedDao().delete(speed);
-                    database.speedDao().insertAll(speed);
-//                    sb_speed.append("Min Speed: 0.0\n");
-                    stringBuilderSpeedMin.append("0.0");
+                    Loc loc = new Loc();
+                    loc.speed = valCurrentMinSpeed;
+                    loc.id = "min_speed";
+                    database.locDao().delete(loc);
+                    database.locDao().insertAll(loc);
+                    stringBuilderSpeedMin.append("0.min_speed");
                 }
 
 //                strLocation = sb_loc.toString();
@@ -782,8 +777,8 @@ public class MainActivity extends AppCompatActivity {
                     Sim_valCurrentDistance = 0;
                     valCurrentMaxSpeed = 0;
                     valCurrentMinSpeed = Double.MAX_VALUE;
-                    for (Speed speedItem : database.speedDao().getAll()) {
-                        database.speedDao().delete(speedItem);
+                    for (Loc locItem : database.locDao().getAll()) {
+                        database.locDao().delete(locItem);
                     }
 
                     isReset = false;
@@ -799,55 +794,50 @@ public class MainActivity extends AppCompatActivity {
                 stringBuildertxtRunningTime.append("App running Time: ").append((curTime - runningTime) / 1E9).append("s");
 
                 String[] s_max = new String[1];
-                s_max[0] = "max";
-                if (database.speedDao().loadAllByIds(s_max).size() > 0) {
-                    valCurrentMaxSpeed = database.speedDao().loadAllByIds(s_max).get(0).val;
+                s_max[0] = "max_speed";
+                if (database.locDao().loadAllByIds(s_max).size() > 0) {
+                    valCurrentMaxSpeed = database.locDao().loadAllByIds(s_max).get(0).speed;
 
                     if (location.getSpeed() > valCurrentMaxSpeed) {
                         valCurrentMaxSpeed = location.getSpeed();
-                        Speed speed = new Speed();
-                        speed.val = valCurrentMaxSpeed;
-                        speed.id = "max";
-                        database.speedDao().delete(speed);
-                        database.speedDao().insertAll(speed);
+                        Loc loc = new Loc();
+                        loc.speed = valCurrentMaxSpeed;
+                        loc.id = "max_speed";
+                        database.locDao().delete(loc);
+                        database.locDao().insertAll(loc);
                     }
 
                     stringBuilderSpeedMax.append(significant_fraction(valCurrentMaxSpeed, FRACTION_CONSTRAINT));
-//                    sb_speed.append("Max Speed: " + significant_fraction(valCurrentMaxSpeed, FRACTION_CONSTRAINT) + "\n");
                 } else {
-                    Speed speed = new Speed();
-                    speed.val = valCurrentMaxSpeed;
-                    speed.id = "max";
-                    database.speedDao().delete(speed);
-                    database.speedDao().insertAll(speed);
-//                    sb_speed.append("Max Speed: 0.0\n");
+                    Loc loc = new Loc();
+                    loc.speed = valCurrentMaxSpeed;
+                    loc.id = "max_speed";
+                    database.locDao().delete(loc);
+                    database.locDao().insertAll(loc);
                     stringBuilderSpeedMax.append("0.0");
                 }
 
                 String[] s_min = new String[1];
-                s_min[0] = "min";
-                if (database.speedDao().loadAllByIds(s_min).size() > 0) {
-                    valCurrentMinSpeed = database.speedDao().loadAllByIds(s_min).get(0).val;
+                s_min[0] = "min_speed";
+                if (database.locDao().loadAllByIds(s_min).size() > 0) {
+                    valCurrentMinSpeed = database.locDao().loadAllByIds(s_min).get(0).speed;
 
                     if (location.getSpeed() < valCurrentMinSpeed) {
                         valCurrentMinSpeed = location.getSpeed();
-                        Speed speed = new Speed();
-                        speed.val = valCurrentMinSpeed;
-                        speed.id = "min";
-                        database.speedDao().delete(speed);
-                        database.speedDao().insertAll(speed);
+                        Loc loc = new Loc();
+                        loc.speed = valCurrentMinSpeed;
+                        loc.id = "min_speed";
+                        database.locDao().delete(loc);
+                        database.locDao().insertAll(loc);
                     }
-
                     stringBuilderSpeedMin.append(significant_fraction(valCurrentMinSpeed, FRACTION_CONSTRAINT));
-//                    sb_speed.append("Min Speed: " + significant_fraction(valCurrentMinSpeed, FRACTION_CONSTRAINT) + "\n");
                 } else {
-                    Speed speed = new Speed();
-                    speed.val = valCurrentMinSpeed;
-                    speed.id = "min";
-                    database.speedDao().delete(speed);
-                    database.speedDao().insertAll(speed);
-//                    sb_speed.append("Min Speed: 0.0\n");
-                    stringBuilderSpeedMin.append("0.0");
+                    Loc loc = new Loc();
+                    loc.speed = valCurrentMinSpeed;
+                    loc.id = "min_speed";
+                    database.locDao().delete(loc);
+                    database.locDao().insertAll(loc);
+                    stringBuilderSpeedMin.append("0.min_speed");
                 }
 
 //                strLocation = sb_loc.toString();
