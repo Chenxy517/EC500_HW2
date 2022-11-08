@@ -175,57 +175,6 @@
                     android:textSize="20sp" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/txtSpeedMin"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:text="Min"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/txtSpeedMinValue"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:text="N/A"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/txtSpeedMinUnitShow"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/txtSpeedMax"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:text="Max"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/txtSpeedMaxValue"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:text="N/A"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/txtSpeedMaxUnitShow"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:textSize="20sp" />
-            </LinearLayout>
-
         <!--    <TextView-->
         <!--        android:id="@+id/txtLocation"-->
         <!--        android:layout_width="match_parent"-->

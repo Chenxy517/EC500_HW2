@@ -87,8 +87,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtDistanceValue, txtDistance, txtDistanceUnit;
     private TextView txtTimeValue, txtTimeShow, txtTimeUnit, txtRunningTime;
     private TextView txtSpeedValue, txtSpeedShow, txtSpeedUnit;
-    private TextView txtSpeedMinValue, txtSpeedMinShow, txtSpeedMinUnit;
-    private TextView txtSpeedMaxValue, txtSpeedMaxShow, txtSpeedMaxUnit;
 
     // Textview in High_Score view.
     private TextView titleHC_speedData, titleHC_Max, titleHC_Min, titleHC_Altitude, titleHC_Distance, titleHC_Time;
@@ -96,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtHC_Altitude, txtHC_variationAltitude, txtHC_Distance, txtHC_Time;
 
     // For value shown in Textview() in Main Layout
-    private String strLongitude, strLatitude, strAltitude, strSpeedMax, strSpeedMin, strSpeedUnit;
+    private String strLongitude, strLatitude, strAltitude, strSpeedUnit;
     private String strTimeValue, strTimeUnit;
     private String strRunningTime;
     private String strDistanceValue, strDistanceUnit;
@@ -148,16 +146,6 @@ public class MainActivity extends AppCompatActivity {
         txtSpeedValue = (TextView) findViewById(R.id.txtSpeedValue);
         txtSpeedUnit = (TextView) findViewById(R.id.txtSpeedUnitShow);
 
-        // Min Speed
-        txtSpeedMinShow = (TextView) findViewById(R.id.txtSpeedMin);
-        txtSpeedMinValue = (TextView) findViewById(R.id.txtSpeedMinValue);
-        txtSpeedMinUnit = (TextView) findViewById(R.id.txtSpeedMinUnitShow);
-
-        // Max Speed
-        txtSpeedMaxShow = (TextView) findViewById(R.id.txtSpeedMax);
-        txtSpeedMaxValue = (TextView) findViewById(R.id.txtSpeedMaxValue);
-        txtSpeedMaxUnit = (TextView) findViewById(R.id.txtSpeedMaxUnitShow);
-
         /**
          * --------  High_Score View Here: ---------------
          */
@@ -189,10 +177,6 @@ public class MainActivity extends AppCompatActivity {
         txtDistanceUnit.setText("N/A");
         txtTimeValue.setText("N/A");
         txtTimeUnit.setText("N/A");
-        txtSpeedMaxValue.setText("N/A");
-        txtSpeedMinValue.setText("N/A");
-        txtSpeedMinUnit.setText("N/A");
-        txtSpeedMaxUnit.setText("N/A");
         txtRunningTime.setText("N/A");
 
         // Set Value for the TextView in High Score:
@@ -268,16 +252,6 @@ public class MainActivity extends AppCompatActivity {
         txtSpeedValue = (TextView) findViewById(R.id.txtSpeedValue);
         txtSpeedUnit = (TextView) findViewById(R.id.txtSpeedUnitShow);
 
-        // Min Speed
-        txtSpeedMinShow = (TextView) findViewById(R.id.txtSpeedMin);
-        txtSpeedMinValue = (TextView) findViewById(R.id.txtSpeedMinValue);
-        txtSpeedMinUnit = (TextView) findViewById(R.id.txtSpeedMinUnitShow);
-
-        // Max Speed
-        txtSpeedMaxShow = (TextView) findViewById(R.id.txtSpeedMax);
-        txtSpeedMaxValue = (TextView) findViewById(R.id.txtSpeedMaxValue);
-        txtSpeedMaxUnit = (TextView) findViewById(R.id.txtSpeedMaxUnitShow);
-
         /**
          * --------  High_Score View Here: ---------------
          */
@@ -331,12 +305,6 @@ public class MainActivity extends AppCompatActivity {
                     setFontSize(txtSpeedShow, Float.parseFloat(edtFontSize.getText().toString()));
                     setFontSize(txtSpeedValue, Float.parseFloat(edtFontSize.getText().toString()));
                     setFontSize(txtSpeedUnit, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtSpeedMinShow, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtSpeedMinValue, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtSpeedMinUnit, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtSpeedMaxShow, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtSpeedMaxValue, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtSpeedMaxUnit, Float.parseFloat(edtFontSize.getText().toString()));
                     setFontSize(txtRunningTime, Float.parseFloat(edtFontSize.getText().toString()));
 
                     // Set Font size for High_Score View:
@@ -606,10 +574,6 @@ public class MainActivity extends AppCompatActivity {
                 txtDistanceUnit.setText(strDistanceUnit);
                 txtTimeValue.setText(strTimeValue);
                 txtTimeUnit.setText(strTimeUnit);
-                txtSpeedMaxValue.setText(strSpeedMax);
-                txtSpeedMinValue.setText(strSpeedMin);
-                txtSpeedMinUnit.setText(strSpeedUnit);
-                txtSpeedMaxUnit.setText(strSpeedUnit);
                 txtRunningTime.setText(strRunningTime);
 
                 // Set Value for the TextView in High Score:
@@ -800,8 +764,6 @@ public class MainActivity extends AppCompatActivity {
                 // String Builder for calculate values of matrices in Main View:
                 StringBuilder stringBuilderSpeedValue = new StringBuilder();
                 StringBuilder stringBuilderSpeedUnit = new StringBuilder();
-                StringBuilder stringBuilderSpeedMin = new StringBuilder();
-                StringBuilder stringBuilderSpeedMax = new StringBuilder();
                 StringBuilder stringBuilderTimeValue = new StringBuilder();
                 StringBuilder stringBuilderTimeUnit = new StringBuilder();
                 StringBuilder stringBuilderDistanceValue = new StringBuilder();
@@ -833,8 +795,6 @@ public class MainActivity extends AppCompatActivity {
                     preTime = System.nanoTime();
                     valCurrentTime = 0;
                     valCurrentDistance = 0;
-                    valCurrentMaxSpeed = 0;
-                    valCurrentMinSpeed = Double.MAX_VALUE;
                     for (Loc locItem : database.locDao().getAll()) {
                         database.locDao().delete(locItem);
                     }
@@ -852,54 +812,6 @@ public class MainActivity extends AppCompatActivity {
                 stringBuilderDistanceUnit.append(distance_unit_transfer_unit(Unit_distance));
                 stringBuildertxtRunningTime.append("App running Time: ").append((curTime - runningTime) / 1E9).append("s");
 
-
-                // ---------  Current database update: --------
-                String[] s_max = new String[1];
-                s_max[0] = "max_speed";
-                if (database.locDao().loadAllByIds(s_max).size() > 0) {
-                    valCurrentMaxSpeed = database.locDao().loadAllByIds(s_max).get(0).speed;
-
-                    if (location.getSpeed() > valCurrentMaxSpeed) {
-                        valCurrentMaxSpeed = location.getSpeed();
-                        Loc loc = new Loc();
-                        loc.speed = valCurrentMaxSpeed;
-                        loc.id = "max_speed";
-                        database.locDao().delete(loc);
-                        database.locDao().insertAll(loc);
-                    }
-
-                    stringBuilderSpeedMax.append(significant_fraction(valCurrentMaxSpeed, FRACTION_CONSTRAINT));
-                } else {
-                    Loc loc = new Loc();
-                    loc.speed = valCurrentMaxSpeed;
-                    loc.id = "max_speed";
-                    database.locDao().delete(loc);
-                    database.locDao().insertAll(loc);
-                }
-
-                String[] s_min = new String[1];
-                s_min[0] = "min_speed";
-                if (database.locDao().loadAllByIds(s_min).size() > 0) {
-                    valCurrentMinSpeed = database.locDao().loadAllByIds(s_min).get(0).speed;
-
-                    if (location.getSpeed() < valCurrentMinSpeed) {
-                        valCurrentMinSpeed = location.getSpeed();
-                        Loc loc = new Loc();
-                        loc.speed = valCurrentMinSpeed;
-                        loc.id = "min_speed";
-                        database.locDao().delete(loc);
-                        database.locDao().insertAll(loc);
-                    }
-                    stringBuilderSpeedMin.append(significant_fraction(valCurrentMinSpeed, FRACTION_CONSTRAINT));
-                } else {
-                    Loc loc = new Loc();
-                    loc.speed = valCurrentMinSpeed;
-                    loc.id = "min_speed";
-                    database.locDao().delete(loc);
-                    database.locDao().insertAll(loc);
-                    stringBuilderSpeedMin.append("0.min_speed");
-
-                }
 
 
                 // ------ Global Database and High Score View update: -------
@@ -923,8 +835,6 @@ public class MainActivity extends AppCompatActivity {
                 // Speed information:
                 strSpeedValue = stringBuilderSpeedValue.toString();
                 strSpeedUnit = stringBuilderSpeedUnit.toString();
-                strSpeedMin = stringBuilderSpeedMin.toString();
-                strSpeedMax = stringBuilderSpeedMax.toString();
 
                 // Time information:
                 strTimeValue = stringBuilderTimeValue.toString();
@@ -944,9 +854,6 @@ public class MainActivity extends AppCompatActivity {
                 strLatitude = "";
                 strAltitude = "";
                 strSpeedValue = "";
-                strSpeedMax = "";
-                strSpeedMin = "";
-                strSpeedUnit = "";
                 strTimeValue = "";
                 strTimeUnit = "";
                 strDistanceValue = "";
@@ -976,8 +883,6 @@ public class MainActivity extends AppCompatActivity {
                 StringBuilder stringBuilderAltitude = new StringBuilder();
                 StringBuilder stringBuilderSpeedValue = new StringBuilder();
                 StringBuilder stringBuilderSpeedUnit = new StringBuilder();
-                StringBuilder stringBuilderSpeedMin = new StringBuilder();
-                StringBuilder stringBuilderSpeedMax = new StringBuilder();
                 StringBuilder stringBuilderTimeValue = new StringBuilder();
                 StringBuilder stringBuilderTimeUnit = new StringBuilder();
                 StringBuilder stringBuilderDistanceValue = new StringBuilder();
@@ -1021,60 +926,11 @@ public class MainActivity extends AppCompatActivity {
                 stringBuilderDistanceUnit.append(distance_unit_transfer_unit(Unit_distance));
                 stringBuildertxtRunningTime.append("App running Time: ").append((curTime - runningTime) / 1E9).append("s");
 
-                String[] s_max = new String[1];
-                s_max[0] = "max_speed";
-                if (database.locDao().loadAllByIds(s_max).size() > 0) {
-                    valCurrentMaxSpeed = database.locDao().loadAllByIds(s_max).get(0).speed;
-
-                    if (location.getSpeed() > valCurrentMaxSpeed) {
-                        valCurrentMaxSpeed = location.getSpeed();
-                        Loc loc = new Loc();
-                        loc.speed = valCurrentMaxSpeed;
-                        loc.id = "max_speed";
-                        database.locDao().delete(loc);
-                        database.locDao().insertAll(loc);
-                    }
-                    stringBuilderSpeedMax.append(significant_fraction(valCurrentMaxSpeed, FRACTION_CONSTRAINT));
-
-                } else {
-                    Loc loc = new Loc();
-                    loc.speed = valCurrentMaxSpeed;
-                    loc.id = "max_speed";
-                    database.locDao().delete(loc);
-                    database.locDao().insertAll(loc);
-                    stringBuilderSpeedMax.append("0.0");
-                }
-
-                String[] s_min = new String[1];
-                s_min[0] = "min_speed";
-                if (database.locDao().loadAllByIds(s_min).size() > 0) {
-                    valCurrentMinSpeed = database.locDao().loadAllByIds(s_min).get(0).speed;
-
-                    if (location.getSpeed() < valCurrentMinSpeed) {
-                        valCurrentMinSpeed = location.getSpeed();
-                        Loc loc = new Loc();
-                        loc.speed = valCurrentMinSpeed;
-                        loc.id = "min_speed";
-                        database.locDao().delete(loc);
-                        database.locDao().insertAll(loc);
-                    }
-                    stringBuilderSpeedMin.append(significant_fraction(valCurrentMinSpeed, FRACTION_CONSTRAINT));
-                } else {
-                    Loc loc = new Loc();
-                    loc.speed = valCurrentMinSpeed;
-                    loc.id = "min_speed";
-                    database.locDao().delete(loc);
-                    database.locDao().insertAll(loc);
-                    stringBuilderSpeedMin.append("0.min_speed");
-                }
-
                 strLongitude = stringBuilderLongitude.toString();
                 strLatitude = stringBuilderLatitude.toString();
                 strAltitude = stringBuilderAltitude.toString();
                 strSpeedValue = stringBuilderSpeedValue.toString();
                 strSpeedUnit = stringBuilderSpeedUnit.toString();
-                strSpeedMin = stringBuilderSpeedMin.toString();
-                strSpeedMax = stringBuilderSpeedMax.toString();
                 strTimeValue = stringBuilderTimeValue.toString();
                 strTimeUnit = stringBuilderTimeUnit.toString();
                 strDistanceValue = stringBuilderDistanceValue.toString();
@@ -1087,8 +943,6 @@ public class MainActivity extends AppCompatActivity {
                 strLatitude = "";
                 strAltitude = "";
                 strSpeedValue = "";
-                strSpeedMax = "";
-                strSpeedMin = "";
                 strSpeedUnit = "";
                 strTimeValue = "";
                 strTimeUnit = "";
