@@ -110,9 +110,6 @@ public class MainActivity extends AppCompatActivity {
 
         database = Room.databaseBuilder(this, GPSDatabase.class, "GPS_db").allowMainThreadQueries().build();
 
-//        txtLocation = (TextView) findViewById(R.id.txtLocation);
-//        txtSpeed = (TextView) findViewById(R.id.txtSpeed);
-
         // Longitude
         txtLongitude = (TextView) findViewById(R.id.txtLongitude);
         txtLongitudeValue = (TextView) findViewById(R.id.txtLongitudeValue);
@@ -164,10 +161,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-//                if(edtFontSize.getText().toString().matches("[0-9]+")) {
-//                    setFontSize(txtLocation, Float.parseFloat(edtFontSize.getText().toString()));
-//                    setFontSize(txtSpeed, Float.parseFloat(edtFontSize.getText().toString()));
-//                }
                 if(edtFontSize.getText().toString().matches("[0-9]+")) {
                     setFontSize(txtLongitude, Float.parseFloat(edtFontSize.getText().toString()));
                     setFontSize(txtLongitudeValue, Float.parseFloat(edtFontSize.getText().toString()));
@@ -339,13 +332,11 @@ public class MainActivity extends AppCompatActivity {
                 else{
                     count_Distance_OnItemSelectedListener += 1;
                 }
-//                Unit_distance = Distance[0]
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-//        Unit_distance = DistanceUnit.getSelectedItem().toString();
     }
 
     private void TimeSpinner(){
@@ -374,7 +365,6 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-//        Unit_Time = TimeUnit.getSelectedItem().toString();
     }
 
     private void SpeedSpinner(){
@@ -403,7 +393,6 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-//        Unit_Speed = SpeedUnit.getSelectedItem().toString();
     }
 
 
@@ -413,27 +402,21 @@ public class MainActivity extends AppCompatActivity {
         public boolean handleMessage(Message msg) {
             if ( msg.what == 0x001 ) {
                 if (valCurrentSpeed < 10.0) {
-//                    txtSpeed.setTextColor(Color.BLACK);
                     txtSpeedValue.setTextColor(Color.BLACK);
                 }
                 else if (valCurrentSpeed < 20.0){
-//                    txtSpeed.setTextColor(Color.GREEN);
                     txtSpeedValue.setTextColor(Color.GREEN);
                 }
                 else if (valCurrentSpeed < 30.0){
-//                    txtSpeed.setTextColor(Color.BLUE);
                     txtSpeedValue.setTextColor(Color.BLUE);
                 }
                 else if (valCurrentSpeed < 50.0){
-//                    txtSpeed.setTextColor(Color.CYAN);
                     txtSpeedValue.setTextColor(Color.CYAN);
                 }
                 else{
-//                    txtSpeed.setTextColor(Color.RED);
                     txtSpeedValue.setTextColor(Color.RED);
                 }
-//                txtSpeed.setText(strSpeed);
-//                txtLocation.setText(strLocation);
+
                 txtSpeedValue.setText(strSpeedValue);
                 txtSpeedUnit.setText(strSpeedUnit);
                 txtLongitudeValue.setText(strLongitude);
@@ -538,8 +521,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
     public Double time_unit_transfer_value(double time, int Unit_Time){
         switch (Unit_Time) {
             case 0:
@@ -604,10 +585,8 @@ public class MainActivity extends AppCompatActivity {
         // If is not in the test mode:
         if(!isTest) {
             curTime = System.nanoTime();
-            if (location != null) {
-//                StringBuilder sb_loc = new StringBuilder();
-//                StringBuilder sb_speed = new StringBuilder();
 
+            if (location != null) {
                 StringBuilder stringBuilderLongitude = new StringBuilder();
                 StringBuilder stringBuilderLatitude = new StringBuilder();
                 StringBuilder stringBuilderAltitude = new StringBuilder();
@@ -626,9 +605,7 @@ public class MainActivity extends AppCompatActivity {
                 stringBuilderAltitude.append(significant_fraction(location.getAltitude(), GPS_CONSTRAINT));
 
                 valCurrentSpeed = 3.6 * location.getSpeed();
-//                sb_loc.append("Longitude: " + significant_fraction(location.getLongitude(), GPS_CONSTRAINT) + "\n");
-//                sb_loc.append("Latitude: " + significant_fraction(location.getLatitude(), GPS_CONSTRAINT) + "\n");
-//                sb_loc.append("Altitude: " + significant_fraction(location.getAltitude(), GPS_CONSTRAINT) + "\n");
+
                 if(!(preLatitude == location.getLatitude() && preLongitude == location.getLongitude())){
                     valCurrentTime = (curTime - preTime) / 1E9 + valCurrentTime;
                 }
@@ -649,11 +626,6 @@ public class MainActivity extends AppCompatActivity {
 
                     isReset = false;
                 }
-
-//                // Unit Transfer
-//                sb_loc.append(time_unit_transfer(valCurrentTime, Unit_Time));
-//                sb_loc.append(distance_unit_transfer(valCurrentDistance, Unit_distance));
-//                sb_speed.append(speed_unit_transfer(location.getSpeed(), Unit_Speed));
 
                 // Unit Transfer New
                 stringBuilderSpeedValue.append(speed_unit_transfer_value(location.getSpeed(),Unit_Speed));
@@ -679,14 +651,13 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     stringBuilderSpeedMax.append(significant_fraction(valCurrentMaxSpeed, FRACTION_CONSTRAINT));
-//                    sb_speed.append("Max Speed: " + significant_fraction(valCurrentMaxSpeed, FRACTION_CONSTRAINT) + "\n");
+
                 } else {
                     Speed speed = new Speed();
                     speed.val = valCurrentMaxSpeed;
                     speed.id = "max";
                     database.speedDao().delete(speed);
                     database.speedDao().insertAll(speed);
-//                    sb_speed.append("Max Speed: 0.0\n");
                     stringBuilderSpeedMax.append("0.0");
                 }
 
@@ -705,19 +676,16 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     stringBuilderSpeedMin.append(significant_fraction(valCurrentMinSpeed, FRACTION_CONSTRAINT));
-//                    sb_speed.append("Min Speed: " + significant_fraction(valCurrentMinSpeed, FRACTION_CONSTRAINT) + "\n");
+
                 } else {
                     Speed speed = new Speed();
                     speed.val = valCurrentMinSpeed;
                     speed.id = "min";
                     database.speedDao().delete(speed);
                     database.speedDao().insertAll(speed);
-//                    sb_speed.append("Min Speed: 0.0\n");
                     stringBuilderSpeedMin.append("0.0");
                 }
 
-//                strLocation = sb_loc.toString();
-//                strSpeed = sb_speed.toString();
 
                 strLongitude = stringBuilderLongitude.toString();
                 strLatitude = stringBuilderLatitude.toString();
@@ -733,9 +701,7 @@ public class MainActivity extends AppCompatActivity {
                 strRunningTime = stringBuildertxtRunningTime.toString();
 
             } else {
-//                strLocation = "";
-//                strSpeed = "";
-
+                // If Location is null...
                 strLongitude = "";
                 strLatitude = "";
                 strAltitude = "";
@@ -751,10 +717,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         else {
+            // Not Testing mode:
             simulation_distance();
             curTime = System.nanoTime();
             if (location != null) {
-
 
                 StringBuilder stringBuilderLongitude = new StringBuilder();
                 StringBuilder stringBuilderLatitude = new StringBuilder();
@@ -850,8 +816,6 @@ public class MainActivity extends AppCompatActivity {
                     stringBuilderSpeedMin.append("0.0");
                 }
 
-//                strLocation = sb_loc.toString();
-//                strSpeed = sb_speed.toString();
 
                 strLongitude = stringBuilderLongitude.toString();
                 strLatitude = stringBuilderLatitude.toString();
@@ -867,8 +831,6 @@ public class MainActivity extends AppCompatActivity {
                 strRunningTime = stringBuildertxtRunningTime.toString();
 
             } else {
-//                strLocation = "";
-//                strSpeed = "";
 
                 strLongitude = "";
                 strLatitude = "";
