@@ -851,6 +851,12 @@ public class MainActivity extends AppCompatActivity {
                 // Running time:
                 strRunningTime = stringBuildertxtRunningTime.toString();
 
+                // Put location data to back-end database
+                Loc loc = new Loc();
+                loc.id = strRunningTime;
+                loc.speed = location.getSpeed();
+                loc.height = location.getAltitude();
+                database.locDao().insertAll(loc);
 
             } else {
                 // If Location is null, cannot grab information from Location (etc. "Non Fine authority of GPS").
