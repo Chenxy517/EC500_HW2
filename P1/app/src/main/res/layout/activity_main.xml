@@ -175,6 +175,7 @@
                     android:textSize="20sp" />
             </LinearLayout>
 
+
         <!--    <TextView-->
         <!--        android:id="@+id/txtLocation"-->
         <!--        android:layout_width="match_parent"-->
@@ -340,10 +341,35 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/txtRunningTime"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="34dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/txtRunningTimeShow"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Running Time"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/txtRunningTime"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/txtRunningTimeUnit"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"/>
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
@@ -372,7 +398,3 @@
 
 
 </RelativeLayout>
-
-
-
-
