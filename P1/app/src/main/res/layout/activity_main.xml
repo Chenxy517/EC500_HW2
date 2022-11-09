@@ -34,7 +34,32 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/txtRunningTimeShow"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:text="Running Time"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/txtRunningTime"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:id="@+id/txtLongitude"
@@ -53,6 +78,23 @@
                     android:textSize="20sp" />
 
                 <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:text="N/A"
+                    android:id="@+id/txtLongitudeValueChange"
+                    android:textSize="20sp">
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                >
+
+                <TextView
                     android:id="@+id/txtLatitude"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -68,11 +110,21 @@
                     android:text="N/A"
                     android:textSize="20sp" />
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:text="N/A"
+                    android:id="@+id/txtLatitudeValueChange"
+                    android:textSize="20sp">
+                </TextView>
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
 
                 <TextView
                     android:id="@+id/txtAltitude"
@@ -91,15 +143,30 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/txtDistance"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:text="N/A"
+                    android:id="@+id/txtAltitudeValueChange"
+                    android:textSize="20sp">
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/txtSpeedShow"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Distance"
+                    android:text="Speed"
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/txtDistanceValue"
+                    android:id="@+id/txtSpeedValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
@@ -107,26 +174,63 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/txtDistanceUnitShow"
+                    android:id="@+id/txtSpeedUnitShow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:text="N/A"
+                    android:id="@+id/txtSpeedValueChange"
+                    android:textSize="20sp">
+                </TextView>
+
+                <TextView
+                    android:id="@+id/txtSpeedChangeUnit"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:textSize="20sp" />
             </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Speed and time"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="10dp">
-            </TextView>
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/txtDistance"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:text="Distance"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/txtDistanceValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="N/A"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/txtDistanceUnitShow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
 
                 <TextView
                     android:id="@+id/txtTime"
@@ -148,56 +252,14 @@
                     android:id="@+id/txtTimeUnitShow"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/txtSpeedShow"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:text="Speed"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/txtSpeedValue"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:text="N/A"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/txtSpeedUnitShow"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:textSize="20sp" />
             </LinearLayout>
-
-
-        <!--    <TextView-->
-        <!--        android:id="@+id/txtLocation"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:layout_marginTop="10dp"-->
-        <!--        android:padding="5dp"-->
-        <!--        android:textSize="20sp"-->
-        <!--        android:textStyle="bold" />-->
-
-        <!--    <TextView-->
-        <!--        android:id="@+id/txtSpeed"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:layout_marginTop="5dp"-->
-        <!--        android:padding="5dp"-->
-        <!--        android:textSize="20sp"-->
-        <!--        android:textStyle="bold" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="10dp">
 
                 <EditText
                     android:id="@+id/edtFontSize"
@@ -220,7 +282,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="10dp">
 
                 <Button
                     android:id="@+id/btnPause"
@@ -338,35 +400,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_weight="2" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:id="@+id/txtRunningTimeShow"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="Running Time"
-                    android:textSize="20sp"/>
-
-                <TextView
-                    android:id="@+id/txtRunningTime"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"/>
-
-                <TextView
-                    android:id="@+id/txtRunningTimeUnit"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"/>
 
             </LinearLayout>
 

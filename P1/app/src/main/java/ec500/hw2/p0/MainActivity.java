@@ -30,6 +30,8 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import ec500.hw2.p0.database.GPSDatabase;
 import ec500.hw2.p0.model.Loc;
@@ -38,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewFlipper flipper;
     private LocationManager locationManager;
-    private TextView txtLocation, txtSpeed;
 
 //    private String strLocation, strSpeed;
     private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset, btn_previous, btn_next;
@@ -80,24 +81,25 @@ public class MainActivity extends AppCompatActivity {
     private double valMinAltitude = Double.MAX_VALUE;
 
     // Textview in Main view.
-    private TextView txtLongitudeValue, txtLongitude;
-    private TextView txtLatitudeValue, txtLatitude;
-    private TextView txtAltitudeValue, txtAltitude;
+    private TextView txtLongitudeValue, txtLongitude, txtLongitudeChange;
+    private TextView txtLatitudeValue, txtLatitude, txtLatitudeChange;
+    private TextView txtAltitudeValue, txtAltitude, txtAltitudeChange;
     private TextView txtDistanceValue, txtDistance, txtDistanceUnit;
     private TextView txtTimeValue, txtTimeShow, txtTimeUnit, txtRunningTime;
-    private TextView txtSpeedValue, txtSpeedShow, txtSpeedUnit;
+    private TextView txtSpeedValue, txtSpeedShow, txtSpeedUnit, txtSpeedChangeValue, txtSpeedChangeUnit;
 
-    // --- Textview in High_Score view.
+    // Textview in High_Score view.
     private TextView titleHC_speedData, titleHC_Max, titleHC_Min, titleHC_Altitude, titleHC_MaxAltitude, titleHC_MinAltitude;
     private TextView txtHC_speedData, txtHC_variationSpeed, txtHC_maxSpeed, txtHC_minSpeed;
     private TextView txtHC_Altitude, txtHC_variationAltitude, txtHC_maxAltitude, txtHC_minAltitude;
 
     // For value shown in Textview() in Main Layout
-    private String strLongitude, strLatitude, strAltitude, strSpeedUnit;
+    private String strLongitude, strLatitude, strAltitude, strLongitudeChange, strLatitudeChange, strAltitudeChange;
+    private Double strLongitudeTemp, strLatitudeTemp, strAltitudeTemp, strSpeedTemp;
     private String strTimeValue, strTimeUnit;
     private String strRunningTime;
     private String strDistanceValue, strDistanceUnit;
-    private String strSpeedValue;
+    private String strSpeedValue, strSpeedUnit, strSpeedChangeValue, strSpeedChangeUnit;
 
     // For value shown in Textview() in High Score Layout:
     private String strVariantSpeed, strGlobalSpeedMax, strGlobalSpeedMin;
@@ -149,23 +151,23 @@ public class MainActivity extends AppCompatActivity {
          * --------  High_Score View Here: ---------------
          */
 
-        // Title:
-        titleHC_speedData = (TextView) findViewById(R.id.titleHC_speedData);
-        titleHC_Max = (TextView) findViewById(R.id.titleHC_Max);
-        titleHC_Min = (TextView) findViewById(R.id.titleHC_Min);
-        titleHC_Altitude = (TextView) findViewById(R.id.titleHC_Altitude);
-        titleHC_MaxAltitude = (TextView) findViewById(R.id.titleHC_MaxAltitude);
-        titleHC_MinAltitude = (TextView) findViewById(R.id.titleHC_MinAltitude);
-
-        // Value:
-        txtHC_speedData = (TextView) findViewById(R.id.txtHC_speedData);
-        txtHC_variationSpeed = (TextView) findViewById(R.id.txtHC_variationSpeed);
-        txtHC_maxSpeed = (TextView) findViewById(R.id.txtHC_maxSpeed);
-        txtHC_minSpeed = (TextView) findViewById(R.id.txtHC_minSpeed);
-        txtHC_Altitude = (TextView) findViewById(R.id.txtHC_Altitude);
-        txtHC_variationAltitude = (TextView) findViewById(R.id.txtHC_variationAltitude);
-        txtHC_maxAltitude = (TextView) findViewById(R.id.txtHC_maxAltitude);
-        txtHC_minAltitude = (TextView) findViewById(R.id.txtHC_minAltitude);
+//        // Title:
+//        titleHC_speedData = (TextView) findViewById(R.id.titleHC_speedData);
+//        titleHC_Max = (TextView) findViewById(R.id.titleHC_Max);
+//        titleHC_Min = (TextView) findViewById(R.id.titleHC_Min);
+//        titleHC_Altitude = (TextView) findViewById(R.id.titleHC_Altitude);
+//        titleHC_MaxAltitude = (TextView) findViewById(R.id.titleHC_MaxAltitude);
+//        titleHC_MinAltitude = (TextView) findViewById(R.id.titleHC_MinAltitude);
+//
+//        // Value:
+//        txtHC_speedData = (TextView) findViewById(R.id.txtHC_speedData);
+//        txtHC_variationSpeed = (TextView) findViewById(R.id.txtHC_variationSpeed);
+//        txtHC_maxSpeed = (TextView) findViewById(R.id.txtHC_maxSpeed);
+//        txtHC_minSpeed = (TextView) findViewById(R.id.txtHC_minSpeed);
+//        txtHC_Altitude = (TextView) findViewById(R.id.txtHC_Altitude);
+//        txtHC_variationAltitude = (TextView) findViewById(R.id.txtHC_variationAltitude);
+//        txtHC_maxAltitude = (TextView) findViewById(R.id.txtHC_maxAltitude);
+//        txtHC_minAltitude = (TextView) findViewById(R.id.txtHC_minAltitude);
 
         txtSpeedValue.setText("N/A");
         txtSpeedUnit.setText("N/A");
@@ -224,14 +226,17 @@ public class MainActivity extends AppCompatActivity {
         // Longitude
         txtLongitude = (TextView) findViewById(R.id.txtLongitude);
         txtLongitudeValue = (TextView) findViewById(R.id.txtLongitudeValue);
+        txtLongitudeChange = (TextView) findViewById(R.id.txtLongitudeValueChange);
 
         // Latitude
         txtLatitude = (TextView) findViewById(R.id.txtLatitude);
         txtLatitudeValue = (TextView) findViewById(R.id.txtLatitudeValue);
+        txtLatitudeChange = (TextView) findViewById(R.id.txtLatitudeValueChange);
 
         // Altitude
         txtAltitude = (TextView) findViewById(R.id.txtAltitude);
         txtAltitudeValue = (TextView) findViewById(R.id.txtAltitudeValue);
+        txtAltitudeChange = (TextView) findViewById(R.id.txtAltitudeValueChange);
 
         // Distance
         txtDistance = (TextView) findViewById(R.id.txtDistance);
@@ -250,6 +255,8 @@ public class MainActivity extends AppCompatActivity {
         txtSpeedShow = (TextView) findViewById(R.id.txtSpeedShow);
         txtSpeedValue = (TextView) findViewById(R.id.txtSpeedValue);
         txtSpeedUnit = (TextView) findViewById(R.id.txtSpeedUnitShow);
+        txtSpeedChangeValue = (TextView) findViewById(R.id.txtSpeedValueChange);
+        txtSpeedChangeUnit = (TextView) findViewById(R.id.txtSpeedChangeUnit);
 
         /**
          * --------  High_Score View Here: ---------------
@@ -291,10 +298,13 @@ public class MainActivity extends AppCompatActivity {
                     // Set Font Size for Main view:
                     setFontSize(txtLongitude, Float.parseFloat(edtFontSize.getText().toString()));
                     setFontSize(txtLongitudeValue, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtLongitudeChange,Float.parseFloat(edtFontSize.getText().toString()));
                     setFontSize(txtLatitude, Float.parseFloat(edtFontSize.getText().toString()));
                     setFontSize(txtLatitudeValue, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtLatitudeChange,Float.parseFloat(edtFontSize.getText().toString()));
                     setFontSize(txtAltitude, Float.parseFloat(edtFontSize.getText().toString()));
                     setFontSize(txtAltitudeValue, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtAltitudeChange,Float.parseFloat(edtFontSize.getText().toString()));
                     setFontSize(txtDistance, Float.parseFloat(edtFontSize.getText().toString()));
                     setFontSize(txtDistanceValue, Float.parseFloat(edtFontSize.getText().toString()));
                     setFontSize(txtDistanceUnit, Float.parseFloat(edtFontSize.getText().toString()));
@@ -304,6 +314,8 @@ public class MainActivity extends AppCompatActivity {
                     setFontSize(txtSpeedShow, Float.parseFloat(edtFontSize.getText().toString()));
                     setFontSize(txtSpeedValue, Float.parseFloat(edtFontSize.getText().toString()));
                     setFontSize(txtSpeedUnit, Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtSpeedChangeValue,Float.parseFloat(edtFontSize.getText().toString()));
+                    setFontSize(txtSpeedChangeUnit,Float.parseFloat(edtFontSize.getText().toString()));
                     setFontSize(txtRunningTime, Float.parseFloat(edtFontSize.getText().toString()));
 
                     // Set Font size for High_Score View:
@@ -566,9 +578,14 @@ public class MainActivity extends AppCompatActivity {
                 // Set Value for the TextView in Main:
                 txtSpeedValue.setText(strSpeedValue);
                 txtSpeedUnit.setText(strSpeedUnit);
+                txtSpeedChangeValue.setText(strSpeedChangeValue);
+                txtSpeedChangeUnit.setText(strSpeedChangeUnit);
                 txtLongitudeValue.setText(strLongitude);
+                txtLongitudeChange.setText(strLongitudeChange);
                 txtLatitudeValue.setText(strLatitude);
+                txtLatitudeChange.setText(strLatitudeChange);
                 txtAltitudeValue.setText(strAltitude);
+                txtAltitudeChange.setText(strAltitudeChange);
                 txtDistanceValue.setText(strDistanceValue);
                 txtDistanceUnit.setText(strDistanceUnit);
                 txtTimeValue.setText(strTimeValue);
@@ -686,7 +703,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public Double time_unit_transfer_value(double time, int Unit_Time){
+    public double time_unit_transfer_value(double time, int Unit_Time){
         switch (Unit_Time) {
             case 0:
                 return significant_fraction(time, FRACTION_CONSTRAINT);
@@ -758,6 +775,22 @@ public class MainActivity extends AppCompatActivity {
                 StringBuilder stringBuilderLatitude = new StringBuilder();
                 StringBuilder stringBuilderAltitude = new StringBuilder();
 
+                StringBuilder stringBuilderLongitudeChange = new StringBuilder();
+                StringBuilder stringBuilderLatitudeChange = new StringBuilder();
+                StringBuilder stringBuilderAltitudeChange = new StringBuilder();
+
+                NumberFormat formatter = new DecimalFormat("#0.0000");
+                if(strLongitudeTemp!=null){
+                    stringBuilderLongitudeChange.append(formatter.format(significant_fraction(location.getLongitude(), GPS_CONSTRAINT) - strLongitudeTemp));
+                    stringBuilderLatitudeChange.append(formatter.format(significant_fraction(location.getLatitude(), GPS_CONSTRAINT) - strLatitudeTemp));
+                    stringBuilderAltitudeChange.append(formatter.format(speed_unit_transfer_value(significant_fraction(location.getAltitude(), FRACTION_CONSTRAINT), Unit_distance) - strAltitudeTemp));
+                    stringBuilderAltitudeChange.append(distance_unit_transfer_unit(Unit_distance));
+                }
+
+                strLongitudeTemp = significant_fraction(location.getLongitude(), GPS_CONSTRAINT);
+                strLatitudeTemp = significant_fraction(location.getLatitude(), GPS_CONSTRAINT);
+                strAltitudeTemp = speed_unit_transfer_value(significant_fraction(location.getAltitude(), FRACTION_CONSTRAINT), Unit_distance);
+
                 stringBuilderLongitude.append(significant_fraction(location.getLongitude(), GPS_CONSTRAINT));
                 stringBuilderLatitude.append(significant_fraction(location.getLatitude(), GPS_CONSTRAINT));
                 stringBuilderAltitude.append(
@@ -769,11 +802,13 @@ public class MainActivity extends AppCompatActivity {
                 // String Builder for calculate values of matrices in Main View:
                 StringBuilder stringBuilderSpeedValue = new StringBuilder();
                 StringBuilder stringBuilderSpeedUnit = new StringBuilder();
+                StringBuilder stringBuilderSpeedChangeValue = new StringBuilder();
+                StringBuilder stringBuilderSpeedChangeUnit = new StringBuilder();
                 StringBuilder stringBuilderTimeValue = new StringBuilder();
                 StringBuilder stringBuilderTimeUnit = new StringBuilder();
                 StringBuilder stringBuilderDistanceValue = new StringBuilder();
                 StringBuilder stringBuilderDistanceUnit = new StringBuilder();
-                StringBuilder stringBuildertxtRunningTime = new StringBuilder();
+                StringBuilder stringBuilderRunningTime = new StringBuilder();
 
                 // String Builder for calculate values of matrices in HighScore View:
                 StringBuilder stringBuilderVarianceSpeed = new StringBuilder();
@@ -817,6 +852,11 @@ public class MainActivity extends AppCompatActivity {
                     isReset = false;
                 }
 
+                if(strSpeedTemp!=null){
+                    stringBuilderSpeedChangeValue.append(speed_unit_transfer_value(location.getSpeed(), Unit_Speed)-strSpeedTemp);
+                    stringBuilderSpeedChangeUnit.append(speed_unit_transfer_unit(Unit_Speed));
+                }
+                strSpeedTemp = speed_unit_transfer_value(location.getSpeed(), Unit_Speed);
 
                 // Append transferred unit value into the TextView and showing:
                 stringBuilderSpeedValue.append(speed_unit_transfer_value(location.getSpeed(), Unit_Speed));
@@ -825,7 +865,7 @@ public class MainActivity extends AppCompatActivity {
                 stringBuilderTimeUnit.append(time_unit_transfer_unit(Unit_Time));
                 stringBuilderDistanceValue.append(distance_unit_transfer_value(valCurrentDistance,Unit_distance));
                 stringBuilderDistanceUnit.append(distance_unit_transfer_unit(Unit_distance));
-                stringBuildertxtRunningTime.append("App running Time: ").append((curTime - runningTime) / 1E9).append("s");
+                stringBuilderRunningTime.append(time_unit_transfer_value((curTime - runningTime) / 1E9, Unit_Time)).append(time_unit_transfer_unit(Unit_Time));
 
                 // ------ Global Database and High Score View update: -------
                 updateHighScoreData(location, stringBuilderVarianceSpeed,
@@ -843,9 +883,16 @@ public class MainActivity extends AppCompatActivity {
                 strLatitude = stringBuilderLatitude.toString();
                 strAltitude = stringBuilderAltitude.toString();
 
+                strLongitudeChange = stringBuilderLongitudeChange.toString();
+                strLatitudeChange = stringBuilderLatitudeChange.toString();
+                strAltitudeChange = stringBuilderAltitudeChange.toString();
+
                 // Speed information:
                 strSpeedValue = stringBuilderSpeedValue.toString();
                 strSpeedUnit = stringBuilderSpeedUnit.toString();
+
+                strSpeedChangeValue = stringBuilderSpeedChangeValue.toString();
+                strSpeedChangeUnit = stringBuilderSpeedChangeUnit.toString();
 
                 // Time information:
                 strTimeValue = stringBuilderTimeValue.toString();
@@ -856,7 +903,7 @@ public class MainActivity extends AppCompatActivity {
                 strDistanceUnit = stringBuilderDistanceUnit.toString();
 
                 // Running time:
-                strRunningTime = stringBuildertxtRunningTime.toString();
+                strRunningTime = stringBuilderRunningTime.toString();
 
                 // Put location data to back-end database
                 Loc loc = new Loc();
@@ -875,6 +922,11 @@ public class MainActivity extends AppCompatActivity {
                 strTimeUnit = "";
                 strDistanceValue = "";
                 strDistanceUnit = "";
+                strLongitudeChange = "";
+                strLatitudeChange = "";
+                strAltitudeChange = "";
+                strSpeedChangeUnit = "";
+                strSpeedChangeValue = "";
 
                 // Highest Scores:
                 strVariantSpeed = "";
@@ -883,7 +935,7 @@ public class MainActivity extends AppCompatActivity {
                 strVariantAltitude = "";
                 strMaxAltitude = "";
                 strMinAltitude = "";
-                strRunningTime = "App running Time: " + ((System.nanoTime() - runningTime) / 1E9) + "s";
+                strRunningTime = time_unit_transfer_value((curTime - runningTime) / 1E9, Unit_Time)+ time_unit_transfer_unit(Unit_Time);
             }
         }
         else {
@@ -901,7 +953,22 @@ public class MainActivity extends AppCompatActivity {
                 StringBuilder stringBuilderTimeUnit = new StringBuilder();
                 StringBuilder stringBuilderDistanceValue = new StringBuilder();
                 StringBuilder stringBuilderDistanceUnit = new StringBuilder();
-                StringBuilder stringBuildertxtRunningTime = new StringBuilder();
+                StringBuilder stringBuilderRunningTime = new StringBuilder();
+
+
+                StringBuilder stringBuilderLongitudeChange = new StringBuilder();
+                StringBuilder stringBuilderLatitudeChange = new StringBuilder();
+                StringBuilder stringBuilderAltitudeChange = new StringBuilder();
+
+                if(strLongitudeTemp!=null){
+                    stringBuilderLongitudeChange.append(significant_fraction(location.getLongitude(), GPS_CONSTRAINT) - strLongitudeTemp);
+                    stringBuilderLatitudeChange.append(significant_fraction(location.getLatitude(), GPS_CONSTRAINT) - strLatitudeTemp);
+                    stringBuilderAltitudeChange.append(significant_fraction(curTime/1E20, GPS_CONSTRAINT) - strAltitudeTemp);
+                }
+
+                strLongitudeTemp = significant_fraction(location.getLongitude(), GPS_CONSTRAINT);
+                strLatitudeTemp = significant_fraction(location.getLatitude(), GPS_CONSTRAINT);
+                strAltitudeTemp = significant_fraction(curTime/1E20, GPS_CONSTRAINT);
 
                 stringBuilderLongitude.append(significant_fraction(valLongitude, GPS_CONSTRAINT));
                 stringBuilderLatitude.append(significant_fraction(valLatitude, GPS_CONSTRAINT));
@@ -949,7 +1016,7 @@ public class MainActivity extends AppCompatActivity {
                 stringBuilderTimeUnit.append(time_unit_transfer_unit(Unit_Time));
                 stringBuilderDistanceValue.append(distance_unit_transfer_value(Sim_valCurrentDistance,Unit_distance));
                 stringBuilderDistanceUnit.append(distance_unit_transfer_unit(Unit_distance));
-                stringBuildertxtRunningTime.append("App running Time: ").append((curTime - runningTime) / 1E9).append("s");
+                stringBuilderRunningTime.append(time_unit_transfer_value((curTime - runningTime) / 1E9, Unit_Time)).append(time_unit_transfer_unit(Unit_Time));
 
                 strLongitude = stringBuilderLongitude.toString();
                 strLatitude = stringBuilderLatitude.toString();
@@ -960,7 +1027,11 @@ public class MainActivity extends AppCompatActivity {
                 strTimeUnit = stringBuilderTimeUnit.toString();
                 strDistanceValue = stringBuilderDistanceValue.toString();
                 strDistanceUnit = stringBuilderDistanceUnit.toString();
-                strRunningTime = stringBuildertxtRunningTime.toString();
+                strRunningTime = stringBuilderRunningTime.toString();
+
+                strLongitudeChange = stringBuilderLongitudeChange.toString();
+                strLatitudeChange = stringBuilderLatitudeChange.toString();
+                strAltitudeChange = stringBuilderAltitudeChange.toString();
 
             } else {
 
@@ -973,6 +1044,9 @@ public class MainActivity extends AppCompatActivity {
                 strTimeUnit = "";
                 strDistanceValue = "";
                 strDistanceUnit = "";
+                strLongitudeChange = "";
+                strLatitudeChange = "";
+                strAltitudeChange = "";
 
 //                // Highest Scores:
 //                strVariantSpeed = "";
@@ -981,7 +1055,7 @@ public class MainActivity extends AppCompatActivity {
 //                strVariantAltitude = "";
 //                strMaxAltitude = "";
 //                strMinAltitude = "";
-                strRunningTime = "App running Time: " + ((System.nanoTime() - runningTime) / 1E9) + "s";
+                strRunningTime = time_unit_transfer_value((curTime - runningTime) / 1E9, Unit_Time)+ time_unit_transfer_unit(Unit_Time);
             }
         }
 
