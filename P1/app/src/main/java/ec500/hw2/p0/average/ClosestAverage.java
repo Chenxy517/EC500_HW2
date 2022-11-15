@@ -10,6 +10,7 @@ public class ClosestAverage {
         database = db;
     }
 
+    // return the average speed of the three closest locations
     public double getAverage() {
         double speed1 = database.locDao().loadById("speed1").speed;
         double speed2 = database.locDao().loadById("speed2").speed;
@@ -17,6 +18,7 @@ public class ClosestAverage {
         return (speed1 + speed2 + speed3) / 3;
     }
 
+    // update the average speed stored in the database
     public void updateClosest(double currentSpeed) {
         double speed2 = database.locDao().loadById("speed2").speed;
         double speed3 = database.locDao().loadById("speed3").speed;
@@ -39,6 +41,7 @@ public class ClosestAverage {
         database.locDao().insertAll(loc3);
     }
 
+    // return database to MainActivity
     public GPSDatabase getDatabase() {
         return database;
     }
