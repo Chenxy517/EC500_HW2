@@ -20,9 +20,6 @@ public interface LocDao {
     @Query("DELETE FROM loc WHERE id = ID")
     void deleteById(String ID);
 
-    @Query("UPDATE loc SET speed = val WHERE id = ID")
-    void updateById(String ID, double val);
-
     @Query("SELECT * FROM loc WHERE id = ID")
     Loc loadById(String ID);
 
