@@ -51,12 +51,14 @@ public class MainActivity extends AppCompatActivity {
     private boolean isReset = false;
     private boolean isMeterPerSecond = true;
     private double valCurrentSpeed = 0.0;
+    private double valPreviousSpeed = 0.0;
     private double Sim_valCurrentSpeed = 0.0;
     private double valCurrentTime = 0.0;
     private double Sim_valCurrentTime = 0.0;
     private double valCurrentDistance = 0.0;
     private double Sim_valCurrentDistance = 0.0;
     private boolean isPause = false;
+    private boolean accUnit = false;
     private double valLatitude = 0.0;
     private double preLatitude = 0.0;
     private double valLongitude = 0.0;
@@ -350,6 +352,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 isTest = !isTest;
+            }
+        });
+
+        // Change acceleration unit
+        btnAcc = (Button) findViewById(R.id.btnAcc);
+        btnAcc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                accUnit = !accUnit;
             }
         });
 
@@ -650,6 +662,23 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    //TO DO: acceleration and its unit change
+    public double acceleration_unit_transfer_value(double speed, double pre_speed, double time, double pre_time, boolean acc_unit){
+        double cur_acc = (speed - pre_speed) / (time - pre_time); // in m/s^2
+        if (acc_unit){
+            cur_acc = cur_acc * (0.5876 / 3155.7 / 3155.7);
+        }
+    return cur_acc;
+    }
+
+    public String acc_unit_transfer_unit(int acc_unit){
+        switch (acc_unit) {
+            case true:
+                return "meters/second ^2";
+            case false:
+                return "smoots/microcentury^2";
+        }
+    }
 
     public double speed_unit_transfer_value(double speed, int Unit_Speed){
         switch (Unit_Speed) {
@@ -894,6 +923,8 @@ public class MainActivity extends AppCompatActivity {
                 strSpeedChangeValue = stringBuilderSpeedChangeValue.toString();
                 strSpeedChangeUnit = stringBuilderSpeedChangeUnit.toString();
 
+                // Acceleration information
+
                 // Time information:
                 strTimeValue = stringBuilderTimeValue.toString();
                 strTimeUnit = stringBuilderTimeUnit.toString();
@@ -911,6 +942,7 @@ public class MainActivity extends AppCompatActivity {
                 loc.speed = location.getSpeed();
                 loc.height = location.getAltitude();
                 database.locDao().insertAll(loc);
+                valPreviousSpeed = valCurrentSpeed;
 
             } else {
                 // If Location is null, cannot grab information from Location (etc. "Non Fine authority of GPS").
