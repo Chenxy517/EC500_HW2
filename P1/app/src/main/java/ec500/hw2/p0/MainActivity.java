@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
     private long runningTime = startTime;
     private long curTime = 0;
     private long preTime = startTime;
+    private double valPreviousTime = startTime;
+
 
     // --- Use for High Score View only:
     private double valVarianceSpeed = 0.0;
@@ -960,8 +962,9 @@ public class MainActivity extends AppCompatActivity {
                 loc.speed = location.getSpeed();
                 loc.height = location.getAltitude();
                 database.locDao().insertAll(loc);
-                valPreviousSpeed2 = valPreviousSpeed1
+                valPreviousSpeed2 = valPreviousSpeed1;
                 valPreviousSpeed1 = valCurrentSpeed;
+                valPreviousTime = valCurrentTime;
 
 
             } else {
