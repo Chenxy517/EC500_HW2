@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="distance_unit">
+        <item>Meters</item>
+        <item>Kilometers</item>
+        <item>Miles</item>
+        <item>Feet</item>
+    </string-array>
+
+    <string-array name="time_unit">
+        <item>Seconds</item>
+        <item>Minutes</item>
+        <item>Hours</item>
+        <item>Days</item>
+    </string-array>
+
+    <string-array name="speed_unit">
+        <item>Meters per second</item>
+        <item>Kilometers per hour</item>
+        <item>Miles per hour</item>
+        <item>Miles per minute</item>
+    </string-array>
+
+</resources>

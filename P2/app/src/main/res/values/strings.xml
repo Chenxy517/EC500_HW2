@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">My Altimeter</string>
+
+    <string name="helperBar_title">MY Altimeter - Instruction</string>
+
+    <string name="highScore_title">Highest Scores</string>
+
+    <!--    Textview Variable name:    -->
+    <string name="placeHolder_fontSize">Default Font: 20</string>
+
+    <string name="unit_Speed">Speed Unit</string>
+    <string name="unit_Time">Time Unit</string>
+    <string name="unit_Distance">Distance Unit</string>
+
+    <!--    Text Alignment of Help Information - HTML embedded.-->
+    <string name="msg_instruction">
+        <![CDATA[
+        <body>
+            <h2><u>App Guidelines: </u></h2>
+            <p>
+                <font size="+1"><tt>- Change Font Size: </tt></font>
+                    <font size="0">Change the size of the font being used to display information.</font><br>
+                <br>
+                <font size="+1"><tt>- Unit Change: </tt></font>
+                    <font size="0">Change the units of the speed.</font><br>
+                <br>
+                <font size="+2"><tt>- Pause/Resume: </tt></font>
+                    <font size="0">Pause/Resume the Display and Updates data of GPS and Speed.</font><br>
+                <br>
+                <font size="+1"><tt>- Simulate: </tt></font>
+                    <font size="0">&ldquo; An alternate mode &rdquo; where location updates are provided not from GPS, but rather from a synthetic (i.e., fake) source traveling 10 miles per hour.</font><br>
+                <br>
+                <font size="+1"><tt>- HELP: </tt></font>
+                    <font size="0">Display the helpful information showing how to use the APP.</font><br>
+                <br>
+            </p>
+            <h4>Attributes: </h4>
+            <p>
+                <font size="+1"><tt>&#x2022;GPS: </tt></font>
+                    <font size="0">Current/Simulate Relative (Longitude, Latitude) of the phone.</font><br>
+                <br>
+                <font size="+1"><tt>&#x2022;Speed: </tt></font>
+                <font size="0">Current/Simulate Speed of the phone.</font><br>
+                <br>
+                <font size="+1"><tt>&#x2022;Color Change: </tt></font>
+                <font size="0">According to the speed being traveled, Different color will be applied , </font><br>
+                <br>
+                <font size="+1"><tt>&#x2022;RETURN: </tt></font>
+                <font size="0">Click the "RETURN" Button back to Main Page.</font><br>
+                <br>
+            </p>
+        </body>
+        ]]>
+    </string>
+
+    <!--    Button's name   -->
+    <string name="helper_bottom1">RETURN</string>
+    <string name="change_frontSize_btn">CHANGE FONT SIZE</string>
+    <string name="pauseResume_btn">PAUSE/RESUME</string>
+    <string name="test_btn">SIMULATE</string>
+    <string name="reset_btn">RESET</string>
+    <string name="help_btn">HELP</string>
+
+
+</resources>
