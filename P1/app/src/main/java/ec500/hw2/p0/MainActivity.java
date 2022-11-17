@@ -51,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean isReset = false;
     private boolean isMeterPerSecond = true;
     private double valCurrentSpeed = 0.0;
-    private double valPreviousSpeed = 0.0;
+    private double valPreviousSpeed1 = 0.0;
+    private double valPreviousSpeed2 = 0.0;
     private double Sim_valCurrentSpeed = 0.0;
     private double valCurrentTime = 0.0;
     private double Sim_valCurrentTime = 0.0;
@@ -587,6 +588,8 @@ public class MainActivity extends AppCompatActivity {
                     txtSpeedValue.setTextColor(Color.RED);
                 }
 
+
+
                 // Set Value for the TextView in Main:
                 txtSpeedValue.setText(strSpeedValue);
                 txtSpeedUnit.setText(strSpeedUnit);
@@ -626,6 +629,7 @@ public class MainActivity extends AppCompatActivity {
                 txtHC_minAltitude.setTextColor(Color.GREEN);
 
             }
+
 
             return false;
         }
@@ -690,6 +694,20 @@ public class MainActivity extends AppCompatActivity {
                 return significant_fraction(2.2369362921 * speed, FRACTION_CONSTRAINT);
             default:
                 return significant_fraction(2.2369362921 / 60 * speed, FRACTION_CONSTRAINT);
+        }
+    }
+    // Average speed of the three closest points
+    public double average_speed_unit_transfer_value(double speed, double pre_speed1, double pre_speed2, int Unit_Speed){
+        double average_speed = (speed + pre_speed1 + pre_speed2)/3;
+        switch (Unit_Speed) {
+            case 0:
+                return significant_fraction(average_speed, FRACTION_CONSTRAINT);
+            case 1:
+                return significant_fraction(3.6 * average_speed, FRACTION_CONSTRAINT);
+            case 2:
+                return significant_fraction(2.2369362921 * average_speed, FRACTION_CONSTRAINT);
+            default:
+                return significant_fraction(2.2369362921 / 60 * average_speed, FRACTION_CONSTRAINT);
         }
     }
 
@@ -942,7 +960,9 @@ public class MainActivity extends AppCompatActivity {
                 loc.speed = location.getSpeed();
                 loc.height = location.getAltitude();
                 database.locDao().insertAll(loc);
-                valPreviousSpeed = valCurrentSpeed;
+                valPreviousSpeed2 = valPreviousSpeed1
+                valPreviousSpeed1 = valCurrentSpeed;
+
 
             } else {
                 // If Location is null, cannot grab information from Location (etc. "Non Fine authority of GPS").
