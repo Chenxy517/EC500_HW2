@@ -1,4 +1,6 @@
-package ec500.hw2.p0;
+package ec500.hw2.p2;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,34 +9,31 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.provider.Settings;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
-
 import android.os.Bundle;
-import android.os.Message;
 import android.os.Handler;
+import android.os.Message;
+import android.provider.Settings;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Spinner;
 import android.widget.ViewFlipper;
-import androidx.appcompat.app.AppCompatActivity;
 
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import ec500.hw2.p0.database.GPSDatabase;
-import ec500.hw2.p0.model.Loc;
+import ec500.hw2.p2.database.GPSDatabase;
+import ec500.hw2.p2.model.Loc;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager locationManager;
 
 //    private String strLocation, strSpeed;
-    private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset, btn_previous, btn_next;
+private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset, btn_previous, btn_next;
     private static Spinner DistanceUnit;
     private static Spinner TimeUnit;
     private static Spinner SpeedUnit;
@@ -75,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
     private long curTime = 0;
     private long preTime = startTime;
     private double valPreviousTime = startTime;
-
 
     // --- Use for High Score View only:
     private double valVarianceSpeed = 0.0;
@@ -590,8 +588,6 @@ public class MainActivity extends AppCompatActivity {
                     txtSpeedValue.setTextColor(Color.RED);
                 }
 
-
-
                 // Set Value for the TextView in Main:
                 txtSpeedValue.setText(strSpeedValue);
                 txtSpeedUnit.setText(strSpeedUnit);
@@ -631,7 +627,6 @@ public class MainActivity extends AppCompatActivity {
                 txtHC_minAltitude.setTextColor(Color.GREEN);
 
             }
-
 
             return false;
         }
@@ -674,17 +669,17 @@ public class MainActivity extends AppCompatActivity {
         if (acc_unit){
             cur_acc = cur_acc * (0.5876 / 3155.7 / 3155.7);
         }
-    return cur_acc;
+        return cur_acc;
     }
 
-    public String acc_unit_transfer_unit(int acc_unit){
-        switch (acc_unit) {
-            case true:
-                return "meters/second ^2";
-            case false:
-                return "smoots/microcentury^2";
+    public String acc_unit_transfer_unit(boolean acc_unit){
+        if (acc_unit) {
+            return "meters/second ^2";
+        } else {
+            return "smoots/microcentury^2";
         }
     }
+
 
     public double speed_unit_transfer_value(double speed, int Unit_Speed){
         switch (Unit_Speed) {
@@ -698,6 +693,7 @@ public class MainActivity extends AppCompatActivity {
                 return significant_fraction(2.2369362921 / 60 * speed, FRACTION_CONSTRAINT);
         }
     }
+
     // Average speed of the three closest points
     public double average_speed_unit_transfer_value(double speed, double pre_speed1, double pre_speed2, int Unit_Speed){
         double average_speed = (speed + pre_speed1 + pre_speed2)/3;
@@ -943,8 +939,6 @@ public class MainActivity extends AppCompatActivity {
                 strSpeedChangeValue = stringBuilderSpeedChangeValue.toString();
                 strSpeedChangeUnit = stringBuilderSpeedChangeUnit.toString();
 
-                // Acceleration information
-
                 // Time information:
                 strTimeValue = stringBuilderTimeValue.toString();
                 strTimeUnit = stringBuilderTimeUnit.toString();
@@ -962,10 +956,6 @@ public class MainActivity extends AppCompatActivity {
                 loc.speed = location.getSpeed();
                 loc.height = location.getAltitude();
                 database.locDao().insertAll(loc);
-                valPreviousSpeed2 = valPreviousSpeed1;
-                valPreviousSpeed1 = valCurrentSpeed;
-                valPreviousTime = valCurrentTime;
-
 
             } else {
                 // If Location is null, cannot grab information from Location (etc. "Non Fine authority of GPS").

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/titleHC"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/highScore_title"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtHC_speedData"
+        android:layout_width="226dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="16dp"
+        android:padding="5dp"
+        android:text="N/A"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleHC" />
+
+    <TextView
+        android:id="@+id/titleHC_speedData"
+        android:layout_width="123dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="64dp"
+        android:fontFamily="sans-serif"
+        android:padding="5dp"
+        android:text="Speed Data: "
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/txtHC_speedData"
+        app:layout_constraintHorizontal_bias="0.425"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleHC" />
+
+    <TextView
+        android:id="@+id/txtHC_maxSpeed"
+        android:layout_width="226dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="5dp"
+        android:text="N/A"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtHC_variationSpeed" />
+
+    <TextView
+        android:id="@+id/txtHC_minSpeed"
+        android:layout_width="226dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:padding="5dp"
+        android:text="N/A"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtHC_maxSpeed" />
+
+    <TextView
+        android:id="@+id/titleHC_Min"
+        android:layout_width="100dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="8dp"
+        android:padding="5dp"
+        android:text="MIN: "
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/txtHC_minSpeed"
+        app:layout_constraintHorizontal_bias="0.285"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleHC_Max" />
+
+    <TextView
+        android:id="@+id/titleHC_Altitude"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="56dp"
+        android:padding="5dp"
+        android:text="Altitude Data: "
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.071"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtHC_minSpeed" />
+
+    <TextView
+        android:id="@+id/txtHC_Altitude"
+        android:layout_width="200dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:padding="5dp"
+        android:text="N/A"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/txtHC_variationAltitude"
+        app:layout_constraintHorizontal_bias="0.173"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleHC_Altitude" />
+
+    <TextView
+        android:id="@+id/txtHC_variationAltitude"
+        android:layout_width="160dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="12dp"
+        android:padding="7dp"
+        android:text="N/A"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleHC_Altitude" />
+
+    <TextView
+        android:id="@+id/txtHC_minAltitude"
+        android:layout_width="226dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="12dp"
+        android:padding="5dp"
+        android:text="N/A"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtHC_maxAltitude" />
+
+    <TextView
+        android:id="@+id/txtHC_maxAltitude"
+        android:layout_width="226dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="12dp"
+        android:padding="5dp"
+        android:text="N/A"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtHC_variationAltitude" />
+
+    <TextView
+        android:id="@+id/titleHC_MinAltitude"
+        android:layout_width="100dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:padding="5dp"
+        android:text="MIN: "
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/txtHC_minAltitude"
+        app:layout_constraintHorizontal_bias="0.061"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleHC_MaxAltitude" />
+
+    <TextView
+        android:id="@+id/titleHC_MaxAltitude"
+        android:layout_width="100dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="16dp"
+        android:padding="5dp"
+        android:text="MAX: "
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/txtHC_maxAltitude"
+        app:layout_constraintHorizontal_bias="0.246"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtHC_Altitude" />
+
+    <TextView
+        android:id="@+id/titleHC_Max"
+        android:layout_width="100dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="76dp"
+        android:padding="5dp"
+        android:text="MAX: "
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/txtHC_maxSpeed"
+        app:layout_constraintHorizontal_bias="0.285"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleHC_speedData" />
+
+    <TextView
+        android:id="@+id/txtHC_variationSpeed"
+        android:layout_width="226dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:padding="7dp"
+        android:text="N/A"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtHC_speedData" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

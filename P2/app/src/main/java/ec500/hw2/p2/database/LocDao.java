@@ -1,4 +1,4 @@
-package ec500.hw2.p0.database;
+package ec500.hw2.p2.database;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -7,7 +7,7 @@ import androidx.room.Query;
 
 import java.util.List;
 
-import ec500.hw2.p0.model.Loc;
+import ec500.hw2.p2.model.Loc;
 
 @Dao
 public interface LocDao {
