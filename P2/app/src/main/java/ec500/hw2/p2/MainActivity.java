@@ -811,6 +811,7 @@ public class MainActivity extends AppCompatActivity {
     private synchronized void updateShow(Location location) {
 
         double valPreviousSpeed1 = 0.0;
+        double valPreviousSpeed2 = 0.0;
         double valPreviousTime = startTime;
 
         // Not test mode, get real-time data.
@@ -867,7 +868,7 @@ public class MainActivity extends AppCompatActivity {
                 StringBuilder stringBuilderMinAltitude = new StringBuilder();
 
                 valCurrentSpeed = 3.6 * location.getSpeed();
-                double valPreviousSpeed2 = valPreviousSpeed1;
+                valPreviousSpeed2 = valPreviousSpeed1;
                 valPreviousSpeed1 = valCurrentSpeed;
                 valPreviousTime = valCurrentTime;
 
