@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager locationManager;
 
 //    private String strLocation, strSpeed;
-private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset, btn_previous, btn_next;
+    private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset, btn_previous, btn_next, btnAcc;
     private static Spinner DistanceUnit;
     private static Spinner TimeUnit;
     private static Spinner SpeedUnit;
@@ -357,7 +357,7 @@ private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset, btn_previous
         });
 
         // Change acceleration unit
-        btnAcc = (Button) findViewById(R.id.btnAcc);
+        //btnAcc = (Button) findViewById(R.id.btnAcc);
         btnAcc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -681,7 +681,7 @@ private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset, btn_previous
     }
 
 
-    public double speed_unit_transfer_value(double speed, int Unit_Speed){
+    public static double speed_unit_transfer_value(double speed, int Unit_Speed){
         switch (Unit_Speed) {
             case 0:
                 return significant_fraction(speed, FRACTION_CONSTRAINT);
@@ -695,7 +695,7 @@ private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset, btn_previous
     }
 
     // Average speed of the three closest points
-    public double average_speed_unit_transfer_value(double speed, double pre_speed1, double pre_speed2, int Unit_Speed){
+    public static double average_speed_unit_transfer_value(double speed, double pre_speed1, double pre_speed2, int Unit_Speed){
         double average_speed = (speed + pre_speed1 + pre_speed2)/3;
         switch (Unit_Speed) {
             case 0:
@@ -709,7 +709,7 @@ private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset, btn_previous
         }
     }
 
-    public String speed_unit_transfer_unit(int Unit_Speed){
+    public static String speed_unit_transfer_unit(int Unit_Speed){
         switch (Unit_Speed) {
             case 0:
                 return "Mps";
@@ -722,7 +722,7 @@ private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset, btn_previous
         }
     }
 
-    public double distance_unit_transfer_value(double distance, int Unit_Distance){
+    public static double distance_unit_transfer_value(double distance, int Unit_Distance){
         switch (Unit_Distance) {
             case 0:
                 return significant_fraction(distance, FRACTION_CONSTRAINT) ;
@@ -735,7 +735,7 @@ private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset, btn_previous
         }
     }
 
-    public String distance_unit_transfer_unit(int Unit_Distance){
+    public static String distance_unit_transfer_unit(int Unit_Distance){
         switch (Unit_Distance) {
             case 0:
                 return "m";
@@ -748,7 +748,7 @@ private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset, btn_previous
         }
     }
 
-    public double time_unit_transfer_value(double time, int Unit_Time){
+    public static double time_unit_transfer_value(double time, int Unit_Time){
         switch (Unit_Time) {
             case 0:
                 return significant_fraction(time, FRACTION_CONSTRAINT);
@@ -761,7 +761,7 @@ private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset, btn_previous
         }
     }
 
-    public String time_unit_transfer_unit(int Unit_Time){
+    public static String time_unit_transfer_unit(int Unit_Time){
         switch (Unit_Time) {
             case 0:
                 return "s";
@@ -780,7 +780,7 @@ private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset, btn_previous
      * @param decimal_places : Number of decimal place to round up
      * @return A rounded value in certain significant figures.
      */
-    private synchronized double significant_fraction(double var, int decimal_places) {
+    private static synchronized double significant_fraction(double var, int decimal_places) {
 
         String str_var = Double.toString(Math.abs(var));
         int decimal_place = str_var.length() - str_var.indexOf('.') - 1;
