@@ -590,16 +590,16 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean handleMessage(Message msg) {
             if ( msg.what == 0x001 ) {
-                if (valCurrentSpeed < 10.0) {
+                if (3.6 * valCurrentSpeed < 10.0) {
                     txtSpeedValue.setTextColor(Color.BLACK);
                 }
-                else if (valCurrentSpeed < 20.0){
+                else if (3.6 * valCurrentSpeed < 20.0){
                     txtSpeedValue.setTextColor(Color.GREEN);
                 }
-                else if (valCurrentSpeed < 30.0){
+                else if (3.6 * valCurrentSpeed < 30.0){
                     txtSpeedValue.setTextColor(Color.BLUE);
                 }
-                else if (valCurrentSpeed < 50.0){
+                else if (3.6 * valCurrentSpeed < 50.0){
                     txtSpeedValue.setTextColor(Color.CYAN);
                 }
                 else{
@@ -690,7 +690,7 @@ public class MainActivity extends AppCompatActivity {
     public double acceleration_unit_transfer_value(double speed, double pre_speed, double time, double pre_time, boolean acc_unit){
         double cur_acc = (speed - pre_speed) / (time - pre_time); // in m/s^2
         if (acc_unit){
-            cur_acc = cur_acc * (0.5876 / 3155.7 / 3155.7);
+            cur_acc = cur_acc * 0.5876 / 3155.7 / 3155.7;
         }
         return cur_acc;
     }
@@ -719,7 +719,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Average speed of the three closest points
     public static double average_speed_unit_transfer_value(double speed, double pre_speed1, double pre_speed2, int Unit_Speed){
-        double average_speed = (speed + pre_speed1 + pre_speed2)/3;
+        double average_speed = (speed + pre_speed1 + pre_speed2) / 3.0;
         switch (Unit_Speed) {
             case 0:
                 return significant_fraction(average_speed, FRACTION_CONSTRAINT);
@@ -835,7 +835,7 @@ public class MainActivity extends AppCompatActivity {
 
         double valPreviousSpeed1 = 0.0;
         double valPreviousSpeed2 = 0.0;
-        double valPreviousTime = startTime;
+        double valPreviousTime = 0.0;
 
         // Not test mode, get real-time data.
         if(!isTest) {
@@ -895,12 +895,14 @@ public class MainActivity extends AppCompatActivity {
                 StringBuilder stringBuilderMaxAltitude = new StringBuilder();
                 StringBuilder stringBuilderMinAltitude = new StringBuilder();
 
-                valCurrentSpeed = 3.6 * location.getSpeed();
-                valPreviousSpeed2 = valPreviousSpeed1;
-                valPreviousSpeed1 = valCurrentSpeed;
-                valPreviousTime = valCurrentTime;
+                synchronized (this){valPreviousSpeed2 = valPreviousSpeed1;}
+                synchronized (this){
+                    valPreviousSpeed1 = valCurrentSpeed;
+                    valCurrentSpeed = location.getSpeed();
+                }
 
                 if(!(preLatitude == location.getLatitude() && preLongitude == location.getLongitude())){
+                    valPreviousTime = valCurrentTime;
                     valCurrentTime = (curTime - preTime) / 1E9 + valCurrentTime;
                 }
                 preLatitude = location.getLatitude();
@@ -912,6 +914,10 @@ public class MainActivity extends AppCompatActivity {
                 if(isReset){
                     preTime = System.nanoTime();
                     valCurrentTime = 0;
+                    valCurrentSpeed = 0;
+                    valPreviousSpeed1 = 0;
+                    valPreviousSpeed2 = 0;
+                    valPreviousTime = 0;
                     valCurrentDistance = 0;
                     valGlobalMaxSpeed = 0.0;
                     valGlobalMinSpeed = Double.MAX_VALUE;
@@ -948,9 +954,9 @@ public class MainActivity extends AppCompatActivity {
                 stringBuilderDistanceUnit.append(distance_unit_transfer_unit(Unit_distance));
                 stringBuilderRunningTime.append(formatter1.format(time_unit_transfer_value((curTime - runningTime) / 1E9, Unit_Time))).append(time_unit_transfer_unit(Unit_Time));
 
-                stringBuilderAccelerationValue.append(formatter1.format(acceleration_unit_transfer_value(valCurrentSpeed,valPreviousSpeed2,valCurrentTime,valPreviousTime,accUnit)));
+                stringBuilderAccelerationValue.append(formatter1.format(acceleration_unit_transfer_value(location.getSpeed(),valPreviousSpeed1,valCurrentTime,valPreviousTime,accUnit)));
                 stringBuilderAccelerationUnit.append(acc_unit_transfer_unit(accUnit));
-                stringBuilderAverageSpeedValue.append(average_speed_unit_transfer_value(valCurrentSpeed,valPreviousSpeed1,valPreviousSpeed2,Unit_Speed));
+                stringBuilderAverageSpeedValue.append(speed_unit_transfer_value((location.getSpeed()+valPreviousSpeed1+valPreviousSpeed2)/3 ,Unit_Speed));
                 stringBuilderAverageSpeedUnit.append(speed_unit_transfer_unit(Unit_Speed));
 
                 // ------ Global Database and High Score View update: -------
@@ -1076,7 +1082,7 @@ public class MainActivity extends AppCompatActivity {
                 Sim_valCurrentTime = (curTime - preTime) / 1E9 + Sim_valCurrentTime;
                 Sim_valCurrentDistance = Sim_valCurrentDistance + Sim_valCurrentSpeed * (curTime - preTime) / 1E9;
 
-                valCurrentSpeed = 3.6 * location.getSpeed();
+                valCurrentSpeed = location.getSpeed();
                 if(!(preLatitude == location.getLatitude() && preLongitude == location.getLongitude())){
                     valCurrentTime = (curTime - preTime) / 1E9 + valCurrentTime;
                 }
