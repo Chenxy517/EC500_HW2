@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager locationManager;
 
 //    private String strLocation, strSpeed;
-    private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset, btn_previous, btn_next, btnAcc;
+    private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset, btn_previous, btn_next, btnAccelerationUnit;
     private static Spinner DistanceUnit;
     private static Spinner TimeUnit;
     private static Spinner SpeedUnit;
@@ -90,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtDistanceValue, txtDistance, txtDistanceUnit;
     private TextView txtTimeValue, txtTimeShow, txtTimeUnit, txtRunningTime;
     private TextView txtSpeedValue, txtSpeedShow, txtSpeedUnit, txtSpeedChangeValue, txtSpeedChangeUnit;
+    private TextView txtAccelerationValue;
+    private TextView txtAverageSpeedValue, txtAverageSpeedUnit;
 
     // Textview in High_Score view.
     private TextView titleHC_speedData, titleHC_Max, titleHC_Min, titleHC_Altitude, titleHC_MaxAltitude, titleHC_MinAltitude;
@@ -103,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
     private String strRunningTime;
     private String strDistanceValue, strDistanceUnit;
     private String strSpeedValue, strSpeedUnit, strSpeedChangeValue, strSpeedChangeUnit;
+    private String strAccelerationValue, strAccelerationUnit;
+    private String strAverageSpeedValue, strAverageSpeedUnit;
 
     // For value shown in Textview() in High Score Layout:
     private String strVariantSpeed, strGlobalSpeedMax, strGlobalSpeedMin;
@@ -150,6 +154,10 @@ public class MainActivity extends AppCompatActivity {
         txtSpeedValue = (TextView) findViewById(R.id.txtSpeedValue);
         txtSpeedUnit = (TextView) findViewById(R.id.txtSpeedUnitShow);
 
+        // Acceleration
+        txtAccelerationValue = (TextView) findViewById(R.id.txtAccelerationValue);
+        btnAccelerationUnit = (Button) findViewById(R.id.btnAccelerationUnitChange);
+
         /**
          * --------  High_Score View Here: ---------------
          */
@@ -182,6 +190,8 @@ public class MainActivity extends AppCompatActivity {
         txtTimeValue.setText("N/A");
         txtTimeUnit.setText("N/A");
         txtRunningTime.setText("N/A");
+        txtAccelerationValue.setText("N/A");
+        btnAccelerationUnit.setText("N/A");
 
         // Set Value for the TextView in High Score:
         txtHC_speedData.setText("N/A");
@@ -260,6 +270,14 @@ public class MainActivity extends AppCompatActivity {
         txtSpeedUnit = (TextView) findViewById(R.id.txtSpeedUnitShow);
         txtSpeedChangeValue = (TextView) findViewById(R.id.txtSpeedValueChange);
         txtSpeedChangeUnit = (TextView) findViewById(R.id.txtSpeedChangeUnit);
+
+        // Acceleration
+        txtAccelerationValue = (TextView) findViewById(R.id.txtAccelerationValue);
+        btnAccelerationUnit = (Button) findViewById(R.id.btnAccelerationUnitChange);
+
+        // Average Speed
+        txtAverageSpeedValue = (TextView) findViewById(R.id.txtAverageSpeed);
+        txtAverageSpeedUnit = (TextView) findViewById(R.id.txtAverageSpeedUnit);
 
         /**
          * --------  High_Score View Here: ---------------
@@ -357,8 +375,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Change acceleration unit
-        //btnAcc = (Button) findViewById(R.id.btnAcc);
-        btnAcc.setOnClickListener(new View.OnClickListener() {
+//        btnAcc = (Button) findViewById(R.id.btnAcc);
+        btnAccelerationUnit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
@@ -567,7 +585,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    // Handle messages, TODO: Add more code explaination at here:
+    // Handle messages, TODO: Add more code explanation at here:
     private Handler handler = new Handler(new Handler.Callback(){
         @Override
         public boolean handleMessage(Message msg) {
@@ -604,6 +622,11 @@ public class MainActivity extends AppCompatActivity {
                 txtTimeValue.setText(strTimeValue);
                 txtTimeUnit.setText(strTimeUnit);
                 txtRunningTime.setText(strRunningTime);
+
+                txtAccelerationValue.setText(strAccelerationValue);
+                btnAccelerationUnit.setText(strAccelerationUnit);
+                txtAverageSpeedValue.setText(strAverageSpeedValue);
+                txtAverageSpeedUnit.setText(strAverageSpeedUnit);
 
                 // Set Value for the TextView in High Score:
                 String text_speedData = strSpeedValue + " /" + strSpeedUnit;
@@ -859,6 +882,11 @@ public class MainActivity extends AppCompatActivity {
                 StringBuilder stringBuilderDistanceUnit = new StringBuilder();
                 StringBuilder stringBuilderRunningTime = new StringBuilder();
 
+                StringBuilder stringBuilderAccelerationValue = new StringBuilder();
+                StringBuilder stringBuilderAccelerationUnit = new StringBuilder();
+                StringBuilder stringBuilderAverageSpeedValue = new StringBuilder();
+                StringBuilder stringBuilderAverageSpeedUnit = new StringBuilder();
+
                 // String Builder for calculate values of matrices in HighScore View:
                 StringBuilder stringBuilderVarianceSpeed = new StringBuilder();
                 StringBuilder stringBuilderGlobalMaxSpeed = new StringBuilder();
@@ -904,8 +932,9 @@ public class MainActivity extends AppCompatActivity {
                     isReset = false;
                 }
 
+                NumberFormat formatter1 = new DecimalFormat("#0.000");
                 if(strSpeedTemp!=null){
-                    stringBuilderSpeedChangeValue.append(speed_unit_transfer_value(location.getSpeed(), Unit_Speed)-strSpeedTemp);
+                    stringBuilderSpeedChangeValue.append(formatter1.format(speed_unit_transfer_value(location.getSpeed(), Unit_Speed)-strSpeedTemp));
                     stringBuilderSpeedChangeUnit.append(speed_unit_transfer_unit(Unit_Speed));
                 }
                 strSpeedTemp = speed_unit_transfer_value(location.getSpeed(), Unit_Speed);
@@ -917,7 +946,12 @@ public class MainActivity extends AppCompatActivity {
                 stringBuilderTimeUnit.append(time_unit_transfer_unit(Unit_Time));
                 stringBuilderDistanceValue.append(distance_unit_transfer_value(valCurrentDistance,Unit_distance));
                 stringBuilderDistanceUnit.append(distance_unit_transfer_unit(Unit_distance));
-                stringBuilderRunningTime.append(time_unit_transfer_value((curTime - runningTime) / 1E9, Unit_Time)).append(time_unit_transfer_unit(Unit_Time));
+                stringBuilderRunningTime.append(formatter1.format(time_unit_transfer_value((curTime - runningTime) / 1E9, Unit_Time))).append(time_unit_transfer_unit(Unit_Time));
+
+                stringBuilderAccelerationValue.append(formatter1.format(acceleration_unit_transfer_value(valCurrentSpeed,valPreviousSpeed2,valCurrentTime,valPreviousTime,accUnit)));
+                stringBuilderAccelerationUnit.append(acc_unit_transfer_unit(accUnit));
+                stringBuilderAverageSpeedValue.append(average_speed_unit_transfer_value(valCurrentSpeed,valPreviousSpeed1,valPreviousSpeed2,Unit_Speed));
+                stringBuilderAverageSpeedUnit.append(speed_unit_transfer_unit(Unit_Speed));
 
                 // ------ Global Database and High Score View update: -------
                 updateHighScoreData(location, stringBuilderVarianceSpeed,
@@ -957,6 +991,14 @@ public class MainActivity extends AppCompatActivity {
                 // Running time:
                 strRunningTime = stringBuilderRunningTime.toString();
 
+                // Acceleration:
+                strAccelerationValue = stringBuilderAccelerationValue.toString();
+                strAccelerationUnit = stringBuilderAccelerationUnit.toString();
+
+                // Average Speed:
+                strAverageSpeedValue = stringBuilderAverageSpeedValue.toString();
+                strAverageSpeedUnit = stringBuilderAverageSpeedUnit.toString();
+
                 // Put location data to back-end database
                 Loc loc = new Loc();
                 loc.id = strRunningTime;
@@ -981,6 +1023,11 @@ public class MainActivity extends AppCompatActivity {
                 strAltitudeChange = "";
                 strSpeedChangeUnit = "";
                 strSpeedChangeValue = "";
+
+                strAccelerationUnit = "";
+                strAccelerationValue = "";
+                strAverageSpeedUnit = "";
+                strAverageSpeedValue = "";
 
                 // Highest Scores:
                 strVariantSpeed = "";
@@ -1008,7 +1055,6 @@ public class MainActivity extends AppCompatActivity {
                 StringBuilder stringBuilderDistanceValue = new StringBuilder();
                 StringBuilder stringBuilderDistanceUnit = new StringBuilder();
                 StringBuilder stringBuilderRunningTime = new StringBuilder();
-
 
                 StringBuilder stringBuilderLongitudeChange = new StringBuilder();
                 StringBuilder stringBuilderLatitudeChange = new StringBuilder();
