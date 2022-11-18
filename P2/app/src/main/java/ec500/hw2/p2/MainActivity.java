@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean isReset = false;
     private boolean isMeterPerSecond = true;
     private double valCurrentSpeed = 0.0;
-    private double valPreviousSpeed1 = 0.0;
-    private double valPreviousSpeed2 = 0.0;
+//    private double valPreviousSpeed1 = 0.0;
+//    private double valPreviousSpeed2 = 0.0;
     private double Sim_valCurrentSpeed = 0.0;
     private double valCurrentTime = 0.0;
     private double Sim_valCurrentTime = 0.0;
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private long runningTime = startTime;
     private long curTime = 0;
     private long preTime = startTime;
-    private double valPreviousTime = startTime;
+//    private double valPreviousTime = startTime;
 
     // --- Use for High Score View only:
     private double valVarianceSpeed = 0.0;
@@ -810,6 +810,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private synchronized void updateShow(Location location) {
 
+        double valPreviousSpeed1 = 0.0;
+        double valPreviousTime = startTime;
+
         // Not test mode, get real-time data.
         if(!isTest) {
             curTime = System.nanoTime();
@@ -864,6 +867,9 @@ public class MainActivity extends AppCompatActivity {
                 StringBuilder stringBuilderMinAltitude = new StringBuilder();
 
                 valCurrentSpeed = 3.6 * location.getSpeed();
+                double valPreviousSpeed2 = valPreviousSpeed1;
+                valPreviousSpeed1 = valCurrentSpeed;
+                valPreviousTime = valCurrentTime;
 
                 if(!(preLatitude == location.getLatitude() && preLongitude == location.getLongitude())){
                     valCurrentTime = (curTime - preTime) / 1E9 + valCurrentTime;
@@ -956,6 +962,8 @@ public class MainActivity extends AppCompatActivity {
                 loc.speed = location.getSpeed();
                 loc.height = location.getAltitude();
                 database.locDao().insertAll(loc);
+
+
 
             } else {
                 // If Location is null, cannot grab information from Location (etc. "Non Fine authority of GPS").
