@@ -591,21 +591,31 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean handleMessage(Message msg) {
             if ( msg.what == 0x001 ) {
-                if (3.6 * valCurrentSpeed < 10.0) {
-                    txtSpeedValue.setTextColor(Color.BLACK);
-                }
-                else if (3.6 * valCurrentSpeed < 20.0){
-                    txtSpeedValue.setTextColor(Color.GREEN);
-                }
-                else if (3.6 * valCurrentSpeed < 30.0){
-                    txtSpeedValue.setTextColor(Color.BLUE);
-                }
-                else if (3.6 * valCurrentSpeed < 50.0){
-                    txtSpeedValue.setTextColor(Color.CYAN);
-                }
-                else{
+//                if (3.6 * valCurrentSpeed < 10.0) {
+//                    txtSpeedValue.setTextColor(Color.BLACK);
+//                }
+//                else if (3.6 * valCurrentSpeed < 20.0){
+//                    txtSpeedValue.setTextColor(Color.GREEN);
+//                }
+//                else if (3.6 * valCurrentSpeed < 30.0){
+//                    txtSpeedValue.setTextColor(Color.BLUE);
+//                }
+//                else if (3.6 * valCurrentSpeed < 50.0){
+//                    txtSpeedValue.setTextColor(Color.CYAN);
+//                }
+//                else{
+//                    txtSpeedValue.setTextColor(Color.RED);
+//                }
+                if (3.6 * 0.621371192 * valCurrentSpeed > historical_average_speed + 5.0) {
                     txtSpeedValue.setTextColor(Color.RED);
                 }
+                else if (3.6 * 0.621371192 * valCurrentSpeed < historical_average_speed - 5.0){
+                    txtSpeedValue.setTextColor(Color.GREEN);
+                }
+                else{
+                    txtSpeedValue.setTextColor(Color.BLACK);
+                }
+
 
                 // Set Value for the TextView in Main:
                 txtSpeedValue.setText(strSpeedValue);
