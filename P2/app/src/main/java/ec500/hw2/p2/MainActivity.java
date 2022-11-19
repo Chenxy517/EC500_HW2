@@ -32,6 +32,7 @@ import java.math.MathContext;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import ec500.hw2.p2.average.ClosestAverage;
 import ec500.hw2.p2.database.GPSDatabase;
 import ec500.hw2.p2.model.Loc;
 
@@ -895,6 +896,18 @@ public class MainActivity extends AppCompatActivity {
                 StringBuilder stringBuilderMaxAltitude = new StringBuilder();
                 StringBuilder stringBuilderMinAltitude = new StringBuilder();
 
+                // New version of closest average:
+                // initialization
+                ClosestAverage closestAverage = new ClosestAverage(database);
+                // get closest average
+                double valClosestAverage = closestAverage.getAverage();
+                // update speed data in database
+                closestAverage.updateClosest(location.getSpeed());
+                // update database
+                database = closestAverage.getDatabase();
+
+
+                // Old version of closest average:
                 synchronized (this){valPreviousSpeed2 = valPreviousSpeed1;}
                 synchronized (this){
                     valPreviousSpeed1 = valCurrentSpeed;
@@ -956,7 +969,8 @@ public class MainActivity extends AppCompatActivity {
 
                 stringBuilderAccelerationValue.append(formatter1.format(acceleration_unit_transfer_value(location.getSpeed(),valPreviousSpeed1,valCurrentTime,valPreviousTime,accUnit)));
                 stringBuilderAccelerationUnit.append(acc_unit_transfer_unit(accUnit));
-                stringBuilderAverageSpeedValue.append(speed_unit_transfer_value((location.getSpeed()+valPreviousSpeed1+valPreviousSpeed2)/3 ,Unit_Speed));
+                //stringBuilderAverageSpeedValue.append(speed_unit_transfer_value((location.getSpeed()+valPreviousSpeed1+valPreviousSpeed2)/3 ,Unit_Speed));
+                stringBuilderAverageSpeedValue.append(speed_unit_transfer_value(valClosestAverage ,Unit_Speed));
                 stringBuilderAverageSpeedUnit.append(speed_unit_transfer_unit(Unit_Speed));
 
                 // ------ Global Database and High Score View update: -------
