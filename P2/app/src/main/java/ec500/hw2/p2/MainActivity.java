@@ -2,6 +2,8 @@ package ec500.hw2.p2;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
+import static java.lang.Float.parseFloat;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -316,48 +318,53 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 if(edtFontSize.getText().toString().matches("[0-9]+")) {
-
+                    if(parseFloat(edtFontSize.getText().toString())<= 24 && Float.parseFloat(edtFontSize.getText().toString())>= 10)
+                    {
                     // Set Font Size for Main view:
-                    setFontSize(txtLongitude, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtLongitudeValue, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtLongitudeChange,Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtLatitude, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtLatitudeValue, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtLatitudeChange,Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtAltitude, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtAltitudeValue, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtAltitudeChange,Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtDistance, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtDistanceValue, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtDistanceUnit, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtTimeShow, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtTimeValue, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtTimeUnit, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtSpeedShow, Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(txtLongitude, Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(txtLongitudeValue, Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(txtLongitudeChange,Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(txtLatitude, Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(txtLatitudeValue, Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(txtLatitudeChange,Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(txtAltitude, Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(txtAltitudeValue, Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(txtAltitudeChange,Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(txtDistance, Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(txtDistanceValue, Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(txtDistanceUnit, Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(txtTimeShow, Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(txtTimeValue, Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(txtTimeUnit, Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(txtSpeedShow, Float.parseFloat(edtFontSize.getText().toString()));
                     setFontSize(txtSpeedValue, Float.parseFloat(edtFontSize.getText().toString()));
                     setFontSize(txtSpeedUnit, Float.parseFloat(edtFontSize.getText().toString()));
                     setFontSize(txtSpeedChangeValue,Float.parseFloat(edtFontSize.getText().toString()));
                     setFontSize(txtSpeedChangeUnit,Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtRunningTime, Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(txtRunningTime, Float.parseFloat(edtFontSize.getText().toString()));
 
                     // Set Font size for High_Score View:
                     // Title:
-                    setFontSize(titleHC_speedData, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(titleHC_Max, Float.parseFloat(edtFontSize.getText().toString()) - 2);
-                    setFontSize(titleHC_Min, Float.parseFloat(edtFontSize.getText().toString()) - 2);
-                    setFontSize(titleHC_Altitude, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(titleHC_MaxAltitude, Float.parseFloat(edtFontSize.getText().toString()) - 2);
-                    setFontSize(titleHC_MinAltitude, Float.parseFloat(edtFontSize.getText().toString()) - 2);
-
-                    // Corresponding Value:
-                    setFontSize(txtHC_speedData, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtHC_variationSpeed, Float.parseFloat(edtFontSize.getText().toString()) - 3);
-                    setFontSize(txtHC_maxSpeed, Float.parseFloat(edtFontSize.getText().toString()) - 3);
-                    setFontSize(txtHC_minSpeed, Float.parseFloat(edtFontSize.getText().toString()) - 3);
-                    setFontSize(txtHC_Altitude, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtHC_variationAltitude, Float.parseFloat(edtFontSize.getText().toString()) - 3);
-                    setFontSize(txtHC_maxAltitude, Float.parseFloat(edtFontSize.getText().toString()) - 3);
-                    setFontSize(txtHC_minAltitude, Float.parseFloat(edtFontSize.getText().toString()) - 3);
+//                    setFontSize(titleHC_speedData, Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(titleHC_Max, Float.parseFloat(edtFontSize.getText().toString()) - 2);
+//                    setFontSize(titleHC_Min, Float.parseFloat(edtFontSize.getText().toString()) - 2);
+//                    setFontSize(titleHC_Altitude, Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(titleHC_MaxAltitude, Float.parseFloat(edtFontSize.getText().toString()) - 2);
+//                    setFontSize(titleHC_MinAltitude, Float.parseFloat(edtFontSize.getText().toString()) - 2);
+//
+//                    // Corresponding Value:
+//                    setFontSize(txtHC_speedData, Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(txtHC_variationSpeed, Float.parseFloat(edtFontSize.getText().toString()) - 3);
+//                    setFontSize(txtHC_maxSpeed, Float.parseFloat(edtFontSize.getText().toString()) - 3);
+//                    setFontSize(txtHC_minSpeed, Float.parseFloat(edtFontSize.getText().toString()) - 3);
+//                    setFontSize(txtHC_Altitude, Float.parseFloat(edtFontSize.getText().toString()));
+//                    setFontSize(txtHC_variationAltitude, Float.parseFloat(edtFontSize.getText().toString()) - 3);
+//                    setFontSize(txtHC_maxAltitude, Float.parseFloat(edtFontSize.getText().toString()) - 3);
+//                    setFontSize(txtHC_minAltitude, Float.parseFloat(edtFontSize.getText().toString()) - 3);
+                    }
+                    else{
+                        makeToast("Invalid Entry, Font Range [10,24]");
+                    }
                 }
             }
         });
@@ -591,30 +598,30 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean handleMessage(Message msg) {
             if ( msg.what == 0x001 ) {
-//                if (3.6 * valCurrentSpeed < 10.0) {
-//                    txtSpeedValue.setTextColor(Color.BLACK);
-//                }
-//                else if (3.6 * valCurrentSpeed < 20.0){
-//                    txtSpeedValue.setTextColor(Color.GREEN);
-//                }
-//                else if (3.6 * valCurrentSpeed < 30.0){
-//                    txtSpeedValue.setTextColor(Color.BLUE);
-//                }
-//                else if (3.6 * valCurrentSpeed < 50.0){
-//                    txtSpeedValue.setTextColor(Color.CYAN);
-//                }
-//                else{
-//                    txtSpeedValue.setTextColor(Color.RED);
-//                }
-                if (3.6 * 0.621371192 * valCurrentSpeed > historical_average_speed + 5.0) {
-                    txtSpeedValue.setTextColor(Color.RED);
-                }
-                else if (3.6 * 0.621371192 * valCurrentSpeed < historical_average_speed - 5.0){
-                    txtSpeedValue.setTextColor(Color.GREEN);
-                }
-                else{
+                if (3.6 * valCurrentSpeed < 10.0) {
                     txtSpeedValue.setTextColor(Color.BLACK);
                 }
+                else if (3.6 * valCurrentSpeed < 20.0){
+                    txtSpeedValue.setTextColor(Color.GREEN);
+                }
+                else if (3.6 * valCurrentSpeed < 30.0){
+                    txtSpeedValue.setTextColor(Color.BLUE);
+                }
+                else if (3.6 * valCurrentSpeed < 50.0){
+                    txtSpeedValue.setTextColor(Color.CYAN);
+                }
+                else{
+                    txtSpeedValue.setTextColor(Color.RED);
+                }
+//                if (3.6 * 0.621371192 * valCurrentSpeed > historical_average_speed + 5.0) {
+//                    txtSpeedValue.setTextColor(Color.RED);
+//                }
+//                else if (3.6 * 0.621371192 * valCurrentSpeed < historical_average_speed - 5.0){
+//                    txtSpeedValue.setTextColor(Color.GREEN);
+//                }
+//                else{
+//                    txtSpeedValue.setTextColor(Color.BLACK);
+//                }
 
 
                 // Set Value for the TextView in Main:
@@ -862,11 +869,12 @@ public class MainActivity extends AppCompatActivity {
                 StringBuilder stringBuilderLatitudeChange = new StringBuilder();
                 StringBuilder stringBuilderAltitudeChange = new StringBuilder();
 
-                NumberFormat formatter = new DecimalFormat("#0.0000");
+                NumberFormat formatter5 = new DecimalFormat("#0.00000");
+                NumberFormat formatter1 = new DecimalFormat("#0.0");
                 if(strLongitudeTemp!=null){
-                    stringBuilderLongitudeChange.append(formatter.format(significant_fraction(location.getLongitude(), GPS_CONSTRAINT) - strLongitudeTemp));
-                    stringBuilderLatitudeChange.append(formatter.format(significant_fraction(location.getLatitude(), GPS_CONSTRAINT) - strLatitudeTemp));
-                    stringBuilderAltitudeChange.append(formatter.format(speed_unit_transfer_value(significant_fraction(location.getAltitude(), FRACTION_CONSTRAINT), Unit_distance) - strAltitudeTemp));
+                    stringBuilderLongitudeChange.append(formatter5.format(significant_fraction(location.getLongitude(), GPS_CONSTRAINT) - strLongitudeTemp));
+                    stringBuilderLatitudeChange.append(formatter5.format(significant_fraction(location.getLatitude(), GPS_CONSTRAINT) - strLatitudeTemp));
+                    stringBuilderAltitudeChange.append(formatter1.format(speed_unit_transfer_value(significant_fraction(location.getAltitude(), FRACTION_CONSTRAINT), Unit_distance) - strAltitudeTemp));
                     stringBuilderAltitudeChange.append(distance_unit_transfer_unit(Unit_distance));
                 }
 
@@ -961,9 +969,9 @@ public class MainActivity extends AppCompatActivity {
                     isReset = false;
                 }
 
-                NumberFormat formatter1 = new DecimalFormat("#0.000");
+                NumberFormat formatter3 = new DecimalFormat("#0.000");
                 if(strSpeedTemp!=null){
-                    stringBuilderSpeedChangeValue.append(formatter1.format(speed_unit_transfer_value(location.getSpeed(), Unit_Speed)-strSpeedTemp));
+                    stringBuilderSpeedChangeValue.append(formatter3.format(speed_unit_transfer_value(location.getSpeed(), Unit_Speed)-strSpeedTemp));
                     stringBuilderSpeedChangeUnit.append(speed_unit_transfer_unit(Unit_Speed));
                 }
                 strSpeedTemp = speed_unit_transfer_value(location.getSpeed(), Unit_Speed);
@@ -971,13 +979,13 @@ public class MainActivity extends AppCompatActivity {
                 // Append transferred unit value into the TextView and showing:
                 stringBuilderSpeedValue.append(speed_unit_transfer_value(location.getSpeed(), Unit_Speed));
                 stringBuilderSpeedUnit.append(speed_unit_transfer_unit(Unit_Speed));
-                stringBuilderTimeValue.append(time_unit_transfer_value(valCurrentTime,Unit_Time));
+                stringBuilderTimeValue.append(formatter3.format(time_unit_transfer_value(valCurrentTime,Unit_Time)));
                 stringBuilderTimeUnit.append(time_unit_transfer_unit(Unit_Time));
                 stringBuilderDistanceValue.append(distance_unit_transfer_value(valCurrentDistance,Unit_distance));
                 stringBuilderDistanceUnit.append(distance_unit_transfer_unit(Unit_distance));
-                stringBuilderRunningTime.append(formatter1.format(time_unit_transfer_value((curTime - runningTime) / 1E9, Unit_Time))).append(time_unit_transfer_unit(Unit_Time));
+                stringBuilderRunningTime.append(formatter3.format(time_unit_transfer_value((curTime - runningTime) / 1E9, Unit_Time))).append(time_unit_transfer_unit(Unit_Time));
 
-                stringBuilderAccelerationValue.append(formatter1.format(acceleration_unit_transfer_value(location.getSpeed(),valPreviousSpeed1,valCurrentTime,valPreviousTime,accUnit)));
+                stringBuilderAccelerationValue.append(formatter3.format(acceleration_unit_transfer_value(location.getSpeed(),valPreviousSpeed1,valCurrentTime,valPreviousTime,accUnit)));
                 stringBuilderAccelerationUnit.append(acc_unit_transfer_unit(accUnit));
                 //stringBuilderAverageSpeedValue.append(speed_unit_transfer_value((location.getSpeed()+valPreviousSpeed1+valPreviousSpeed2)/3 ,Unit_Speed));
                 stringBuilderAverageSpeedValue.append(speed_unit_transfer_value(valClosestAverage ,Unit_Speed));

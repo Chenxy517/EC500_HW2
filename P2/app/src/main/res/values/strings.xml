@@ -6,7 +6,7 @@
     <string name="highScore_title">Highest Scores</string>
 
     <!--    Textview Variable name:    -->
-    <string name="placeHolder_fontSize">Default Font: 20</string>
+    <string name="placeHolder_fontSize">Font Size Range: [10,24]</string>
 
     <string name="unit_Speed">Speed Unit</string>
     <string name="unit_Time">Time Unit</string>
