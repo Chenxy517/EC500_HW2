@@ -466,6 +466,10 @@
         <!--    Include activity_high_score lay out as an another Flipper View.    -->
         <include layout="@layout/activity_high_score" />
 
+        <!--    Include activity_historical lay out as an another Flipper View.    -->
+        <include layout="@layout/activity_historical" />
+
+
     </ViewFlipper>
 
     <Button

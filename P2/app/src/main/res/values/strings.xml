@@ -5,6 +5,9 @@
 
     <string name="highScore_title">Highest Scores</string>
 
+    <string name="titleHistorical">Historical Information</string>
+
+
     <!--    Textview Variable name:    -->
     <string name="placeHolder_fontSize">Font Size Range: [10,24]</string>
 
