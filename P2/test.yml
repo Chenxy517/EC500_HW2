@@ -1,0 +1,38 @@
+# based on https://about.gitlab.com/blog/2018/10/24/setting-up-gitlab-ci-for-android-projects/
+variables:
+  ANDROID_COMPILE_SDK: "28"
+  ANDROID_BUILD_TOOLS: "28.0.2"
+  ANDROID_SDK_TOOLS:   "4333796"
+
+before_script:
+  - echo "Run this before every script."
+
+stages:
+  - build
+  - test
+
+builder:
+  stage: build
+  script:
+    - echo "I am building something"
+  tags: [android30]
+
+CompileJava:
+  stage: test
+  script:
+    - echo "Compiling Java code..."
+    - cd app/src/main/java; javac ec500/hw2/p2/MainActivity.java
+    - ls -l ec500/hw2/p2/MainActivity.class
+  tags: [java]
+
+JunitTestGradle:
+  stage: test
+  script:
+    - echo "Using gradle to run JUnit tests..."
+    - ./gradlew -Pci --console=plain :app:testDebugUnitTest --tests "ec500.hw2.p2.*"
+  artifacts:
+    paths:
+      - app/build/test-results/testDebugUnitTest
+    reports:
+      junit: app/build/test-results/testDebugUnitTest/TEST-*.xml
+  tags: [android30]
