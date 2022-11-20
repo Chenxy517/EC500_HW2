@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -33,6 +34,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.regex.Pattern;
 
 import ec500.hw2.p2.average.ClosestAverage;
 import ec500.hw2.p2.average.HistoricalAverage;
@@ -44,17 +46,17 @@ public class MainActivity extends AppCompatActivity {
     private ViewFlipper flipper;
     private LocationManager locationManager;
 
-//    private String strLocation, strSpeed;
-    private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset, btn_previous, btn_next, btnAccelerationUnit;
+    //    private String strLocation, strSpeed;
+    private Button btnChangeSize, btnHelp, btnPause, btnTest, btnReset, btn_previous, btn_next, btnAccelerationUnit, btnEmailSend;
     private static Spinner DistanceUnit;
     private static Spinner TimeUnit;
     private static Spinner SpeedUnit;
-    private EditText edtFontSize;
+    private EditText edtFontSize, edtEmailAddress;
     private boolean isTest = false;
     private boolean isReset = false;
     private boolean isMeterPerSecond = true;
     private double valCurrentSpeed = 0.0;
-//    private double valPreviousSpeed1 = 0.0;
+    //    private double valPreviousSpeed1 = 0.0;
 //    private double valPreviousSpeed2 = 0.0;
     private double Sim_valCurrentSpeed = 0.0;
     private double valCurrentTime = 0.0;
@@ -314,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
         txtHC_maxSpeed = findViewById(R.id.txtHC_maxSpeed);
         txtHC_minSpeed = findViewById(R.id.txtHC_minSpeed);
         txtHC_Altitude = findViewById(R.id.txtHC_Altitude);
-        txtHC_variationAltitude =  findViewById(R.id.txtHC_variationAltitude);
+        txtHC_variationAltitude = findViewById(R.id.txtHC_variationAltitude);
         txtHC_maxAltitude = findViewById(R.id.txtHC_maxAltitude);
         txtHC_minAltitude = findViewById(R.id.txtHC_minAltitude);
 
@@ -329,12 +331,10 @@ public class MainActivity extends AppCompatActivity {
         edtFontSize = (EditText) findViewById(R.id.edtFontSize);
         btnChangeSize.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                if(edtFontSize.getText().toString().matches("[0-9]+")) {
-                    if(parseFloat(edtFontSize.getText().toString())<= 24 && Float.parseFloat(edtFontSize.getText().toString())>= 10)
-                    {
-                    // Set Font Size for Main view:
+            public void onClick(View v) {
+                if (edtFontSize.getText().toString().matches("[0-9]+")) {
+                    if (parseFloat(edtFontSize.getText().toString()) <= 24 && Float.parseFloat(edtFontSize.getText().toString()) >= 10) {
+                        // Set Font Size for Main view:
 //                    setFontSize(txtLongitude, Float.parseFloat(edtFontSize.getText().toString()));
 //                    setFontSize(txtLongitudeValue, Float.parseFloat(edtFontSize.getText().toString()));
 //                    setFontSize(txtLongitudeChange,Float.parseFloat(edtFontSize.getText().toString()));
@@ -351,14 +351,14 @@ public class MainActivity extends AppCompatActivity {
 //                    setFontSize(txtTimeValue, Float.parseFloat(edtFontSize.getText().toString()));
 //                    setFontSize(txtTimeUnit, Float.parseFloat(edtFontSize.getText().toString()));
 //                    setFontSize(txtSpeedShow, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtSpeedValue, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtSpeedUnit, Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtSpeedChangeValue,Float.parseFloat(edtFontSize.getText().toString()));
-                    setFontSize(txtSpeedChangeUnit,Float.parseFloat(edtFontSize.getText().toString()));
+                        setFontSize(txtSpeedValue, Float.parseFloat(edtFontSize.getText().toString()));
+                        setFontSize(txtSpeedUnit, Float.parseFloat(edtFontSize.getText().toString()));
+                        setFontSize(txtSpeedChangeValue, Float.parseFloat(edtFontSize.getText().toString()));
+                        setFontSize(txtSpeedChangeUnit, Float.parseFloat(edtFontSize.getText().toString()));
 //                    setFontSize(txtRunningTime, Float.parseFloat(edtFontSize.getText().toString()));
 
-                    // Set Font size for High_Score View:
-                    // Title:
+                        // Set Font size for High_Score View:
+                        // Title:
 //                    setFontSize(titleHC_speedData, Float.parseFloat(edtFontSize.getText().toString()));
 //                    setFontSize(titleHC_Max, Float.parseFloat(edtFontSize.getText().toString()) - 2);
 //                    setFontSize(titleHC_Min, Float.parseFloat(edtFontSize.getText().toString()) - 2);
@@ -375,8 +375,7 @@ public class MainActivity extends AppCompatActivity {
 //                    setFontSize(txtHC_variationAltitude, Float.parseFloat(edtFontSize.getText().toString()) - 3);
 //                    setFontSize(txtHC_maxAltitude, Float.parseFloat(edtFontSize.getText().toString()) - 3);
 //                    setFontSize(txtHC_minAltitude, Float.parseFloat(edtFontSize.getText().toString()) - 3);
-                    }
-                    else{
+                    } else {
                         makeToast("Invalid Entry, Font Range [10,24]");
                     }
                 }
@@ -390,8 +389,7 @@ public class MainActivity extends AppCompatActivity {
         btnTest = (Button) findViewById(R.id.btnTest);
         btnTest.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 isTest = !isTest;
             }
         });
@@ -400,8 +398,7 @@ public class MainActivity extends AppCompatActivity {
 //        btnAcc = (Button) findViewById(R.id.btnAcc);
         btnAccelerationUnit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 accUnit = !accUnit;
             }
         });
@@ -410,8 +407,7 @@ public class MainActivity extends AppCompatActivity {
         btnReset = (Button) findViewById(R.id.btnReset);
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 isReset = true;
             }
         });
@@ -421,16 +417,44 @@ public class MainActivity extends AppCompatActivity {
         btnPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!isPause){
+                if (!isPause) {
                     onPause();
                     Toast.makeText(MainActivity.this, "Pause the location updates", Toast.LENGTH_SHORT).show();
                     isPause = true;
-                }
-                else{
+                } else {
                     preTime = System.nanoTime();
                     onResume();
                     Toast.makeText(MainActivity.this, "Resume the location updates", Toast.LENGTH_SHORT).show();
                     isPause = false;
+                }
+            }
+        });
+
+        // Send Button
+        // TODO: Substitute emailBody to real database
+        btnEmailSend = (Button) findViewById(R.id.btnSendEmail);
+        edtEmailAddress = (EditText) findViewById(R.id.edtEmailAddress);
+        btnEmailSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Check valid email address
+                if (checkEmail(edtEmailAddress.getText().toString())){
+                    String emailSend = edtEmailAddress.getText().toString();
+                    String emailSubject = "Historical Data from My Altimeter";
+                    String emailBody = "To Be Determined";
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailSend});
+                    intent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
+                    intent.putExtra(Intent.EXTRA_TEXT, emailBody);
+                    intent.setType("message/rfc822");
+                    try {
+                        startActivity(Intent.createChooser(intent, "Choose an Email client :"));
+                    } catch (android.content.ActivityNotFoundException ex) {
+                        makeToast("There are no email clients installed.");
+                    }
+                }
+                else{
+                    makeToast("Invalid Email Address, Please Re-entry");
                 }
             }
         });
@@ -481,12 +505,11 @@ public class MainActivity extends AppCompatActivity {
         makeToast("Welcome back ^_^");
     }
 
-    public void btn_nextClick(){
+    public void btn_nextClick() {
         btn_next.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
-                    public void onClick(View v)
-                    {
+                    public void onClick(View v) {
                         // Set the in and out animation of View flipper.
                         flipper.setInAnimation(MainActivity.this,
                                 R.anim.slide_right);
@@ -503,8 +526,7 @@ public class MainActivity extends AppCompatActivity {
         btn_previous.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
-                    public void onClick(View v)
-                    {
+                    public void onClick(View v) {
                         // Set the in and out animation of View flipper.
                         flipper.setInAnimation(MainActivity.this,
                                 android.R.anim.slide_in_left);
@@ -522,9 +544,9 @@ public class MainActivity extends AppCompatActivity {
      * ---------- All Spinner Views in the Layout - activity_main -----------
      */
 
-    public void DistanceSpinner(){
+    public void DistanceSpinner() {
         // change Distance unit
-        DistanceUnit = (Spinner)findViewById(R.id.optionDistanceUnit);
+        DistanceUnit = (Spinner) findViewById(R.id.optionDistanceUnit);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter_Distance = ArrayAdapter.createFromResource(this,
                 R.array.distance_unit, android.R.layout.simple_spinner_item);
@@ -539,20 +561,20 @@ public class MainActivity extends AppCompatActivity {
                 if (count_Distance_OnItemSelectedListener == 1) {
                     Distance[0] = parent.getItemAtPosition(position).toString();
                     Unit_distance = position;
-                }
-                else{
+                } else {
                     count_Distance_OnItemSelectedListener += 1;
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
     }
 
-    private void TimeSpinner(){
+    private void TimeSpinner() {
         // change Time unit
-        TimeUnit = (Spinner)findViewById(R.id.optionTimeUnit);
+        TimeUnit = (Spinner) findViewById(R.id.optionTimeUnit);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter_Time = ArrayAdapter.createFromResource(this,
                 R.array.time_unit, android.R.layout.simple_spinner_item);
@@ -567,20 +589,20 @@ public class MainActivity extends AppCompatActivity {
                 if (count_Time_OnItemSelectedListener == 1) {
                     Time[0] = parent.getItemAtPosition(position).toString();
                     Unit_Time = position;
-                }
-                else{
+                } else {
                     count_Time_OnItemSelectedListener += 1;
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
     }
 
-    private void SpeedSpinner(){
+    private void SpeedSpinner() {
         // change Speed unit
-        SpeedUnit = (Spinner)findViewById(R.id.optionSpeedUnit);
+        SpeedUnit = (Spinner) findViewById(R.id.optionSpeedUnit);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter_Speed = ArrayAdapter.createFromResource(this,
                 R.array.speed_unit, android.R.layout.simple_spinner_item);
@@ -595,36 +617,40 @@ public class MainActivity extends AppCompatActivity {
                 if (count_Speed_OnItemSelectedListener == 1) {
                     Speed[0] = parent.getItemAtPosition(position).toString();
                     Unit_Speed = position;
-                }
-                else{
+                } else {
                     count_Speed_OnItemSelectedListener += 1;
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
     }
 
+    private Boolean checkEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" + "A-Z]{2,7}$";
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
+    }
 
     // Handle messages, TODO: Add more code explanation at here:
-    private Handler handler = new Handler(new Handler.Callback(){
+    private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            if ( msg.what == 0x001 ) {
+            if (msg.what == 0x001) {
                 if (3.6 * valCurrentSpeed < 10.0) {
                     txtSpeedValue.setTextColor(Color.BLACK);
-                }
-                else if (3.6 * valCurrentSpeed < 20.0){
+                } else if (3.6 * valCurrentSpeed < 20.0) {
                     txtSpeedValue.setTextColor(Color.GREEN);
-                }
-                else if (3.6 * valCurrentSpeed < 30.0){
+                } else if (3.6 * valCurrentSpeed < 30.0) {
                     txtSpeedValue.setTextColor(Color.BLUE);
-                }
-                else if (3.6 * valCurrentSpeed < 50.0){
+                } else if (3.6 * valCurrentSpeed < 50.0) {
                     txtSpeedValue.setTextColor(Color.CYAN);
-                }
-                else{
+                } else {
                     txtSpeedValue.setTextColor(Color.RED);
                 }
 //                if (3.6 * 0.621371192 * valCurrentSpeed > historical_average_speed + 5.0) {
@@ -706,7 +732,7 @@ public class MainActivity extends AppCompatActivity {
         public void onProviderEnabled(String provider) {
 
             // check GPS authority
-            if ( checkCallingOrSelfPermission(ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (checkCallingOrSelfPermission(ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
                 Toast.makeText(MainActivity.this, "Turn on GPS", Toast.LENGTH_SHORT).show();
 
@@ -725,15 +751,15 @@ public class MainActivity extends AppCompatActivity {
     };
 
     //TO DO: acceleration and its unit change
-    public double acceleration_unit_transfer_value(double speed, double pre_speed, double time, double pre_time, boolean acc_unit){
+    public double acceleration_unit_transfer_value(double speed, double pre_speed, double time, double pre_time, boolean acc_unit) {
         double cur_acc = (speed - pre_speed) / (time - pre_time); // in m/s^2
-        if (acc_unit){
+        if (acc_unit) {
             cur_acc = cur_acc * 0.5876 / 3155.7 / 3155.7;
         }
         return cur_acc;
     }
 
-    public String acc_unit_transfer_unit(boolean acc_unit){
+    public String acc_unit_transfer_unit(boolean acc_unit) {
         if (acc_unit) {
             return "meters/second ^2";
         } else {
@@ -742,7 +768,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public static double speed_unit_transfer_value(double speed, int Unit_Speed){
+    public static double speed_unit_transfer_value(double speed, int Unit_Speed) {
         switch (Unit_Speed) {
             case 0:
                 return significant_fraction(speed, FRACTION_CONSTRAINT);
@@ -756,7 +782,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Average speed of the three closest points
-    public static double average_speed_unit_transfer_value(double speed, double pre_speed1, double pre_speed2, int Unit_Speed){
+    public static double average_speed_unit_transfer_value(double speed, double pre_speed1, double pre_speed2, int Unit_Speed) {
         double average_speed = (speed + pre_speed1 + pre_speed2) / 3.0;
         switch (Unit_Speed) {
             case 0:
@@ -770,7 +796,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static String speed_unit_transfer_unit(int Unit_Speed){
+    public static String speed_unit_transfer_unit(int Unit_Speed) {
         switch (Unit_Speed) {
             case 0:
                 return "Mps";
@@ -783,10 +809,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static double distance_unit_transfer_value(double distance, int Unit_Distance){
+    public static double distance_unit_transfer_value(double distance, int Unit_Distance) {
         switch (Unit_Distance) {
             case 0:
-                return significant_fraction(distance, FRACTION_CONSTRAINT) ;
+                return significant_fraction(distance, FRACTION_CONSTRAINT);
             case 1:
                 return significant_fraction(distance / 1000, FRACTION_CONSTRAINT);
             case 2:
@@ -796,7 +822,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static String distance_unit_transfer_unit(int Unit_Distance){
+    public static String distance_unit_transfer_unit(int Unit_Distance) {
         switch (Unit_Distance) {
             case 0:
                 return "m";
@@ -809,7 +835,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static double time_unit_transfer_value(double time, int Unit_Time){
+    public static double time_unit_transfer_value(double time, int Unit_Time) {
         switch (Unit_Time) {
             case 0:
                 return significant_fraction(time, FRACTION_CONSTRAINT);
@@ -822,7 +848,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static String time_unit_transfer_unit(int Unit_Time){
+    public static String time_unit_transfer_unit(int Unit_Time) {
         switch (Unit_Time) {
             case 0:
                 return "s";
@@ -837,7 +863,8 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Given a string, and check if it matches the regular expression of
-     * @param var: Input decimal number that needed to be rounded up.
+     *
+     * @param var:           Input decimal number that needed to be rounded up.
      * @param decimal_places : Number of decimal place to round up
      * @return A rounded value in certain significant figures.
      */
@@ -847,16 +874,14 @@ public class MainActivity extends AppCompatActivity {
         int decimal_place = str_var.length() - str_var.indexOf('.') - 1;
 
         // If variables' decimal places length is larger than our expectation:
-        if (decimal_place > decimal_places)
-        {
-            int integer_part = (int)var;
+        if (decimal_place > decimal_places) {
+            int integer_part = (int) var;
             BigDecimal big_var = new BigDecimal(var - integer_part);
             big_var = big_var.round(new MathContext(decimal_places));
             return big_var.doubleValue() + integer_part;
         }
         // Else: No need to round up, return the original value to expedite running of the program.
-        else
-        {
+        else {
             return var;
         }
 
@@ -866,8 +891,9 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Synchronize update the MainActivity by the update of Location variables.
      * Synchronized used: Wait until responses from Local Database update finishing, and then update
+     *
      * @param location: The data class object of the Location, consists of a latitude, longitude, timestamp, accuracy,
-     *                and other information such as bearing, altitude and velocity
+     *                  and other information such as bearing, altitude and velocity
      */
     private synchronized void updateShow(Location location) {
 
@@ -876,7 +902,7 @@ public class MainActivity extends AppCompatActivity {
         double valPreviousTime = 0.0;
 
         // Not test mode, get real-time data.
-        if(!isTest) {
+        if (!isTest) {
             curTime = System.nanoTime();
 
             if (location != null) {
@@ -891,7 +917,7 @@ public class MainActivity extends AppCompatActivity {
 
                 NumberFormat formatter5 = new DecimalFormat("#0.00000");
                 NumberFormat formatter1 = new DecimalFormat("#0.0");
-                if(strLongitudeTemp!=null){
+                if (strLongitudeTemp != null) {
                     stringBuilderLongitudeChange.append(formatter5.format(significant_fraction(location.getLongitude(), GPS_CONSTRAINT) - strLongitudeTemp));
                     stringBuilderLatitudeChange.append(formatter5.format(significant_fraction(location.getLatitude(), GPS_CONSTRAINT) - strLatitudeTemp));
                     stringBuilderAltitudeChange.append(formatter1.format(speed_unit_transfer_value(significant_fraction(location.getAltitude(), FRACTION_CONSTRAINT), Unit_distance) - strAltitudeTemp));
@@ -905,7 +931,7 @@ public class MainActivity extends AppCompatActivity {
                 stringBuilderLongitude.append(significant_fraction(location.getLongitude(), GPS_CONSTRAINT));
                 stringBuilderLatitude.append(significant_fraction(location.getLatitude(), GPS_CONSTRAINT));
                 stringBuilderAltitude.append(
-                                speed_unit_transfer_value(
+                        speed_unit_transfer_value(
                                 significant_fraction(location.getAltitude(), FRACTION_CONSTRAINT), Unit_distance)
                 );
                 stringBuilderAltitude.append(distance_unit_transfer_unit(Unit_distance));
@@ -952,8 +978,10 @@ public class MainActivity extends AppCompatActivity {
 
 
                 // Old version of closest average:
-                synchronized (this){valPreviousSpeed2 = valPreviousSpeed1;}
-                synchronized (this){
+                synchronized (this) {
+                    valPreviousSpeed2 = valPreviousSpeed1;
+                }
+                synchronized (this) {
                     valPreviousSpeed1 = valCurrentSpeed;
                     valCurrentSpeed = location.getSpeed();
                 }
@@ -970,7 +998,8 @@ public class MainActivity extends AppCompatActivity {
                 // update database
                 database = historicalAverage.getDatabase();
 
-                if(!(preLatitude == location.getLatitude() && preLongitude == location.getLongitude())){
+
+                if (!(preLatitude == location.getLatitude() && preLongitude == location.getLongitude())) {
                     valPreviousTime = valCurrentTime;
                     valCurrentTime = (curTime - preTime) / 1E9 + valCurrentTime;
                 }
@@ -980,7 +1009,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // ------  Functionalities of RESET:  ------
                 preTime = curTime;
-                if(isReset){
+                if (isReset) {
                     preTime = System.nanoTime();
                     valCurrentTime = 0;
                     valCurrentSpeed = 0;
@@ -1008,8 +1037,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 NumberFormat formatter3 = new DecimalFormat("#0.000");
-                if(strSpeedTemp!=null){
-                    stringBuilderSpeedChangeValue.append(formatter3.format(speed_unit_transfer_value(location.getSpeed(), Unit_Speed)-strSpeedTemp));
+                if (strSpeedTemp != null) {
+                    stringBuilderSpeedChangeValue.append(formatter3.format(speed_unit_transfer_value(location.getSpeed(), Unit_Speed) - strSpeedTemp));
                     stringBuilderSpeedChangeUnit.append(speed_unit_transfer_unit(Unit_Speed));
                 }
                 strSpeedTemp = speed_unit_transfer_value(location.getSpeed(), Unit_Speed);
@@ -1017,15 +1046,16 @@ public class MainActivity extends AppCompatActivity {
                 // Append transferred unit value into the TextView and showing:
                 stringBuilderSpeedValue.append(speed_unit_transfer_value(location.getSpeed(), Unit_Speed));
                 stringBuilderSpeedUnit.append(speed_unit_transfer_unit(Unit_Speed));
-                stringBuilderTimeValue.append(formatter3.format(time_unit_transfer_value(valCurrentTime,Unit_Time)));
+                stringBuilderTimeValue.append(formatter3.format(time_unit_transfer_value(valCurrentTime, Unit_Time)));
                 stringBuilderTimeUnit.append(time_unit_transfer_unit(Unit_Time));
-                stringBuilderDistanceValue.append(distance_unit_transfer_value(valCurrentDistance,Unit_distance));
+                stringBuilderDistanceValue.append(distance_unit_transfer_value(valCurrentDistance, Unit_distance));
                 stringBuilderDistanceUnit.append(distance_unit_transfer_unit(Unit_distance));
                 stringBuilderRunningTime.append(formatter3.format(time_unit_transfer_value((curTime - runningTime) / 1E9, Unit_Time))).append(time_unit_transfer_unit(Unit_Time));
 
-                stringBuilderAccelerationValue.append(formatter3.format(acceleration_unit_transfer_value(location.getSpeed(),valPreviousSpeed1,valCurrentTime,valPreviousTime,accUnit)));
+                stringBuilderAccelerationValue.append(formatter3.format(acceleration_unit_transfer_value(location.getSpeed(), valPreviousSpeed1, valCurrentTime, valPreviousTime, accUnit)));
                 stringBuilderAccelerationUnit.append(acc_unit_transfer_unit(accUnit));
                 stringBuilderAverageSpeedValue.append(speed_unit_transfer_value(valClosestAverage ,Unit_Speed));
+                //stringBuilderAverageSpeedValue.append(speed_unit_transfer_value((location.getSpeed()+valPreviousSpeed1+valPreviousSpeed2)/3 ,Unit_Speed));
                 stringBuilderAverageSpeedUnit.append(speed_unit_transfer_unit(Unit_Speed));
 
                 stringBuilderHistoricalAverageSpeedValue.append(speed_unit_transfer_value(valHistoricalAverageSpeed, Unit_Speed));
@@ -1035,11 +1065,11 @@ public class MainActivity extends AppCompatActivity {
 
                 // ------ Global Database and High Score View update: -------
                 updateHighScoreData(location, stringBuilderVarianceSpeed,
-                                    stringBuilderGlobalMaxSpeed,
-                                    stringBuilderGlobalMinSpeed,
-                                    stringBuilderVarianceAltitude,
-                                    stringBuilderMaxAltitude,
-                                    stringBuilderMinAltitude);
+                        stringBuilderGlobalMaxSpeed,
+                        stringBuilderGlobalMinSpeed,
+                        stringBuilderVarianceAltitude,
+                        stringBuilderMaxAltitude,
+                        stringBuilderMinAltitude);
 
                 /* ------------------------------------------------------------------------------------------------------*/
                 // ---- Main View: ----
@@ -1120,10 +1150,9 @@ public class MainActivity extends AppCompatActivity {
                 strVariantAltitude = "";
                 strMaxAltitude = "";
                 strMinAltitude = "";
-                strRunningTime = time_unit_transfer_value((curTime - runningTime) / 1E9, Unit_Time)+ time_unit_transfer_unit(Unit_Time);
+                strRunningTime = time_unit_transfer_value((curTime - runningTime) / 1E9, Unit_Time) + time_unit_transfer_unit(Unit_Time);
             }
-        }
-        else {
+        } else {
             // ----------  Testing mode: ---------
             simulation_distance();
             curTime = System.nanoTime();
@@ -1144,24 +1173,24 @@ public class MainActivity extends AppCompatActivity {
                 StringBuilder stringBuilderLatitudeChange = new StringBuilder();
                 StringBuilder stringBuilderAltitudeChange = new StringBuilder();
 
-                if(strLongitudeTemp!=null){
+                if (strLongitudeTemp != null) {
                     stringBuilderLongitudeChange.append(significant_fraction(location.getLongitude(), GPS_CONSTRAINT) - strLongitudeTemp);
                     stringBuilderLatitudeChange.append(significant_fraction(location.getLatitude(), GPS_CONSTRAINT) - strLatitudeTemp);
-                    stringBuilderAltitudeChange.append(significant_fraction(curTime/1E20, GPS_CONSTRAINT) - strAltitudeTemp);
+                    stringBuilderAltitudeChange.append(significant_fraction(curTime / 1E20, GPS_CONSTRAINT) - strAltitudeTemp);
                 }
 
                 strLongitudeTemp = significant_fraction(location.getLongitude(), GPS_CONSTRAINT);
                 strLatitudeTemp = significant_fraction(location.getLatitude(), GPS_CONSTRAINT);
-                strAltitudeTemp = significant_fraction(curTime/1E20, GPS_CONSTRAINT);
+                strAltitudeTemp = significant_fraction(curTime / 1E20, GPS_CONSTRAINT);
 
                 stringBuilderLongitude.append(significant_fraction(valLongitude, GPS_CONSTRAINT));
                 stringBuilderLatitude.append(significant_fraction(valLatitude, GPS_CONSTRAINT));
-                stringBuilderAltitude.append(significant_fraction(curTime/1E20, GPS_CONSTRAINT));
+                stringBuilderAltitude.append(significant_fraction(curTime / 1E20, GPS_CONSTRAINT));
                 Sim_valCurrentTime = (curTime - preTime) / 1E9 + Sim_valCurrentTime;
                 Sim_valCurrentDistance = Sim_valCurrentDistance + Sim_valCurrentSpeed * (curTime - preTime) / 1E9;
 
                 valCurrentSpeed = location.getSpeed();
-                if(!(preLatitude == location.getLatitude() && preLongitude == location.getLongitude())){
+                if (!(preLatitude == location.getLatitude() && preLongitude == location.getLongitude())) {
                     valCurrentTime = (curTime - preTime) / 1E9 + valCurrentTime;
                 }
                 preLatitude = location.getLatitude();
@@ -1169,7 +1198,7 @@ public class MainActivity extends AppCompatActivity {
                 valCurrentDistance = valCurrentDistance + location.getSpeed() * (curTime - preTime) / 1E9;
 
                 preTime = curTime;
-                if(isReset){
+                if (isReset) {
                     preTime = System.nanoTime();
                     Sim_valCurrentTime = 0;
                     Sim_valCurrentDistance = 0;
@@ -1194,11 +1223,11 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 // Unit Transfer
-                stringBuilderSpeedValue.append(speed_unit_transfer_value(Sim_valCurrentSpeed,Unit_Speed));
+                stringBuilderSpeedValue.append(speed_unit_transfer_value(Sim_valCurrentSpeed, Unit_Speed));
                 stringBuilderSpeedUnit.append(speed_unit_transfer_unit(Unit_Speed));
-                stringBuilderTimeValue.append(time_unit_transfer_value(Sim_valCurrentTime,Unit_Time));
+                stringBuilderTimeValue.append(time_unit_transfer_value(Sim_valCurrentTime, Unit_Time));
                 stringBuilderTimeUnit.append(time_unit_transfer_unit(Unit_Time));
-                stringBuilderDistanceValue.append(distance_unit_transfer_value(Sim_valCurrentDistance,Unit_distance));
+                stringBuilderDistanceValue.append(distance_unit_transfer_value(Sim_valCurrentDistance, Unit_distance));
                 stringBuilderDistanceUnit.append(distance_unit_transfer_unit(Unit_distance));
                 stringBuilderRunningTime.append(time_unit_transfer_value((curTime - runningTime) / 1E9, Unit_Time)).append(time_unit_transfer_unit(Unit_Time));
 
@@ -1239,7 +1268,7 @@ public class MainActivity extends AppCompatActivity {
 //                strVariantAltitude = "";
 //                strMaxAltitude = "";
 //                strMinAltitude = "";
-                strRunningTime = time_unit_transfer_value((curTime - runningTime) / 1E9, Unit_Time)+ time_unit_transfer_unit(Unit_Time);
+                strRunningTime = time_unit_transfer_value((curTime - runningTime) / 1E9, Unit_Time) + time_unit_transfer_unit(Unit_Time);
             }
         }
 
@@ -1248,14 +1277,14 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Using Dom to Record all extreme values of matrices from the User
-     * @param location: Location Object,
+     *
+     * @param location:                    Location Object,
      * @param stringBuilderGlobalMaxSpeed:
-     * @param stringBuilderGlobalMinSpeed:
-     * High Score View Back-end:
-     *      @Speed:     MaximumSpeed, MinimumSpeed Reached; variation of speed;
-     *      @Altitude:  LongestAltitude Reached; variation of Longitude;
-     *      @Distance:  LongestDistance Traveled;
-     *      @Time:      GlobalLongestTime Traveled;
+     * @param stringBuilderGlobalMinSpeed: High Score View Back-end:
+     * @Speed: MaximumSpeed, MinimumSpeed Reached; variation of speed;
+     * @Altitude: LongestAltitude Reached; variation of Longitude;
+     * @Distance: LongestDistance Traveled;
+     * @Time: GlobalLongestTime Traveled;
      */
 
     private synchronized void updateHighScoreData(Location location, StringBuilder stringBuilderVarianceSpeed,
@@ -1263,7 +1292,7 @@ public class MainActivity extends AppCompatActivity {
                                                   StringBuilder stringBuilderGlobalMinSpeed,
                                                   StringBuilder stringBuilderVarianceAltitude,
                                                   StringBuilder stringBuilderMaxAltitude,
-                                                  StringBuilder stringBuilderMinAltitude)  {
+                                                  StringBuilder stringBuilderMinAltitude) {
 
         // ---------- Update Variance Speed ----------
         String[] variant_s = new String[1];
@@ -1473,7 +1502,7 @@ public class MainActivity extends AppCompatActivity {
         double dy = 0;
         double dx = 16.098 / 36000;
         double new_latitude = valLatitude + (dy / r_earth) * (180 / Math.PI);
-        double new_longitude = valLongitude + (dx / r_earth) * (180 / Math.PI) / Math.cos(valLatitude * Math.PI/180);
+        double new_longitude = valLongitude + (dx / r_earth) * (180 / Math.PI) / Math.cos(valLatitude * Math.PI / 180);
         Sim_valCurrentSpeed = 16.098 / 3.6;
         double speed = valCurrentSpeed;
         StringBuilder sb = new StringBuilder();
@@ -1492,7 +1521,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        Location location = locationManager.getLastKnownLocation(LocationManager. GPS_PROVIDER);
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
         updateShow(location);
 
@@ -1500,23 +1529,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setFontSize(View v, float fontSizeValue) {
-        if(v instanceof TextView)
-        {
+        if (v instanceof TextView) {
             ((TextView) v).setTextSize(fontSizeValue);
-        }
-        else if(v instanceof EditText)
-        {
+        } else if (v instanceof EditText) {
             ((EditText) v).setTextSize(fontSizeValue);
-        }
-        else if(v instanceof Button)
-        {
+        } else if (v instanceof Button) {
             ((Button) v).setTextSize(fontSizeValue);
-        }
-        else
-        {
+        } else {
             int vChildCount = ((ViewGroup) v).getChildCount();
-            for(int i = 0; i < vChildCount; i++)
-            {
+            for (int i = 0; i < vChildCount; i++) {
                 View v1 = ((ViewGroup) v).getChildAt(i);
                 setFontSize(v1, fontSizeValue);
             }
