@@ -323,7 +323,9 @@
                     android:layout_weight="1.0"
                     android:hint="@string/placeHolder_fontSize"
                     android:textSize="16sp"
-                    android:minHeight="48dp" />
+                    android:minHeight="48dp"
+                    android:inputType="text"
+                    android:maxLines="1" />
 
                 <Button
                     android:id="@+id/btnChangeSize"
@@ -457,6 +459,33 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_weight="2" />
+
+            </LinearLayout>
+
+            <View style="@style/Divider"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:id="@+id/edtEmailAddress"
+                    android:hint="Email Address"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Send"
+                    android:layout_marginStart="10dp"
+                    android:id="@+id/btnSendEmail"/>
+
 
             </LinearLayout>
 
