@@ -5,15 +5,40 @@ import ec500.hw2.p2.model.Loc;
 
 public class HistoricalAverage {
     private GPSDatabase database;
+    private double prevAverageSpeed, prevAverageHeight, dataNum;
+    private String[] ids;
 
     public HistoricalAverage(GPSDatabase db) {
         database = db;
     }
 
     public void updateAverage(double curSpeed, double curHeight) {
-        double prevAverageSpeed = database.locDao().loadById("average").speed;
-        double prevAverageHeight = database.locDao().loadById("average").height;
-        double dataNum = database.locDao().loadById("data-num").speed;
+        ids = new String[1];
+        ids[0] = "average";
+        if (database.locDao().loadAllByIds(ids).size() > 0) {
+            prevAverageSpeed = database.locDao().loadById("average").speed;
+            prevAverageHeight = database.locDao().loadById("average").height;
+        } else {
+            prevAverageSpeed = 0;
+            prevAverageHeight = 0;
+            Loc loc = new Loc();
+            loc.id = "average";
+            loc.speed = 0;
+            loc.height = 0;
+            database.locDao().insertAll(loc);
+        }
+
+        ids = new String[1];
+        ids[0] = "data-num";
+        if (database.locDao().loadAllByIds(ids).size() > 0) {
+            dataNum = database.locDao().loadById("data-num").speed;
+        } else {
+            dataNum = 0;
+            Loc loc = new Loc();
+            loc.id = "data-num";
+            loc.speed = 0;
+            database.locDao().insertAll(loc);
+        }
 
         double curAverageSpeed = (prevAverageSpeed * dataNum + curSpeed) / (dataNum + 1);
         double curAverageHeight = (prevAverageHeight * dataNum + curHeight) / (dataNum + 1);

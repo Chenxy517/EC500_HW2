@@ -35,6 +35,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import ec500.hw2.p2.average.ClosestAverage;
+import ec500.hw2.p2.average.HistoricalAverage;
 import ec500.hw2.p2.database.GPSDatabase;
 import ec500.hw2.p2.model.Loc;
 
@@ -101,6 +102,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtHC_speedData, txtHC_variationSpeed, txtHC_maxSpeed, txtHC_minSpeed;
     private TextView txtHC_Altitude, txtHC_variationAltitude, txtHC_maxAltitude, txtHC_minAltitude;
 
+    // Textview in Historical Data view.
+    private TextView txtHistoricalSpeedAverageValue, txtHistoricalAltitudeAverageValue;
+    private TextView txtHistoricalSpeedAverageUnit, txtHistoricalAltitudeAverageUnit;
+
     // For value shown in Textview() in Main Layout
     private String strLongitude, strLatitude, strAltitude, strLongitudeChange, strLatitudeChange, strAltitudeChange;
     private Double strLongitudeTemp, strLatitudeTemp, strAltitudeTemp, strSpeedTemp;
@@ -114,6 +119,10 @@ public class MainActivity extends AppCompatActivity {
     // For value shown in Textview() in High Score Layout:
     private String strVariantSpeed, strGlobalSpeedMax, strGlobalSpeedMin;
     private String strVariantAltitude, strMaxAltitude, strMinAltitude;
+
+    // For value shown in Textview() in Historical data:
+    private String strHistoricalAverageSpeedValue, strHistoricalAverageAltitudeValue;
+    private String strHistoricalAverageSpeedUnit, strHistoricalAverageAltitudeUnit;
 
     // Define the Significant Filter:
     private static final int FRACTION_CONSTRAINT = 3;
@@ -161,6 +170,11 @@ public class MainActivity extends AppCompatActivity {
         txtAccelerationValue = (TextView) findViewById(R.id.txtAccelerationValue);
         btnAccelerationUnit = (Button) findViewById(R.id.btnAccelerationUnitChange);
 
+        // Set Value for the TextView in Main:
+        txtHistoricalSpeedAverageValue = (TextView) findViewById(R.id.txtHistoricalSpeedAverageValue);
+        txtHistoricalSpeedAverageUnit = (TextView) findViewById(R.id.txtHistoricalSpeedAverageUnit);
+        txtHistoricalAltitudeAverageValue = (TextView) findViewById(R.id.txtHistoricalAltitudeAverageValue);
+        txtHistoricalAltitudeAverageUnit = (TextView) findViewById(R.id.txtHistoricalAltitudeAverageUnit);
         /**
          * --------  High_Score View Here: ---------------
          */
@@ -667,6 +681,12 @@ public class MainActivity extends AppCompatActivity {
                 txtHC_minAltitude.setText(strMinAltitude);
                 txtHC_minAltitude.setTextColor(Color.GREEN);
 
+                // Set Value for the Textview in Historical data page:
+                txtHistoricalSpeedAverageValue.setText(strHistoricalAverageSpeedValue);
+                txtHistoricalSpeedAverageUnit.setText(strHistoricalAverageSpeedUnit);
+                txtHistoricalAltitudeAverageValue.setText(strHistoricalAverageAltitudeValue);
+                txtHistoricalAltitudeAverageUnit.setText(strHistoricalAverageAltitudeUnit);
+
             }
 
             return false;
@@ -914,6 +934,12 @@ public class MainActivity extends AppCompatActivity {
                 StringBuilder stringBuilderMaxAltitude = new StringBuilder();
                 StringBuilder stringBuilderMinAltitude = new StringBuilder();
 
+                // String Builder for Historical data view:
+                StringBuilder stringBuilderHistoricalAverageSpeedValue = new StringBuilder();
+                StringBuilder stringBuilderHistoricalAverageSpeedUnit = new StringBuilder();
+                StringBuilder stringBuilderHistoricalAverageAltitudeValue = new StringBuilder();
+                StringBuilder stringBuilderHistoricalAverageAltitudeUnit = new StringBuilder();
+
                 // New version of closest average:
                 // initialization
                 ClosestAverage closestAverage = new ClosestAverage(database);
@@ -931,6 +957,18 @@ public class MainActivity extends AppCompatActivity {
                     valPreviousSpeed1 = valCurrentSpeed;
                     valCurrentSpeed = location.getSpeed();
                 }
+
+                // Get Historical Average Data:
+                // initialization
+                HistoricalAverage historicalAverage = new HistoricalAverage(database);
+                // update historical average data
+                historicalAverage.updateAverage(location.getSpeed(), location.getAltitude());
+                // get historical speed
+                double valHistoricalAverageSpeed = historicalAverage.getAverageSpeed();
+                // get historical altitude
+                double valHistoricalAverageAltitude = historicalAverage.getAverageHeight();
+                // update database
+                database = historicalAverage.getDatabase();
 
                 if(!(preLatitude == location.getLatitude() && preLongitude == location.getLongitude())){
                     valPreviousTime = valCurrentTime;
@@ -987,9 +1025,13 @@ public class MainActivity extends AppCompatActivity {
 
                 stringBuilderAccelerationValue.append(formatter3.format(acceleration_unit_transfer_value(location.getSpeed(),valPreviousSpeed1,valCurrentTime,valPreviousTime,accUnit)));
                 stringBuilderAccelerationUnit.append(acc_unit_transfer_unit(accUnit));
-                //stringBuilderAverageSpeedValue.append(speed_unit_transfer_value((location.getSpeed()+valPreviousSpeed1+valPreviousSpeed2)/3 ,Unit_Speed));
                 stringBuilderAverageSpeedValue.append(speed_unit_transfer_value(valClosestAverage ,Unit_Speed));
                 stringBuilderAverageSpeedUnit.append(speed_unit_transfer_unit(Unit_Speed));
+
+                stringBuilderHistoricalAverageSpeedValue.append(speed_unit_transfer_value(valHistoricalAverageSpeed, Unit_Speed));
+                stringBuilderHistoricalAverageSpeedUnit.append(speed_unit_transfer_unit(Unit_Speed));
+                stringBuilderHistoricalAverageAltitudeValue.append(distance_unit_transfer_value(valHistoricalAverageAltitude, Unit_distance));
+                stringBuilderHistoricalAverageAltitudeUnit.append(distance_unit_transfer_unit(Unit_distance));
 
                 // ------ Global Database and High Score View update: -------
                 updateHighScoreData(location, stringBuilderVarianceSpeed,
@@ -1044,7 +1086,11 @@ public class MainActivity extends AppCompatActivity {
                 loc.height = location.getAltitude();
                 database.locDao().insertAll(loc);
 
-
+                // Historical Data page:
+                strHistoricalAverageSpeedValue = stringBuilderHistoricalAverageSpeedValue.toString();
+                strHistoricalAverageSpeedUnit = stringBuilderHistoricalAverageSpeedUnit.toString();
+                strHistoricalAverageAltitudeValue = stringBuilderHistoricalAverageAltitudeValue.toString();
+                strHistoricalAverageAltitudeUnit = stringBuilderHistoricalAverageAltitudeUnit.toString();
 
             } else {
                 // If Location is null, cannot grab information from Location (etc. "Non Fine authority of GPS").
