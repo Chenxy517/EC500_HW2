@@ -133,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
     // For value shown of Kalman Filter:
     private String strKalmanEstimateValue, strKalmanEstimateUnit;
     private ArrayList<Double> speedHistory = new ArrayList<>();
-    private static int increment_times;
 
     // Define the Significant Filter:
     private static final int FRACTION_CONSTRAINT = 3;
@@ -189,7 +188,8 @@ public class MainActivity extends AppCompatActivity {
 
         txtKalmanEstimateValue = (EditText) findViewById(R.id.txtKalmanEstimateValue);
         txtKalmanEstimateUnit = (TextView) findViewById(R.id.txtKalmanEstimateUnit);
-
+        txtKalmanEstimateValue.setFocusable(false);
+        txtKalmanEstimateValue.setClickable(true);
         /**
          * --------  High_Score View Here: ---------------
          */
@@ -728,7 +728,6 @@ public class MainActivity extends AppCompatActivity {
                 // Set Value for Kalman Filter Estimate:
                 txtKalmanEstimateValue.setText(strKalmanEstimateValue);
                 txtKalmanEstimateUnit.setText(strKalmanEstimateUnit);
-
             }
 
             return false;
@@ -996,7 +995,8 @@ public class MainActivity extends AppCompatActivity {
 
                 // Kalman Filter Estimate:
                 StringBuilder stringBuilderKalmanEstimate = new StringBuilder();
-                updateKalmanEstimate(stringBuilderKalmanEstimate);
+                StringBuilder stringBuilderKalmanEstimateUnit = new StringBuilder();
+
 
                 // New version of closest average:
                 // initialization
@@ -1096,6 +1096,10 @@ public class MainActivity extends AppCompatActivity {
                 stringBuilderHistoricalAverageAltitudeValue.append(distance_unit_transfer_value(valHistoricalAverageAltitude, Unit_distance));
                 stringBuilderHistoricalAverageAltitudeUnit.append(distance_unit_transfer_unit(Unit_distance));
 
+                // Update Kalman Filter's value by smoothing the speed:
+                updateKalmanEstimate(stringBuilderKalmanEstimate);
+                stringBuilderKalmanEstimateUnit.append(speed_unit_transfer_unit(Unit_Speed));
+
                 // ------ Global Database and High Score View update: -------
                 updateHighScoreData(location, stringBuilderVarianceSpeed,
                         stringBuilderGlobalMaxSpeed,
@@ -1157,6 +1161,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Kalman Filter Estimate:
                 strKalmanEstimateValue = stringBuilderKalmanEstimate.toString();
+                strKalmanEstimateUnit = stringBuilderKalmanEstimateUnit.toString();
 
             } else {
                 // If Location is null, cannot grab information from Location (etc. "Non Fine authority of GPS").
@@ -1315,24 +1320,25 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             KalmanFilter kalman = new KalmanFilter();
-            increment_times = increment_times + 1;
+
             Double current_speed = speed_unit_transfer_value(valCurrentSpeed, Unit_Speed);
             speedHistory.add(current_speed);
+
+            ArrayList<Double> estimated_speed = new ArrayList<Double>();
+
+            estimated_speed = kalman.Updating_State(speedHistory);
+            estimated_speed.stream().forEach(value ->
+            {
+                if(value > 0) {
+                    stringBuilderKalmanEstimate.append(speed_unit_transfer_value(value, Unit_Speed) + " \n");
+                }
+            });
+
             if (speedHistory.size() >= 5) {
-                String[] ids = new String[1];
-
-                ArrayList<Double> estimated_speed = new ArrayList<Double>();
-
-                estimated_speed = kalman.Updating_State(speedHistory);
-                estimated_speed.stream().forEach(value ->
-                {
-                    if(value > 0) {
-                        stringBuilderKalmanEstimate.append(speed_unit_transfer_value(value, Unit_Speed) + " \n");
-                    }
-                });
-                // Clear and Recalculate
+                // Clear and Recalculate if  amount of history Speed reached 5
                 speedHistory.clear();
             }
+
 
         }
         catch (Exception ex) {
