@@ -1,7 +1,6 @@
 package ec500.hw2.p2;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-
 import static java.lang.Float.parseFloat;
 
 import android.content.Context;
@@ -11,7 +10,6 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -34,10 +32,12 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import ec500.hw2.p2.average.ClosestAverage;
 import ec500.hw2.p2.average.HistoricalAverage;
+import ec500.hw2.p2.average.KalmanFilter;
 import ec500.hw2.p2.database.GPSDatabase;
 import ec500.hw2.p2.model.Loc;
 
@@ -108,6 +108,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtHistoricalSpeedAverageValue, txtHistoricalAltitudeAverageValue;
     private TextView txtHistoricalSpeedAverageUnit, txtHistoricalAltitudeAverageUnit;
 
+    // Kalman Filter:
+    private EditText txtKalmanEstimateValue;
+    private TextView txtKalmanEstimateUnit;
+
     // For value shown in Textview() in Main Layout
     private String strLongitude, strLatitude, strAltitude, strLongitudeChange, strLatitudeChange, strAltitudeChange;
     private Double strLongitudeTemp, strLatitudeTemp, strAltitudeTemp, strSpeedTemp;
@@ -125,6 +129,11 @@ public class MainActivity extends AppCompatActivity {
     // For value shown in Textview() in Historical data:
     private String strHistoricalAverageSpeedValue, strHistoricalAverageAltitudeValue;
     private String strHistoricalAverageSpeedUnit, strHistoricalAverageAltitudeUnit;
+
+    // For value shown of Kalman Filter:
+    private String strKalmanEstimateValue, strKalmanEstimateUnit;
+    private ArrayList<Double> speedHistory = new ArrayList<>();
+    private static int increment_times;
 
     // Define the Significant Filter:
     private static final int FRACTION_CONSTRAINT = 3;
@@ -177,6 +186,10 @@ public class MainActivity extends AppCompatActivity {
         txtHistoricalSpeedAverageUnit = (TextView) findViewById(R.id.txtHistoricalSpeedAverageUnit);
         txtHistoricalAltitudeAverageValue = (TextView) findViewById(R.id.txtHistoricalAltitudeAverageValue);
         txtHistoricalAltitudeAverageUnit = (TextView) findViewById(R.id.txtHistoricalAltitudeAverageUnit);
+
+        txtKalmanEstimateValue = (EditText) findViewById(R.id.txtKalmanEstimateValue);
+        txtKalmanEstimateUnit = (TextView) findViewById(R.id.txtKalmanEstimateUnit);
+
         /**
          * --------  High_Score View Here: ---------------
          */
@@ -324,7 +337,11 @@ public class MainActivity extends AppCompatActivity {
         // Location Object.
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        locationUpdate();
+        try {
+            locationUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // Change font size
         btnChangeSize = (Button) findViewById(R.id.btnChangeSize);
@@ -476,7 +493,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        locationUpdate();
+        try {
+            locationUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -653,15 +674,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     txtSpeedValue.setTextColor(Color.RED);
                 }
-//                if (3.6 * 0.621371192 * valCurrentSpeed > historical_average_speed + 5.0) {
-//                    txtSpeedValue.setTextColor(Color.RED);
-//                }
-//                else if (3.6 * 0.621371192 * valCurrentSpeed < historical_average_speed - 5.0){
-//                    txtSpeedValue.setTextColor(Color.GREEN);
-//                }
-//                else{
-//                    txtSpeedValue.setTextColor(Color.BLACK);
-//                }
 
 
                 // Set Value for the TextView in Main:
@@ -713,6 +725,10 @@ public class MainActivity extends AppCompatActivity {
                 txtHistoricalAltitudeAverageValue.setText(strHistoricalAverageAltitudeValue);
                 txtHistoricalAltitudeAverageUnit.setText(strHistoricalAverageAltitudeUnit);
 
+                // Set Value for Kalman Filter Estimate:
+                txtKalmanEstimateValue.setText(strKalmanEstimateValue);
+                txtKalmanEstimateUnit.setText(strKalmanEstimateUnit);
+
             }
 
             return false;
@@ -725,7 +741,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onLocationChanged(Location location) {
             // update message when location changes
-            updateShow(location);
+            try {
+                updateShow(location);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -741,12 +761,20 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            updateShow(locationManager.getLastKnownLocation(provider));
+            try {
+                updateShow(locationManager.getLastKnownLocation(provider));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
         public void onProviderDisabled(String provider) {
-            updateShow(null);
+            try {
+                updateShow(null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     };
 
@@ -895,7 +923,7 @@ public class MainActivity extends AppCompatActivity {
      * @param location: The data class object of the Location, consists of a latitude, longitude, timestamp, accuracy,
      *                  and other information such as bearing, altitude and velocity
      */
-    private synchronized void updateShow(Location location) {
+    private synchronized void updateShow(Location location) throws Exception {
 
         double valPreviousSpeed1 = 0.0;
         double valPreviousSpeed2 = 0.0;
@@ -966,6 +994,10 @@ public class MainActivity extends AppCompatActivity {
                 StringBuilder stringBuilderHistoricalAverageAltitudeValue = new StringBuilder();
                 StringBuilder stringBuilderHistoricalAverageAltitudeUnit = new StringBuilder();
 
+                // Kalman Filter Estimate:
+                StringBuilder stringBuilderKalmanEstimate = new StringBuilder();
+                updateKalmanEstimate(stringBuilderKalmanEstimate);
+
                 // New version of closest average:
                 // initialization
                 ClosestAverage closestAverage = new ClosestAverage(database);
@@ -997,6 +1029,7 @@ public class MainActivity extends AppCompatActivity {
                 double valHistoricalAverageAltitude = historicalAverage.getAverageHeight();
                 // update database
                 database = historicalAverage.getDatabase();
+
 
 
                 if (!(preLatitude == location.getLatitude() && preLongitude == location.getLongitude())) {
@@ -1121,6 +1154,9 @@ public class MainActivity extends AppCompatActivity {
                 strHistoricalAverageSpeedUnit = stringBuilderHistoricalAverageSpeedUnit.toString();
                 strHistoricalAverageAltitudeValue = stringBuilderHistoricalAverageAltitudeValue.toString();
                 strHistoricalAverageAltitudeUnit = stringBuilderHistoricalAverageAltitudeUnit.toString();
+
+                // Kalman Filter Estimate:
+                strKalmanEstimateValue = stringBuilderKalmanEstimate.toString();
 
             } else {
                 // If Location is null, cannot grab information from Location (etc. "Non Fine authority of GPS").
@@ -1273,6 +1309,36 @@ public class MainActivity extends AppCompatActivity {
         }
 
         handler.sendEmptyMessage(0x001);
+    }
+
+    public void updateKalmanEstimate(StringBuilder stringBuilderKalmanEstimate) throws Exception {
+
+        try {
+            KalmanFilter kalman = new KalmanFilter();
+            increment_times = increment_times + 1;
+            Double current_speed = speed_unit_transfer_value(valCurrentSpeed, Unit_Speed);
+            speedHistory.add(current_speed);
+            if (speedHistory.size() >= 5) {
+                String[] ids = new String[1];
+
+                ArrayList<Double> estimated_speed = new ArrayList<Double>();
+
+                estimated_speed = kalman.Updating_State(speedHistory);
+                estimated_speed.stream().forEach(value ->
+                {
+                    if(value > 0) {
+                        stringBuilderKalmanEstimate.append(speed_unit_transfer_value(value, Unit_Speed) + " \n");
+                    }
+                });
+                // Clear and Recalculate
+                speedHistory.clear();
+            }
+
+        }
+        catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+
     }
 
     /**
@@ -1510,7 +1576,7 @@ public class MainActivity extends AppCompatActivity {
         valLongitude = new_longitude;
     }
 
-    public void locationUpdate() {
+    public void locationUpdate() throws Exception {
 
         // check GPS authority from User and App..
         if (checkCallingOrSelfPermission(ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
