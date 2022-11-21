@@ -7,6 +7,15 @@ import ec500.hw2.p2.JKalman.jama.Matrix;
 import ec500.hw2.p2.JKalman.jkalman.JKalman;
 import ec500.hw2.p2.database.GPSDatabase;
 
+
+/**
+ * Reference Package: JKalman, Jama; Author: Petr Chmelar.
+ * JKalman Filter: https://sourceforge.net/projects/jkalman/
+ * - Introduction:
+ *      Kalman filter is an efficient computational (recursive) tool,
+ *      which to estimate the dynamic state of a process in a way that minimizes the mean of error.
+ */
+
 public class KalmanFilter {
 
     private static GPSDatabase database;
@@ -15,13 +24,6 @@ public class KalmanFilter {
     private static Matrix predicted;
     private static Matrix correct;
     private static Random rand;
-
-    private double pdelt;
-    private double mdelt;
-    private double Gauss;
-    private double kalmanGain;
-    private final static double Q = 0.00001;
-    private final static double R = 0.1;
 
     public KalmanFilter() throws Exception {
         // Constructor, for Initialize only.
@@ -32,13 +34,13 @@ public class KalmanFilter {
 
         // For speed and distance, One dimension only (Without 2'd coordinate)
 
-        // dynam_params is "the number of measurement vector dimensions",
-        // measure_params is "the number of state vector dimensions".
+        // dynam_params: "the number of measurement vector dimensions",
+        // measure_params: "the number of state vector dimensions".
         kalman = new JKalman(2, 1);
 
         // initialize for the state matrix from 2 dimension: One is Distance, one is Speed.
-        predicted = new Matrix(2, 1); // Average Data: Current state [x, dx]
-        correct = new Matrix(2, 1); // Sensor data: corrected state [x', dx']
+        predicted = new Matrix(2, 1); // Predict State: Current state [x, dx]
+        correct = new Matrix(2, 1); // Correct State and Kalman Gain: corrected state [x', dx']
 
         my_Matrix = new Matrix(1,1);
 
